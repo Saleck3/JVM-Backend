@@ -29,10 +29,8 @@ public class LectiApplicationTests {
 	public void testController(){
 		Integer id = 1;
 		TestEntity entity = new TestEntity(id);
-
 		when(testService.getTest(id)).thenReturn(Optional.of(entity));
-
-		assertEquals(testService.getTest(id), id);
+		assertEquals(testService.getTest(id).get().getId(), id);
 	}
 
 	}
