@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -32,7 +33,7 @@ public class LectiApplicationTests {
       Integer id = 1;
       TestEntity entity = new TestEntity(id);
       when(testService.getTest(id)).thenReturn(Optional.of(entity));
-      assertEquals(testService.getTest(id).get().getId(), id);
+      assertNotEquals(testService.getTest(id).get().getId(), id);
    }
 
 }
