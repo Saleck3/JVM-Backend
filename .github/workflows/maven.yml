@@ -30,6 +30,5 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-    - name: RunMavenTest
-      uses: Maes95/maven-action@1.1.0
-          
+    - name: Run the Maven verify phase
+      run: mvn --batch-mode --update-snapshots verify
