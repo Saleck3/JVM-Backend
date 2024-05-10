@@ -4,7 +4,7 @@
 name: Azure deploy
 
 env:
-  APP_CONFIGURATION_CONNECTION_STRING = ${{ secrets.APP_CONFIGURATION_CONNECTION_STRING }}
+      APP_CONFIGURATION_CONNECTION_STRING: ${{ secrets.APP_CONFIGURATION_CONNECTION_STRING }}
 
 on:
   push:
@@ -46,7 +46,7 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: java-app
       
