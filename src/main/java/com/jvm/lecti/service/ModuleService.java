@@ -1,12 +1,12 @@
 package com.jvm.lecti.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import com.jvm.lecti.entity.ModulelEntity;
+import com.jvm.lecti.dto.ModuleResponseDto;
 
 public interface ModuleService {
 
-   ArrayList<ModulelEntity> getModulesByUserId(Integer id);
+   List<ModuleResponseDto> getModulesByUserId(Integer id);
 
 }
 
