@@ -6,7 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jvm.lecti.dto.ModuleResponseDto;
+import com.jvm.lecti.dto.response.ModuleDto;
+import com.jvm.lecti.dto.response.ModuleResponse;
 import com.jvm.lecti.entity.ModuleEntity;
 import com.jvm.lecti.repository.ModuleRepository;
 
@@ -18,23 +19,21 @@ public class ModuleServiceImpl implements ModuleService {
    private ModuleRepository moduleRepository;
 
    @Override
-   public List<ModuleResponseDto> getModulesByUserId(Integer id) {
-
-      var modules = moduleRepository.findAllById(id);
+   public ModuleResponse getModulesByModuleId(Integer moduleId) {
+      var modules = moduleRepository.findAllById(moduleId);
       var modulesDto = getModuleResponseDto(modules);
-
       return modulesDto;
    }
 
-   private List<ModuleResponseDto> getModuleResponseDto(List<ModuleEntity> modules) {
+   private ModuleResponse getModuleResponseDto(List<ModuleEntity> modules) {
 
-      List<ModuleResponseDto> moduleResponseDtos = new ArrayList<ModuleResponseDto>();
+      ModuleResponse moduleResponseDtos = new ModuleResponse();
+      moduleResponseDtos.modules = new ArrayList<ModuleDto>();
       modules.forEach(moduleEntity -> {
-         var moduleResponseDto = new ModuleResponseDto();
-         moduleResponseDto.setId(moduleEntity.getId());
-         moduleResponseDto.setDescription(moduleEntity.getDescription());
-
-         moduleResponseDtos.add(moduleResponseDto);
+         var moduleResponseDto = new ModuleDto();
+         moduleResponseDto.id =  moduleEntity.getId();
+         moduleResponseDto.description = moduleEntity.getDescription();
+         moduleResponseDtos.modules.add(moduleResponseDto);
       });
 
       return moduleResponseDtos;

@@ -1,12 +1,10 @@
 package com.jvm.lecti.service;
 
-import java.util.List;
-
-import com.jvm.lecti.dto.ModuleResponseDto;
+import com.jvm.lecti.dto.response.ModuleResponse;
 
 public interface ModuleService {
 
-   List<ModuleResponseDto> getModulesByUserId(Integer id);
+   ModuleResponse getModulesByModuleId(Integer moduleId);
 
 }
 
