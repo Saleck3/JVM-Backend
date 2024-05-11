@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
+import com.jvm.lecti.entity.Player;
 import com.jvm.lecti.entity.User;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,9 +38,11 @@ public class TokenUtil {
       this.jwtParser = Jwts.parser().setSigningKey(secretKey);
    }
 
-   public String createToken(User user) {
+   public String createToken(User user, Player player) {
       Map<String, Object> claimsMap = new HashMap<>();
-      claimsMap.put("firstName", user.getFirstName());
+      claimsMap.put("email", user.getEmail());
+      claimsMap.put("player_id", player.getId());
+
       Date tokenCreateTime = new Date();
       Date tokenValidity = new Date(tokenCreateTime.getTime() + accessTokenValidity);
       return Jwts
