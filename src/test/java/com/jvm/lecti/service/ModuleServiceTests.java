@@ -23,7 +23,7 @@ public class ModuleServiceTests {
    @Before
    public void init() {
       moduleRepository = mock(ModuleRepository.class);
-      moduleService = new ModuleServiceImpl(moduleRepository);
+      moduleService = new ModuleService(moduleRepository);
    }
 
    @Test

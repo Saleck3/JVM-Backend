@@ -1,8 +1,12 @@
 package com.jvm.lecti.controller;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,7 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @RestController
-@RequestMapping("api/modules")
+@RequestMapping("/api/modules")
 @AllArgsConstructor
 @NoArgsConstructor
 
@@ -24,8 +28,14 @@ public class ModuleController {
 
    @GetMapping("/{idModule}")
    public ModuleResponse getModulesByModuleId(@PathVariable Integer idModule) {
-      var modules = moduleService.getModulesByModuleId(idModule);
-      return modules;
+      return moduleService.getModulesByModuleId(idModule);
+   }
+
+   @GetMapping("/ruta")
+   public String miMetodo(@RequestHeader("Authorization") String jwtToken) {
+      String jwtTokenT = jwtToken.substring(7);
+      Claims claims = Jwts.parser().setSigningKey("h21S8vZQ8YWcxgHmDyBZnPJ72q1LUDvT").parseClaimsJws(jwtTokenT).getBody();
+      return "Contenido del JWT: " + claims.get("sub");
    }
 
 }
