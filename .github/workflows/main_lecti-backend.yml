@@ -60,5 +60,5 @@ jobs:
         with:
           app-name: 'lecti-backend'
           slot-name: 'Production'
-          package: '${{ github.workspace }}/target/*.jar'
+          package: '*.jar'
           
