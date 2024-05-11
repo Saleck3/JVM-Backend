@@ -11,8 +11,10 @@ import com.jvm.lecti.dto.response.ModuleResponse;
 import com.jvm.lecti.entity.ModuleEntity;
 import com.jvm.lecti.repository.ModuleRepository;
 
-@Service("ModuleService")
+import lombok.AllArgsConstructor;
 
+@Service("ModuleService")
+@AllArgsConstructor
 public class ModuleServiceImpl implements ModuleService {
 
    @Autowired
@@ -26,17 +28,12 @@ public class ModuleServiceImpl implements ModuleService {
    }
 
    private ModuleResponse getModuleResponseDto(List<ModuleEntity> modules) {
-
-      ModuleResponse moduleResponseDtos = new ModuleResponse();
-      moduleResponseDtos.modules = new ArrayList<ModuleDto>();
+      ModuleResponse moduleResponse = new ModuleResponse();
       modules.forEach(moduleEntity -> {
-         var moduleResponseDto = new ModuleDto();
-         moduleResponseDto.id =  moduleEntity.getId();
-         moduleResponseDto.description = moduleEntity.getDescription();
-         moduleResponseDtos.modules.add(moduleResponseDto);
+         var moduleResponseDto = new ModuleDto(moduleEntity.getId(),moduleEntity.getDescription());
+         moduleResponse.addModule(moduleResponseDto);
       });
-
-      return moduleResponseDtos;
+      return moduleResponse;
    }
 
 }

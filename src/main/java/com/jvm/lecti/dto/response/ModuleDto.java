@@ -1,6 +1,13 @@
 package com.jvm.lecti.dto.response;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ModuleDto {
-   public Integer id;
-   public String description;
+   private Integer id;
+   private String description;
 }
