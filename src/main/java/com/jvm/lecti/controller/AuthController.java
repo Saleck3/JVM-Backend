@@ -11,7 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jvm.lecti.dto.request.LoginRequest;
 import com.jvm.lecti.service.AuthService;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 @RestController
+@AllArgsConstructor
+@NoArgsConstructor
 @RequestMapping("/api/auth")
 public class AuthController {
 
