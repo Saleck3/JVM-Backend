@@ -1,8 +1,11 @@
 package com.jvm.lecti.util;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -38,11 +41,8 @@ public class TokenUtil {
       this.jwtParser = Jwts.parser().setSigningKey(secretKey);
    }
 
-   public String createToken(User user, Player player) {
+   public String createToken(User user) {
       Map<String, Object> claimsMap = new HashMap<>();
-      claimsMap.put("email", user.getEmail());
-      claimsMap.put("player_id", player.getId());
-
       Date tokenCreateTime = new Date();
       Date tokenValidity = new Date(tokenCreateTime.getTime() + accessTokenValidity);
       return Jwts

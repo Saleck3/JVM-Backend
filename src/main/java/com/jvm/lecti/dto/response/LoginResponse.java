@@ -1,5 +1,7 @@
 package com.jvm.lecti.dto.response;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,9 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class LoginResponse {
 
-   private Integer totalCrowns;
-
-   private Integer recommendedModule;
+   private List<PlayerDataResponse> players;
 
    private String token;
 

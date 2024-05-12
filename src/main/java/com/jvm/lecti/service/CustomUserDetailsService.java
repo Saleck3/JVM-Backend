@@ -8,25 +8,25 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.jvm.lecti.entity.Player;
 import com.jvm.lecti.entity.SecurityUser;
-import com.jvm.lecti.repository.PlayerRepository;
+import com.jvm.lecti.entity.User;
+import com.jvm.lecti.repository.UserRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
    @Autowired
-   private final PlayerRepository playerRepository;
+   private final UserRepository userRepository;
 
-   public CustomUserDetailsService(PlayerRepository playerRepository) {
-      this.playerRepository = playerRepository;
+   public CustomUserDetailsService(UserRepository userRepository) {
+      this.userRepository = userRepository;
    }
 
    @Override
    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-      Optional<Player> playerOptional = playerRepository.findByUserEmail(email);
-      if (playerOptional.isPresent()) {
-         return new SecurityUser(playerOptional.get().getUser(), playerOptional.get());
+      Optional<User> userOptional = userRepository.findByEmail(email);
+      if (userOptional.isPresent()) {
+         return new SecurityUser(userOptional.get());
       }
       return null;
    }

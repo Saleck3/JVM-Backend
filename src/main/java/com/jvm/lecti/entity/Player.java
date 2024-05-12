@@ -19,26 +19,26 @@ public class Player {
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   @Column(name = "ID")
+   @Column(name = "id")
    private Long id;
 
-   @Column(name = "PLAYER_NAME", nullable = false)
+   @Column(name = "player_name", nullable = false)
    private String playerName;
 
-   @Column(name = "BIRTH_DATE", nullable = false)
+   @Column(name = "birth_date", nullable = false)
    private Date birthDate;
 
-   @Column(name = "TOTAL_CROWNS", nullable = false)
+   @Column(name = "total_crowns", nullable = false)
    private Integer totalCrowns;
 
-   @Column(name = "SPENT_CROWNS", nullable = false)
+   @Column(name = "spent_crowns", nullable = false)
    private Integer spentCrowns;
 
-   @Column(name = "RECOMENDED_MODULE")
+   @Column(name = "recomended_module")
    private Integer recomendedModule;
 
    @ManyToOne
-   @JoinColumn(name = "USER_ID")
+   @JoinColumn(name = "user_id")
    private User user;
 
 }
