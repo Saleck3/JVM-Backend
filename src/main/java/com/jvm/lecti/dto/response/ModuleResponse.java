@@ -1,6 +1,5 @@
 package com.jvm.lecti.dto.response;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;

@@ -16,7 +16,7 @@ public class ModuleEntity {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Integer id;
 
-   @Column(name = "´DESCRIPTION´")
+   @Column(name = "description")
    private String description;
 
 }
