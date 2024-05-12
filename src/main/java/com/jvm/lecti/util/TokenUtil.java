@@ -1,8 +1,11 @@
 package com.jvm.lecti.util;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -14,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
+import com.jvm.lecti.entity.Player;
 import com.jvm.lecti.entity.User;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,7 +43,6 @@ public class TokenUtil {
 
    public String createToken(User user) {
       Map<String, Object> claimsMap = new HashMap<>();
-      claimsMap.put("firstName", user.getFirstName());
       Date tokenCreateTime = new Date();
       Date tokenValidity = new Date(tokenCreateTime.getTime() + accessTokenValidity);
       return Jwts
