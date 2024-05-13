@@ -46,7 +46,7 @@ public class AppleControllerTest {
       Integer id = 1;
       givenApple(id);
       AppleResponse appleRsp = whenAskingForApple(id);
-      assertEquals(appleRsp, id);
+      assertEquals(appleRsp.getApples().size(), 1);
    }
 
    private AppleResponse whenAskingForApple(int id) {
