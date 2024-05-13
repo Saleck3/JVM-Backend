@@ -1,20 +1,18 @@
 package com.jvm.lecti.dto.response;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Data;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
-public class LoginResponse {
+public class ModuleDto {
 
-   private List<PlayerDataResponse> players;
+   private Integer id;
 
-   private String token;
+   private String description;
 
 }

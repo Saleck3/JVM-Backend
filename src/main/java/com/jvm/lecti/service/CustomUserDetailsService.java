@@ -1,5 +1,8 @@
 package com.jvm.lecti.service;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,6 +15,7 @@ import com.jvm.lecti.repository.UserRepository;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
+   @Autowired
    private final UserRepository userRepository;
 
    public CustomUserDetailsService(UserRepository userRepository) {
@@ -20,8 +24,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
    @Override
    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-      User user = userRepository.findUserByEmail(email);
-      return new SecurityUser(user);
+      Optional<User> userOptional = userRepository.findByEmail(email);
+      if (userOptional.isPresent()) {
+         return new SecurityUser(userOptional.get());
+      }
+      return null;
    }
 
 }

@@ -9,12 +9,10 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Data
-public class LoginResponse {
+@Builder
+public class ModuleResponse {
 
-   private List<PlayerDataResponse> players;
-
-   private String token;
+   private List<ModuleDto> modules;
 
 }

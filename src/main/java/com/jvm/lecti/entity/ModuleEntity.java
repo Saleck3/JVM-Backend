@@ -9,11 +9,14 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tewst", catalog = "test")
-public class TestEntity {
+@Table(name = "module")
+public class ModuleEntity {
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Integer id;
+
+   @Column(name = "description")
+   private String description;
 
 }
