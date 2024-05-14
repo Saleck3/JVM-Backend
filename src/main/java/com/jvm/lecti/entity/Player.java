@@ -34,8 +34,8 @@ public class Player {
    @Column(name = "spent_crowns", nullable = false)
    private Integer spentCrowns;
 
-   @Column(name = "recomended_module")
-   private Integer recomendedModule;
+   @Column(name = "recommended_module")
+   private Integer recommendedModule;
 
    @ManyToOne
    @JoinColumn(name = "user_id")

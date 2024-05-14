@@ -1,18 +1,18 @@
 package com.jvm.lecti.dto.response;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Builder
-public class ModuleDto {
+public class ModulesResponse {
 
-   private Integer id;
-   private String description;
-   private Integer progress;
+   private List<ModuleDto> modules;
 
 }

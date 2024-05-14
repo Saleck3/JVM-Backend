@@ -13,8 +13,10 @@ import com.jvm.lecti.repository.AppleRepository;
 @Service
 public interface AppleService {
 
-   AppleResponse getApple(int id) ;
+   AppleResponse getApple(int id);
 
-   AppleResponse getApplesFromMolude(int moduleId) ;
+   AppleResponse getApplesFromMolude(int moduleId, int playerId);
+
+   List<Apple> getApples(int moduleId, int playerId);
 
 }

@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.jvm.lecti.entity.ModuleEntity;
+import com.jvm.lecti.entity.Module;
 import com.jvm.lecti.repository.ModuleRepository;
 
 @SpringBootTest
@@ -28,9 +28,9 @@ public class ModuleServiceTests {
 
    @Test
    public void shouldReturnListOfModules() {
-      var modulesDb = new ArrayList<ModuleEntity>();
-      modulesDb.add(new ModuleEntity(1, "test"));
-      when(moduleRepository.findAllById(1)).thenReturn(modulesDb);
+      var modulesDb = new ArrayList<Module>();
+      modulesDb.add(new Module(1, "test"));
+      when(moduleRepository.findById(1)).thenReturn(modulesDb);
 
       var result = moduleService.getModulesByModuleId(1);
 
@@ -38,7 +38,7 @@ public class ModuleServiceTests {
    }
 
    @Test
-   public void shouldReturnEmptyListOfModulesWhenModuleDoestExist() {
+   public void shouldReturnEmptyListOfModulesWhenModuleDoesntExist() {
 //      var modulesDb = new ArrayList<ModuleEntity>();
 //      modulesDb.add(new ModuleEntity(1, "test"));
 //      when(moduleRepository.findAllById(1)).thenReturn(modulesDb);

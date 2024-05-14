@@ -6,20 +6,17 @@ public class AppleDto {
 
    private String name;
 
-//   private int score;
+   private int stars; // From 0 to 3
 
    public AppleDto(int id, String desc){
       this.id = id;
       this.name = desc;
    }
 
-//   public int getScore() {
-//      return score;
-//   }
-//
-//   public void setScore(int score) {
-//      this.score = score;
-//   }
+
+   public void setStars(int stars) {
+      this.stars = stars;
+   }
 
    public Integer getId() {
       return id;
