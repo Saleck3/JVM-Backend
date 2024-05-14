@@ -1,10 +1,12 @@
 package com.jvm.lecti.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,13 +30,17 @@ public class ModuleServiceTests {
 
    @Test
    public void shouldReturnListOfModules() {
-      var modulesDb = new ArrayList<Module>();
-      modulesDb.add(new Module(1, "test"));
-      when(moduleRepository.findById(1)).thenReturn(modulesDb);
+      var modulesDb = new Module(1, "test");
+      when(moduleRepository.findById(1)).thenReturn(Optional.of(modulesDb));
 
       var result = moduleService.getModulesByModuleId(1);
 
-      assertEquals(result.getModules().size(), 1);
+      assertTrue(result.isPresent());
+      thenObtainExpectedId(1,result.get().getId());
+   }
+
+   private void thenObtainExpectedId(int expected, int actual) {
+      assertEquals(expected, actual);
    }
 
    @Test
