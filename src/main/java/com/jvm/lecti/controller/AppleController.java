@@ -32,8 +32,8 @@ public class AppleController {
       this.appleService = appleService;
    }
 
-   @GetMapping("/getApple/{id}")
-   public AppleResponse getApple(@PathVariable Integer appleId) {
+   @GetMapping("/getApple")
+   public AppleResponse getApple(@RequestParam(value = "appleId") Integer appleId ){
       return appleService.getApple(appleId);
    }
 

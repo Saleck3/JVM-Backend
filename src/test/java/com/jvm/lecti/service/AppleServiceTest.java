@@ -16,18 +16,21 @@ import com.jvm.lecti.dto.response.AppleResponse;
 import com.jvm.lecti.entity.Apple;
 import com.jvm.lecti.entity.ModuleEntity;
 import com.jvm.lecti.repository.AppleRepository;
+import com.jvm.lecti.repository.ResultRepository;
 
 @SpringBootTest
 public class AppleServiceTest {
 
    private AppleService appleService;
    private AppleRepository appleRepository;
+   private ResultRepository resultRepository;
 
 
    @Before
    public void init(){
       appleRepository = mock(AppleRepository.class);
-      appleService = new AppleServiceImpl(appleRepository);
+      resultRepository = mock(ResultRepository.class);
+      appleService = new AppleServiceImpl(appleRepository, resultRepository);
    }
 
    @Test

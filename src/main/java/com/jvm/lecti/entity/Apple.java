@@ -3,11 +3,14 @@ package com.jvm.lecti.entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
+import org.hibernate.annotations.Formula;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +31,9 @@ public class Apple {
    private ModuleEntity modulo;
 
    private String name;
+
+   @Transient
+   private int score;
 
    public Apple(int id, String name){
       this.id = id;
@@ -60,6 +66,14 @@ public class Apple {
 
    public void setName(String name) {
       this.name = name;
+   }
+
+   public int getScore() {
+      return score;
+   }
+
+   public void setScore(int score) {
+      this.score = score;
    }
 
 }
