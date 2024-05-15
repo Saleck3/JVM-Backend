@@ -39,14 +39,14 @@ jobs:
       - name: Rewrite MYSQL_PASS
         uses: Reedyuk/write-properties@v1.0.3
         with:
-          path: './src/main/resources/application-$ENVIRONMENT.properties'
+          path: './src/main/resources/application-prod.properties'
           property: 'spring.datasource.password'
           value: '${{ secrets.MYSQL_PASS }}'
       
       - name: Rewrite JWT_SECRET
         uses: Reedyuk/write-properties@v1.0.3
         with:
-          path: './src/main/resources/application-$ENVIRONMENT.properties'
+          path: './src/main/resources/application-prod.properties'
           property: 'jwt.secret'
           value: '${{ secrets.JWT_SECRET }}'
 
