@@ -12,6 +12,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env: 
+      MYSQL_URL: ${{ vars.MYSQL_URL }}
+      MYSQL_USER: ${{ vars.MYSQL_USER }}
+      MYSQL_PASS: ${{ secrets.MYSQL_PASS }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      ENVIRONMENT: ${{ vars.ENVIRONMENT }}
 
     steps:
       - uses: actions/checkout@v4
