@@ -2,6 +2,8 @@ package com.jvm.lecti.dto.response;
 
 import java.util.List;
 
+import com.jvm.lecti.entity.Apple;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +15,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ModuleResponse {
 
-   private List<ModuleDto> modules;
+   private Integer id;
+   private String description;
+   private List<Apple> appleList;
 
 }

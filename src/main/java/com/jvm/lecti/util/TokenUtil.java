@@ -43,6 +43,11 @@ public class TokenUtil {
 
    public String createToken(User user) {
       Map<String, Object> claimsMap = new HashMap<>();
+      return createToken(user, claimsMap);
+   }
+
+   public String createToken(User user, Map<String, Object> claimsMap) {
+
       Date tokenCreateTime = new Date();
       Date tokenValidity = new Date(tokenCreateTime.getTime() + accessTokenValidity);
       return Jwts

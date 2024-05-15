@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.jvm.lecti.dto.response.AppleResponse;
 import com.jvm.lecti.entity.Apple;
-import com.jvm.lecti.entity.ModuleEntity;
+import com.jvm.lecti.entity.Module;
 import com.jvm.lecti.repository.AppleRepository;
 import com.jvm.lecti.repository.ResultRepository;
 
@@ -54,7 +54,7 @@ public class AppleServiceTest {
       String modDesc = "PRINCIPIANTE";
 
       givenExistingModuleWithApples(moduleId, modDesc);
-      AppleResponse response = appleService.getApplesFromMolude(moduleId);
+      AppleResponse response = appleService.getApplesFromMolude(moduleId, 1);
       thenObtainCorrectAppleResponse(2, response.getApples().size());
    }
 
@@ -64,7 +64,7 @@ public class AppleServiceTest {
       String modDesc = "PRINCIPIANTE";
 
       givenExistingModuleWithApples(moduleId, modDesc);
-      AppleResponse response = appleService.getApplesFromMolude(moduleId);
+      AppleResponse response = appleService.getApplesFromMolude(moduleId, 1);
       thenObtainCorrectAppleResponse(2, response.getApples().size());
    }
 
@@ -73,7 +73,7 @@ public class AppleServiceTest {
    }
 
    private void givenExistingModuleWithApples(int moduleId, String mDescription){
-      ModuleEntity m = new ModuleEntity(moduleId, mDescription);
+      Module m = new Module(moduleId, mDescription);
       List<Apple> applesOfModule = new ArrayList<Apple>();
       applesOfModule.add(getApple(1, "A", m));
       applesOfModule.add(getApple(2, "E", m));
@@ -81,7 +81,7 @@ public class AppleServiceTest {
    }
 
    private void givenNonExistingModuleWithApples(int moduleId, String mDescription){
-      ModuleEntity m = new ModuleEntity(moduleId, mDescription);
+      Module m = new Module(moduleId, mDescription);
       List<Apple> applesOfModule = new ArrayList<Apple>();
       applesOfModule.add(getApple(1, "A", m));
       applesOfModule.add(getApple(2, "E", m));
@@ -93,7 +93,7 @@ public class AppleServiceTest {
       when(appleRepository.findById(id)).thenReturn(Optional.of(apple));
    }
 
-   private Apple getApple(int id, String desc, ModuleEntity mod){
+   private Apple getApple(int id, String desc, Module mod){
       Apple apple = new Apple(id, desc);
       apple.setModulo(mod);
       return apple;

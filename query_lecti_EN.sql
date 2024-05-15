@@ -17,7 +17,7 @@ birth_date DATETIME NOT NULL,
 total_crowns INT DEFAULT 0,
 spent_crowns INT DEFAULT 0,
 user_id INT,
-recomended_module INT, 
+recommended_module INT,
 foreign key (USER_ID) REFERENCES USERS(ID)
 );
 
@@ -45,6 +45,7 @@ CREATE TABLE APPLE(
 id INT PRIMARY KEY NOT NULL auto_increment,
 name VARCHAR(40) NOT NULL,
 module_id INT,
+max_score INT,
 foreign key (module_id) REFERENCES MODULE(id)
 );
 
