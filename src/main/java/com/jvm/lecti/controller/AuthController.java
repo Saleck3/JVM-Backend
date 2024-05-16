@@ -59,16 +59,7 @@ public class AuthController {
       List<Player> playerList = playerRepository.findByUserId(user.getId());
       List<PlayerDataResponse> playersDataResponse = authService.mapPlayerEntity(playerList);
 
-      String token;
-      if (playerList.size() == 1) {
-         //if only one player, assign it by default
-         Map<String, Object> claimsMap = new HashMap<>();
-         claimsMap.put("playerId", playerList.get(0).getId());
-         token = tokenUtil.createToken(user, claimsMap);
-      } else {
-         token = tokenUtil.createToken(user);
-      }
-
+      String token = tokenUtil.createToken(user);
       return ResponseEntity.ok(LoginResponse.builder().players(playersDataResponse).token(token).build());
    }
 
