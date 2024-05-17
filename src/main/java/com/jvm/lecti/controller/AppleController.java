@@ -38,11 +38,15 @@ public class AppleController {
    }
 
    @GetMapping("/getApplesByModuleId")
-   public AppleResponse getApplesFromModule(HttpServletRequest request, @RequestParam(value = "moduleId") Integer moduleId) {
-      Claims claims = tokenUtil.resolveClaims(request);
-      int playerId = (int) claims.get("playerId");
+   public AppleResponse getApplesFromModule(HttpServletRequest request, @RequestParam(value = "moduleId") Integer moduleId, @RequestParam(value = "playerId") Integer playerId) {
+      //ACA SE ESTA DEVOLVIENDO TANTO LA INFO PARA ARMAR EL CAMINO DE MANZANAS COMO TAMBIEN EL SCORE QUE TIENE EN CADA MANZANA
+//      if(checkForPermision())
       AppleResponse apple = appleService.getApplesFromMolude(moduleId, playerId);
       return apple;
+   }
+
+   private boolean checkForPermision() {
+      return true;
    }
 
 }

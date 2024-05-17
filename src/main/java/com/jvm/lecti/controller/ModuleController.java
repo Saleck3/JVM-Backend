@@ -9,10 +9,7 @@ import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.jvm.lecti.dto.response.ErrorResponse;
 import com.jvm.lecti.dto.response.ModuleDto;
@@ -40,11 +37,11 @@ public class ModuleController {
    private TokenUtil tokenUtil;
 
    @GetMapping("/")
-   public ResponseEntity getAllModules(HttpServletRequest request) {
+   public ResponseEntity getAllModules(HttpServletRequest request, @RequestParam(value = "playerId") Integer playerId) {
       List<Module> modules = moduleService.getAll();
       List<ModuleDto> moduleList = new ArrayList<>();
       Claims claims = tokenUtil.resolveClaims(request);
-      int playerId = (int) claims.get("playerId");
+//      TODO VALIDACION SI USER ES DUEÑO DE ESE PLAYER - SEGURIDAD
       List<Apple> ApplesInModule;
 
       for (Module module : modules) {
