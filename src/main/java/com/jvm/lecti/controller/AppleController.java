@@ -49,8 +49,16 @@ public class AppleController {
    }
 
    @GetMapping("/getApple")
-   public ResponseEntity getApple(HttpServletRequest request, @RequestParam(value = "playerId") Integer playerId,
-         @RequestParam(value = "appleId") Integer appleId) {
+   public ResponseEntity getApple(HttpServletRequest request, @RequestParam(value = "playerId", required = false) Integer playerId,
+         @RequestParam(value = "appleId", required = false) Integer appleId) {
+      if (playerId == null) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required parameter: playerId");
+         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+      }
+      if (appleId == null) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required parameter: appleId");
+         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+      }
 
       Claims claims = tokenUtil.resolveClaims(request);
       String email = claims.get("sub").toString();
@@ -78,8 +86,18 @@ public class AppleController {
    }
 
    @GetMapping("/getApplesByModuleId")
-   public ResponseEntity getApplesFromModule(HttpServletRequest request, @RequestParam(value = "moduleId") Integer moduleId,
-         @RequestParam(value = "playerId") Integer playerId) {
+   public ResponseEntity getApplesFromModule(HttpServletRequest request, @RequestParam(value = "moduleId", required = false) Integer moduleId,
+         @RequestParam(value = "playerId", required = false) Integer playerId) {
+
+      if (playerId == null) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required parameter: playerId");
+         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+      }
+      if (moduleId == null) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required parameter: moduleId");
+         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+      }
+
       //Returns both apples for rendering the path and scores by apples
       try {
          Claims claims = tokenUtil.resolveClaims(request);
