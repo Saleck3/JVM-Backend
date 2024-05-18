@@ -10,6 +10,7 @@ import java.util.Optional;
 
 import com.jvm.lecti.repository.PlayerRepository;
 import com.jvm.lecti.repository.UserRepository;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,16 +25,17 @@ import com.jvm.lecti.repository.ResultRepository;
 public class AppleServiceTest {
 
    private AppleService appleService;
+
    private AppleRepository appleRepository;
+
    private ResultRepository resultRepository;
 
    private UserRepository userRepository;
 
    private PlayerRepository playerRepository;
 
-
    @Before
-   public void init(){
+   public void init() {
       appleRepository = mock(AppleRepository.class);
       resultRepository = mock(ResultRepository.class);
       userRepository = mock(UserRepository.class);
@@ -42,49 +44,51 @@ public class AppleServiceTest {
    }
 
    @Test
-   public void testGetAppleById(){
+   public void testGetAppleById() {
       Integer id = 1;
       Apple apple = new Apple();
       apple.setId(id);
    }
 
    @Test
-   public void getCorrectAppleDtoWhenGivenExistingAppleId(){
+   public void getCorrectAppleDtoWhenGivenExistingAppleId() {
       Integer appleId = 1;
       String description = "MA";
       givenExistingApple(appleId, description);
-//      whenAskingFor;
+      //      whenAskingFor;
    }
 
    @Test
-   public void getCorrectAppleResponseWhenGivenExistingModuleId(){
+   public void getCorrectAppleResponseWhenGivenExistingModuleId() {
       Integer moduleId = 1;
       String modDesc = "PRINCIPIANTE";
       String email = "test";
       givenExistingModuleWithApples(moduleId, modDesc);
-      try{
-         AppleResponse response = appleService.getApplesFromMolude(moduleId, 1, email);
-         thenObtainCorrectAppleResponse(2, response.getApples().size());
-      } catch (Exception e){}
+      try {
+         List<Apple> apples = appleService.getApples(moduleId, 1);
+         thenObtainCorrectAppleResponse(2, apples.size());
+      } catch (Exception e) {
+      }
    }
 
    @Test
-   public void getEmptyAppleResponseWhenGivenNotExistingModuleId(){
+   public void getEmptyAppleResponseWhenGivenNotExistingModuleId() {
       Integer moduleId = 2;
       String modDesc = "PRINCIPIANTE";
       String email = "test";
       givenExistingModuleWithApples(moduleId, modDesc);
       try {
-         AppleResponse response = appleService.getApplesFromMolude(moduleId, 1, email);
-         thenObtainCorrectAppleResponse(2, response.getApples().size());
-      } catch(Exception e){}
+         List<Apple> apples = appleService.getApples(moduleId, 1);
+         thenObtainCorrectAppleResponse(2, apples.size());
+      } catch (Exception e) {
+      }
    }
 
    private void thenObtainCorrectAppleResponse(int expected, int actual) {
       assertEquals(expected, actual);
    }
 
-   private void givenExistingModuleWithApples(int moduleId, String mDescription){
+   private void givenExistingModuleWithApples(int moduleId, String mDescription) {
       Module m = new Module(moduleId, mDescription);
       List<Apple> applesOfModule = new ArrayList<Apple>();
       applesOfModule.add(getApple(1, "A", m));
@@ -92,7 +96,7 @@ public class AppleServiceTest {
       when(appleRepository.findAllByModuleId(moduleId)).thenReturn(applesOfModule);
    }
 
-   private void givenNonExistingModuleWithApples(int moduleId, String mDescription){
+   private void givenNonExistingModuleWithApples(int moduleId, String mDescription) {
       Module m = new Module(moduleId, mDescription);
       List<Apple> applesOfModule = new ArrayList<Apple>();
       applesOfModule.add(getApple(1, "A", m));
@@ -105,7 +109,7 @@ public class AppleServiceTest {
       when(appleRepository.findById(id)).thenReturn(Optional.of(apple));
    }
 
-   private Apple getApple(int id, String desc, Module mod){
+   private Apple getApple(int id, String desc, Module mod) {
       Apple apple = new Apple(id, desc);
       apple.setModulo(mod);
       return apple;

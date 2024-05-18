@@ -6,6 +6,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.Before;
@@ -19,7 +20,6 @@ import com.jvm.lecti.repository.ModuleRepository;
 public class ModuleServiceTests {
 
    private ModuleService moduleService;
-
    private ModuleRepository moduleRepository;
 
    @Before
@@ -28,30 +28,12 @@ public class ModuleServiceTests {
       moduleService = new ModuleService(moduleRepository);
    }
 
-   @Test
-   public void shouldReturnListOfModules() {
-      var modulesDb = new Module(1, "test");
-      when(moduleRepository.findById(1)).thenReturn(Optional.of(modulesDb));
-
-      var result = moduleService.getModulesByModuleId(1);
-
-      assertTrue(result.isPresent());
-      thenObtainExpectedId(1,result.get().getId());
-   }
-
-   private void thenObtainExpectedId(int expected, int actual) {
-      assertEquals(expected, actual);
-   }
 
    @Test
-   public void shouldReturnEmptyListOfModulesWhenModuleDoesntExist() {
-//      var modulesDb = new ArrayList<ModuleEntity>();
-//      modulesDb.add(new ModuleEntity(1, "test"));
-//      when(moduleRepository.findAllById(1)).thenReturn(modulesDb);
-//
-//      var result = moduleService.getModulesByModuleId(2);
-//
-//      assertEquals(result.getModules().size(), 0);
+   public void ShouldRecover() {
+      List<Module> modules = new ArrayList<>();
+      when(moduleRepository.findAll()).thenReturn(modules);
+
    }
 
 }

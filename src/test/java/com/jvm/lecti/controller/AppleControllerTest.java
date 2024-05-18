@@ -1,76 +1,87 @@
 package com.jvm.lecti.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+
+import io.jsonwebtoken.Claims;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 
 import com.jvm.lecti.dto.response.AppleResponse;
 import com.jvm.lecti.entity.Apple;
-import com.jvm.lecti.dto.response.AppleDto;
+import com.jvm.lecti.entity.User;
+import com.jvm.lecti.exceptions.InvalidUserIdForPlayerException;
 import com.jvm.lecti.service.AppleService;
-import com.jvm.lecti.service.AppleServiceTest;
+import com.jvm.lecti.service.PlayerService;
+import com.jvm.lecti.util.TokenUtil;
 
-
+import jakarta.servlet.http.HttpServletRequest;
 
 @SpringBootTest
 public class AppleControllerTest {
+
+   private final String TOKEN_HEADER = "Authorization";
 
    private AppleController appleController;
 
    private AppleService appleService;
 
+   private HttpServletRequest request;
+
+   private TokenUtil tokenUtil;
+
+   private PlayerService playerService;
+
    @Before
    public void init() {
       appleService = mock(AppleService.class);
-      appleController = new AppleController(appleService);
+      request = mock(HttpServletRequest.class);
+      tokenUtil = mock(TokenUtil.class);
+      playerService = mock(PlayerService.class);
+      appleController = new AppleController(appleService, tokenUtil, playerService);
    }
 
    @Test
    public void ifIdDoNotExistReturnErrorResponse() {
-      Integer id = 0;
-      givenApple(id);
-      AppleResponse appleRsp = whenAskingForApple(id);
-      assertEquals(0, appleRsp.getApples().size());
+      Integer playerId = 1;
+      Integer appleId = 0;
+      givenApple(playerId, appleId);
+      ResponseEntity appleRsp = whenAskingForApple(playerId, appleId);
+      assertEquals(404, appleRsp.getStatusCode().value());
    }
 
    @Test
    public void ifAppleIdExistReturnCorrectResponse() {
-      Integer id = 1;
-      givenApple(id);
-      AppleResponse appleRsp = whenAskingForApple(id);
-      assertEquals(appleRsp.getApples().size(), 1);
+      Integer playerId = 1;
+      Integer appleId = 1;
+      givenApple(playerId, appleId);
+      ResponseEntity appleRsp = whenAskingForApple(playerId, appleId);
+      assertEquals(200, appleRsp.getStatusCode().value());
    }
 
-   private AppleResponse whenAskingForApple(int id) {
-      return appleController.getApple(id);
+   private ResponseEntity whenAskingForApple(int playerId, int appleId) {
+      return appleController.getApple(request, playerId, appleId);
    }
 
-   private void givenApple(int id){
-      if(id == 0){
-         List<AppleDto> appleList = new ArrayList<AppleDto>();
-         AppleResponse appleRes = new AppleResponse();
-         appleRes.setApples(appleList);
-         when(appleService.getApple(id)).thenReturn(appleRes);
+   private void givenApple(int playerId, int appleId) {
+      if (appleId == 0) {
+         when(appleService.getApple(appleId, playerId)).thenReturn(null);
       } else {
-         AppleDto appleDto = new AppleDto(id, "MA");
-         List<AppleDto> appleList = new ArrayList<AppleDto>();
-         appleList.add(appleDto);
-         AppleResponse appleRes = new AppleResponse();
-         appleRes.setApples(appleList);
-         when(appleService.getApple(id)).thenReturn(appleRes);
+         Optional<Apple> apple = Optional.of(new Apple());
+         apple.get().setId(appleId);
+         when(appleService.getApple(appleId, playerId)).thenReturn(apple);
       }
-
+      when(request.getHeader(TOKEN_HEADER)).thenReturn(tokenUtil.createToken(new User()));
    }
-
-
 
 }
 
