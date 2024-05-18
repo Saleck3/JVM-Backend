@@ -38,10 +38,14 @@ public class AppleServiceImpl implements AppleService {
    }
 
    @Override
-   public Optional<Apple> getApple(int id) {
+   public Optional<Apple> getApple(int playerId, int appleId) {
 
-      Optional<Apple> apple = appleRepository.findById(id);
-      Optional<Result> result = resultRepository.findAllByAppleAndPlayerId(apple.get().getId(), 1);
+      Optional<Apple> apple = appleRepository.findById(appleId);
+      if(apple.isEmpty()) {
+         return apple;
+      }
+
+      Optional<Result> result = resultRepository.findAllByAppleAndPlayerId(apple.get().getId(), playerId);
       if (result.isPresent()) {
          apple.get().setScore(result.get().getScore());
       } else {

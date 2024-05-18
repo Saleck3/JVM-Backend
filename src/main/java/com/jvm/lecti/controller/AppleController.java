@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import com.jvm.lecti.dto.response.AppleDto;
 import com.jvm.lecti.dto.response.ErrorResponse;
-import com.jvm.lecti.dto.response.LoginResponse;
 import com.jvm.lecti.entity.Apple;
 import com.jvm.lecti.exceptions.InvalidUserIdForPlayerException;
 
@@ -26,13 +25,13 @@ import com.jvm.lecti.service.PlayerService;
 import com.jvm.lecti.util.TokenUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @RestController
 @RequestMapping("/api/apple")
-
 @NoArgsConstructor
-
+@AllArgsConstructor
 public class AppleController {
 
    @Autowired
@@ -43,10 +42,6 @@ public class AppleController {
 
    @Autowired
    private PlayerService playerService;
-
-   public AppleController(AppleService appleService) {
-      this.appleService = appleService;
-   }
 
    @GetMapping("/getApple")
    public ResponseEntity getApple(HttpServletRequest request, @RequestParam(value = "playerId", required = false) Integer playerId,
@@ -69,7 +64,7 @@ public class AppleController {
          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
       }
 
-      Optional<Apple> apple = appleService.getApple(appleId);
+      Optional<Apple> apple = appleService.getApple(playerId,appleId);
       //Not found
       if (apple.isEmpty()) {
          ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND, "There is no apple with id " + appleId);

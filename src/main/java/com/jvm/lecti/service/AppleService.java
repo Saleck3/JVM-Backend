@@ -13,7 +13,7 @@ import com.jvm.lecti.entity.Apple;
 @Service
 public interface AppleService {
 
-   Optional<Apple> getApple(int id);
+   Optional<Apple> getApple(int playerId, int id);
 
    List<Apple> getApples(int moduleId, int playerId);
 
