@@ -75,8 +75,14 @@ public class ModuleController {
    }
 
    @GetMapping("/{idModule}")
-   public ResponseEntity getModulesByModuleId(HttpServletRequest request, @RequestParam(value = "playerId") Integer playerId,
+   public ResponseEntity getModulesByModuleId(HttpServletRequest request, @RequestParam(value = "playerId",required = false) Integer playerId,
          @PathVariable Integer idModule) {
+
+      if (playerId == null) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required parameter: playerId");
+         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+      }
+
       Claims claims = tokenUtil.resolveClaims(request);
       String email = claims.get("sub").toString();
       try {
