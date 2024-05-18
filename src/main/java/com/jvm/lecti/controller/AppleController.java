@@ -55,7 +55,7 @@ public class AppleController {
          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
       }
 
-      Claims claims = null;
+      Claims claims;
       try {
          claims = tokenUtil.resolveClaims(request);
       } catch (Exception e) {

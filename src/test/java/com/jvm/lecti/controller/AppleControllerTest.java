@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.impl.DefaultClaims;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -44,8 +45,8 @@ public class AppleControllerTest {
    @Before
    public void init() {
       appleService = mock(AppleService.class);
-      request = mock(HttpServletRequest.class);
       tokenUtil = mock(TokenUtil.class);
+      request = mock(HttpServletRequest.class);
       playerService = mock(PlayerService.class);
       appleController = new AppleController(appleService, tokenUtil, playerService);
    }
@@ -55,6 +56,7 @@ public class AppleControllerTest {
       Integer playerId = 1;
       Integer appleId = 0;
       givenApple(playerId, appleId);
+      givenMockedClaims();
       ResponseEntity appleRsp = whenAskingForApple(playerId, appleId);
       assertEquals(404, appleRsp.getStatusCode().value());
    }
@@ -64,6 +66,7 @@ public class AppleControllerTest {
       Integer playerId = 1;
       Integer appleId = 1;
       givenApple(playerId, appleId);
+      givenMockedClaims();
       ResponseEntity appleRsp = whenAskingForApple(playerId, appleId);
       assertEquals(200, appleRsp.getStatusCode().value());
    }
@@ -80,7 +83,16 @@ public class AppleControllerTest {
          apple.get().setId(appleId);
          when(appleService.getApple(appleId, playerId)).thenReturn(apple);
       }
-      when(request.getHeader(TOKEN_HEADER)).thenReturn(tokenUtil.createToken(new User()));
+   }
+
+   private void givenMockedClaims() {
+      Claims claims = new DefaultClaims();
+      claims.setSubject("test@test.com");
+      try {
+         when(tokenUtil.resolveClaims(request)).thenReturn(claims);
+      } catch (Exception e) {
+         throw new RuntimeException(e);
+      }
    }
 
 }
