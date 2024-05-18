@@ -1,9 +1,15 @@
 package com.jvm.lecti.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import com.jvm.lecti.dto.response.AppleDto;
 import com.jvm.lecti.dto.response.ErrorResponse;
 import com.jvm.lecti.dto.response.LoginResponse;
 import com.jvm.lecti.entity.Apple;
 import com.jvm.lecti.exceptions.InvalidUserIdForPlayerException;
+
 import io.jsonwebtoken.Claims;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jvm.lecti.dto.response.AppleResponse;
 import com.jvm.lecti.service.AppleService;
+import com.jvm.lecti.service.PlayerService;
 import com.jvm.lecti.util.TokenUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,34 +41,70 @@ public class AppleController {
    @Autowired
    private TokenUtil tokenUtil;
 
+   @Autowired
+   private PlayerService playerService;
+
    public AppleController(AppleService appleService) {
       this.appleService = appleService;
    }
 
    @GetMapping("/getApple")
-   public AppleResponse getApple(@RequestParam(value = "appleId") Integer appleId) {
-      return appleService.getApple(appleId);
+   public ResponseEntity getApple(HttpServletRequest request, @RequestParam(value = "playerId") Integer playerId,
+         @RequestParam(value = "appleId") Integer appleId) {
+
+      Claims claims = tokenUtil.resolveClaims(request);
+      String email = claims.get("sub").toString();
+      try {
+         playerService.checkPermissions(email, playerId);
+      } catch (InvalidUserIdForPlayerException e) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
+         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+      }
+
+      Optional<Apple> apple = appleService.getApple(appleId);
+      //Not found
+      if (apple.isEmpty()) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND, "There is no apple with id " + appleId);
+         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+      }
+
+      List<Apple> apples = new ArrayList<>();
+      apples.add(apple.orElseThrow());
+
+      List<AppleDto> applesDto = mapModuleDto(apples);
+      AppleResponse response = new AppleResponse();
+      response.setApples(applesDto);
+      return ResponseEntity.ok(response);
    }
 
    @GetMapping("/getApplesByModuleId")
-   public ResponseEntity getApplesFromModule(HttpServletRequest request, @RequestParam(value = "moduleId") Integer moduleId, @RequestParam(value = "playerId") Integer playerId) {
-      //ACA SE ESTA DEVOLVIENDO TANTO LA INFO PARA ARMAR EL CAMINO DE MANZANAS COMO TAMBIEN EL SCORE QUE TIENE EN CADA MANZANA
+   public ResponseEntity getApplesFromModule(HttpServletRequest request, @RequestParam(value = "moduleId") Integer moduleId,
+         @RequestParam(value = "playerId") Integer playerId) {
+      //Returns both apples for rendering the path and scores by apples
       try {
          Claims claims = tokenUtil.resolveClaims(request);
          String email = claims.get("sub").toString();
-         AppleResponse apple = appleService.getApplesFromMolude(moduleId, playerId, email);
-         return ResponseEntity.ok(apple);
-      } catch(InvalidUserIdForPlayerException iue){
+         playerService.checkPermissions(email, playerId);
+      } catch (InvalidUserIdForPlayerException iue) {
          ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, iue.getMessage());
          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
-      }  catch (Exception e){
-         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("");
       }
+      AppleResponse response = new AppleResponse();
+      List<AppleDto> applesDto = mapModuleDto(appleService.getApples(moduleId, playerId));
+      response.setApples(applesDto);
 
+      return ResponseEntity.ok(response);
    }
 
-   private boolean checkForPermision() {
-      return true;
+   private List<AppleDto> mapModuleDto(List<Apple> apples) {
+      if (apples.isEmpty()) {
+         return null;
+      }
+      List<AppleDto> appleList = new ArrayList<>();
+      for (Apple entity : apples) {
+         appleList.add(new AppleDto(entity.getId(), entity.getName()));
+      }
+      return appleList;
    }
 
 }
