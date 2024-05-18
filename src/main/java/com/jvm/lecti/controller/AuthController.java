@@ -27,7 +27,6 @@ import com.jvm.lecti.util.TokenUtil;
 
 import lombok.AllArgsConstructor;
 
-
 @RestController
 @RequestMapping("/api/auth")
 @AllArgsConstructor
@@ -68,4 +67,5 @@ public class AuthController {
       return authService.signUpUser(signUpRequest);
    }
 
+   //TODO ChangePassword
 }

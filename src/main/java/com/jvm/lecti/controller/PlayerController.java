@@ -1,16 +1,24 @@
 package com.jvm.lecti.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.jvm.lecti.dto.request.PlayerRequest;
-import com.jvm.lecti.dto.response.ExerciseResponse;
+import com.jvm.lecti.dto.response.ErrorResponse;
 import com.jvm.lecti.dto.response.PlayerDto;
 import com.jvm.lecti.dto.response.PlayerResponse;
 import com.jvm.lecti.entity.Player;
-import com.jvm.lecti.service.ExerciseService;
+import com.jvm.lecti.entity.User;
+import com.jvm.lecti.exceptions.userNotFoundException;
 import com.jvm.lecti.service.PlayerService;
+import com.jvm.lecti.service.UserService;
 import com.jvm.lecti.util.TokenUtil;
+
 import io.jsonwebtoken.Claims;
+
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.NoArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,31 +33,73 @@ public class PlayerController {
 
    @Autowired
    private PlayerService playerService;
+
    @Autowired
    private TokenUtil tokenUtil;
 
-   public PlayerController(PlayerService playerService){
+   @Autowired
+   private UserService userService;
+
+   public PlayerController(PlayerService playerService) {
       this.playerService = playerService;
    }
 
-//   @GetMapping("/getExercise/{id}")
-//   public AppleResponse getApple(@PathVariable Integer appleId) {
-//      return exerciseService.get(appleId);
-//   }
+   @GetMapping("/getPlayers")
+   public ResponseEntity getPlayers(HttpServletRequest request) {
 
+      Claims claims = null;
+      try {
+         claims = tokenUtil.resolveClaims(request);
+      } catch (Exception e) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
+         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+      }
+      String email = claims.get("sub").toString();
+      User user;
+      try {
+         user = userService.getUserByEmail(email);
+      } catch (userNotFoundException e) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
+         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+      }
 
-   @GetMapping("/getUserPlayers")
-   public PlayerResponse getPlayersFromUserId(@RequestParam(value = "userId") long userId) {
-      PlayerResponse playerResponse = playerService.getUserPlayers(userId);
-      return playerResponse;
+      List<Player> players = playerService.getUserPlayers(user.getId());
+      return ResponseEntity.ok(PlayerResponse.builder().players(mapModuleDto(players)).build());
    }
 
    @PostMapping(value = "/addPlayer")
-   public PlayerDto addPlayer(HttpServletRequest request, @RequestBody PlayerRequest playerRequest){
-      //TODO SETEAR DENTRO DEL JWT
-      Claims claims = tokenUtil.resolveClaims(request);
+   public ResponseEntity addPlayer(HttpServletRequest request, @RequestBody PlayerRequest playerRequest) {
+      Claims claims = null;
+      try {
+         claims = tokenUtil.resolveClaims(request);
+      } catch (Exception e) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
+         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+      }
       String email = claims.get("sub").toString();
-      return playerService.addPlayer(playerRequest, email);
+      User user;
+      try {
+         user = userService.getUserByEmail(email);
+      } catch (userNotFoundException e) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
+         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+      }
+      Player player = playerService.addPlayer(playerRequest, user);
+      List<Player> players = new ArrayList<>();
+      players.add(player);
+      return ResponseEntity.ok(PlayerResponse.builder().players(mapModuleDto(players)).build());
+   }
+
+   private List<PlayerDto> mapModuleDto(List<Player> players) {
+      if (players.isEmpty()) {
+         return null;
+      }
+      List<PlayerDto> playerList = new ArrayList<>();
+      for (Player entity : players) {
+         playerList.add(new PlayerDto(entity.getId(), entity.getPlayerName(), entity.getBirthDate(), entity.getTotalCrowns(), entity.getSpentCrowns(),
+               entity.getAlias()));
+      }
+      return playerList;
    }
 
 }

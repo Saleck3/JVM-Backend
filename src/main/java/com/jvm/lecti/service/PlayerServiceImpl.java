@@ -9,6 +9,7 @@ import com.jvm.lecti.entity.Apple;
 import com.jvm.lecti.entity.Player;
 import com.jvm.lecti.entity.Result;
 import com.jvm.lecti.entity.User;
+import com.jvm.lecti.exceptions.InvalidUserIdForPlayerException;
 import com.jvm.lecti.repository.AppleRepository;
 import com.jvm.lecti.repository.PlayerRepository;
 import com.jvm.lecti.repository.ResultRepository;
@@ -42,47 +43,18 @@ public class PlayerServiceImpl implements PlayerService {
       this.userRepository = userRepository;
    }
 
-
-//   public List<Apple> getApples(int moduleId, int playerId) {
-//      List<Apple> apples = appleRepository.findAllByModuleId(moduleId);
-//      for (Apple apple : apples) {
-//         Optional<Result> result = resultRepository.findAllByAppleAndPlayerId(apple.getId(), playerId);
-//         if (result.isPresent()) {
-//            apple.setScore(result.get().getScore());
-//         } else {
-//            apple.setScore(0);
-//         }
-//      }
-//      return apples;
-//   }
-
-   public PlayerResponse getPlayersByUserId(long userId){
-      List<Player> players = playerRepository.findByUserId(userId);
-      PlayerResponse playerResponse = new PlayerResponse(mapModuleDto(players));
-      return playerResponse;
-   }
-
-   private List<PlayerDto> mapModuleDto(List<Player> players) {
-      if (players.isEmpty()) {
-         return null;
-      }
-      List<PlayerDto> playerList = new ArrayList<>();
-      for (Player entity : players) {
-         playerList.add(new PlayerDto(entity.getId(), entity.getPlayerName(), entity.getBirthDate(), entity.getTotalCrowns(), entity.getSpentCrowns(), entity.getAlias()));
-      }
-      return playerList;
+   public List<Player> getPlayersByUserId(long userId){
+      return playerRepository.findByUserId(userId);
    }
 
    @Override
-   public PlayerResponse getPlayer(int playerId) {
-      return null;
+   public Player getPlayer(long playerId) {
+      return playerRepository.getReferenceById(playerId);
    }
 
    @Override
-   public PlayerResponse getUserPlayers(long userId) {
-      List<Player> players = playerRepository.findByUserId(userId);
-      PlayerResponse playerResponse = new PlayerResponse(mapModuleDto(players));
-      return playerResponse;
+   public List<Player> getUserPlayers(long userId) {
+      return playerRepository.findByUserId(userId);
    }
 
    @Override
@@ -91,15 +63,24 @@ public class PlayerServiceImpl implements PlayerService {
    }
 
    @Override
-   public PlayerDto addPlayer(PlayerRequest playerReq, String userEmail) {
-      Optional<User> user = userRepository.findByEmail(userEmail);
-      Player player = new Player(playerReq.getFirstName(), playerReq.getBirthDate(), user.get(), 0, 0, playerReq.getAlias());
+   public Player addPlayer(PlayerRequest playerReq, User user) {
+      Player player = new Player(playerReq.getFirstName(), playerReq.getBirthDate(), user, 0, 0, playerReq.getAlias());
       Player pp = playerRepository.save(player);
-      return new PlayerDto(pp.getId(),player.getPlayerName(),player.getBirthDate(),player.getTotalCrowns(),player.getSpentCrowns(), player.getAlias());
+      return player;
    }
 
    @Override
    public void deletePlayer(int id) {
 
+   }
+
+   public void checkPermissions(String userEmail, long playerId) throws InvalidUserIdForPlayerException {
+      Optional<User> user = userRepository.findByEmail(userEmail);
+      List<Player> players = playerRepository.findByUserId(user.get().getId());
+      boolean playerExists;
+      playerExists = players.stream().anyMatch(player -> player.getId() == playerId);
+      if (!playerExists){
+         throw new InvalidUserIdForPlayerException();
+      }
    }
 }

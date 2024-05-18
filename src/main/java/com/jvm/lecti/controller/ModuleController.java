@@ -17,8 +17,10 @@ import com.jvm.lecti.dto.response.ModuleResponse;
 import com.jvm.lecti.dto.response.ModulesResponse;
 import com.jvm.lecti.entity.Apple;
 import com.jvm.lecti.entity.Module;
+import com.jvm.lecti.exceptions.InvalidUserIdForPlayerException;
 import com.jvm.lecti.service.AppleService;
 import com.jvm.lecti.service.ModuleService;
+import com.jvm.lecti.service.PlayerService;
 import com.jvm.lecti.util.TokenUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,14 +36,30 @@ public class ModuleController {
    private AppleService appleService;
 
    @Autowired
+   private PlayerService playerService;
+
+   @Autowired
    private TokenUtil tokenUtil;
 
    @GetMapping("/")
    public ResponseEntity getAllModules(HttpServletRequest request, @RequestParam(value = "playerId") Integer playerId) {
-      List<Module> modules = moduleService.getAll();
+
+      Claims claims = null;
+      try {
+         claims = tokenUtil.resolveClaims(request);
+      } catch (Exception e) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
+         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+      }
+      try {
+         playerService.checkPermissions(claims.get("sub").toString(), playerId);
+      } catch (InvalidUserIdForPlayerException e) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
+         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+      }
+
       List<ModuleDto> moduleList = new ArrayList<>();
-      Claims claims = tokenUtil.resolveClaims(request);
-//      TODO VALIDACION SI USER ES DUEÑO DE ESE PLAYER - SEGURIDAD
+      List<Module> modules = moduleService.getAll();
       List<Apple> ApplesInModule;
 
       for (Module module : modules) {
@@ -54,45 +72,48 @@ public class ModuleController {
             max_score += apple.getMax_score();
             player_score += apple.getScore();
          }
-         if(player_score != 0) {
+         if (player_score != 0) {
             progress = (player_score * 100) / max_score;
          }
-
          moduleList.add(moduleService.mapModuleDto(module, progress));
       }
       return ResponseEntity.ok(ModulesResponse.builder().modules(moduleList).build());
    }
 
    @GetMapping("/{idModule}")
-   public ResponseEntity getModulesByModuleId(HttpServletRequest request, @PathVariable Integer idModule) {
+   public ResponseEntity getModulesByModuleId(HttpServletRequest request, @RequestParam(value = "playerId",required = false) Integer playerId,
+         @PathVariable Integer idModule) {
+
+      if (playerId == null) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required parameter: playerId");
+         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+      }
+
+      Claims claims = null;
+      try {
+         claims = tokenUtil.resolveClaims(request);
+      } catch (Exception e) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
+         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+      }
+      String email = claims.get("sub").toString();
+      try {
+         playerService.checkPermissions(email, playerId);
+      } catch (InvalidUserIdForPlayerException e) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
+         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+      }
+
       Optional<Module> module = moduleService.getModulesByModuleId(idModule);
       if (module.orElse(null) == null) {
          return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(HttpStatus.NOT_FOUND, "Module not found"));
       }
 
-      Claims claims = tokenUtil.resolveClaims(request);
-      List<Apple> moduleApples = appleService.getApples(module.get().getId(), (int) claims.get("playerId"));
+      List<Apple> moduleApples = appleService.getApples(module.get().getId(), playerId);
 
       return ResponseEntity.ok(
             ModuleResponse.builder().id(module.get().getId()).description(module.get().getDescription()).appleList(moduleApples).build());
    }
-
-   @GetMapping("/ruta")
-   public String miMetodo(HttpServletRequest request) {
-      Claims claims = tokenUtil.resolveClaims(request);
-      return "Contenido del JWT: " + claims.get("sub");
-   }
-/*
-   public ModuleResponse getAll(HttpServletRequest request){
-      return moduleService.findAll();
-      //lamar a la DB traerme todos los  modulos
-//      foreach
-      //apple service que me traiga manzanas del modulo
-//      List<apple> =appleService.getApplesFromMolude(1);
-      //foreach
-         //calculatePercentage star
-
-   }*/
 
 }
 

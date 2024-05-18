@@ -4,6 +4,9 @@ import com.jvm.lecti.entity.Player;
 
 import java.util.List;
 
+import lombok.Builder;
+
+@Builder
 public class PlayerResponse {
 
    List<PlayerDto> players;

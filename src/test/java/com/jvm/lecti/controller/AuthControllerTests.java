@@ -32,7 +32,7 @@ public class AuthControllerTests {
 
    private static final List<PlayerDataResponse> PLAYER_DATA_RESPONSE_LIST = null;
 
-   public static final String TEST_MAIL = "test@test.com";
+   public static final String TEST_MAIL = "cannotAccesPlayerIfLoggedUserIsNotOwner@cannotAccesPlayerIfLoggedUserIsNotOwner.com";
 
    private static final String TEST_PASSWORD = "";
 
@@ -70,7 +70,15 @@ public class AuthControllerTests {
       responseHasPlayer(response);
    }
 
+   @Test
+   public void cantSingupWithUsedMail() {
+      //TODO
+   }
 
+   @Test
+   public void canSingupWithAvaiableMail() {
+      //TODO
+   }
 
    private void authServiceAuthenticateIsMocked() {
       User user = new User();
