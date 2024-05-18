@@ -55,7 +55,13 @@ public class AppleController {
          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
       }
 
-      Claims claims = tokenUtil.resolveClaims(request);
+      Claims claims = null;
+      try {
+         claims = tokenUtil.resolveClaims(request);
+      } catch (Exception e) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
+         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+      }
       String email = claims.get("sub").toString();
       try {
          playerService.checkPermissions(email, playerId);
@@ -94,8 +100,14 @@ public class AppleController {
       }
 
       //Returns both apples for rendering the path and scores by apples
+      Claims claims = null;
       try {
-         Claims claims = tokenUtil.resolveClaims(request);
+         claims = tokenUtil.resolveClaims(request);
+      } catch (Exception e) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
+         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+      }
+      try {
          String email = claims.get("sub").toString();
          playerService.checkPermissions(email, playerId);
       } catch (InvalidUserIdForPlayerException iue) {

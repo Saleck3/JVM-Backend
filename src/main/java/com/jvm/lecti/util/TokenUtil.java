@@ -63,7 +63,7 @@ public class TokenUtil {
       return jwtParser.parseClaimsJws(token).getBody();
    }
 
-   public Claims resolveClaims(HttpServletRequest req) {
+   public Claims resolveClaims(HttpServletRequest req) throws Exception {
       try {
          String token = resolveToken(req);
          if (token != null) {
@@ -72,7 +72,7 @@ public class TokenUtil {
          return null;
       } catch (ExpiredJwtException ex) {
          req.setAttribute("expired", ex.getMessage());
-         throw ex;
+         throw new Exception("Token expired");
       } catch (Exception ex) {
          req.setAttribute("invalid", ex.getMessage());
          throw ex;

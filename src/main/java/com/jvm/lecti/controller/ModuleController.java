@@ -44,7 +44,13 @@ public class ModuleController {
    @GetMapping("/")
    public ResponseEntity getAllModules(HttpServletRequest request, @RequestParam(value = "playerId") Integer playerId) {
 
-      Claims claims = tokenUtil.resolveClaims(request);
+      Claims claims = null;
+      try {
+         claims = tokenUtil.resolveClaims(request);
+      } catch (Exception e) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
+         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+      }
       try {
          playerService.checkPermissions(claims.get("sub").toString(), playerId);
       } catch (InvalidUserIdForPlayerException e) {
@@ -83,7 +89,13 @@ public class ModuleController {
          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
       }
 
-      Claims claims = tokenUtil.resolveClaims(request);
+      Claims claims = null;
+      try {
+         claims = tokenUtil.resolveClaims(request);
+      } catch (Exception e) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
+         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+      }
       String email = claims.get("sub").toString();
       try {
          playerService.checkPermissions(email, playerId);

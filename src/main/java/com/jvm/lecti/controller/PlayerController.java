@@ -47,7 +47,13 @@ public class PlayerController {
    @GetMapping("/getPlayers")
    public ResponseEntity getPlayers(HttpServletRequest request) {
 
-      Claims claims = tokenUtil.resolveClaims(request);
+      Claims claims = null;
+      try {
+         claims = tokenUtil.resolveClaims(request);
+      } catch (Exception e) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
+         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+      }
       String email = claims.get("sub").toString();
       User user;
       try {
@@ -63,7 +69,13 @@ public class PlayerController {
 
    @PostMapping(value = "/addPlayer")
    public ResponseEntity addPlayer(HttpServletRequest request, @RequestBody PlayerRequest playerRequest) {
-      Claims claims = tokenUtil.resolveClaims(request);
+      Claims claims = null;
+      try {
+         claims = tokenUtil.resolveClaims(request);
+      } catch (Exception e) {
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
+         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+      }
       String email = claims.get("sub").toString();
       User user;
       try {
