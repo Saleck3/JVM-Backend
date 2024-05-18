@@ -28,45 +28,9 @@ public class ExerciseServiceImpl implements ExerciseService {
 
 
    @Override
-   public ExerciseResponse getExercisesByApple(int appleId) {
-      ExerciseResponse response = new ExerciseResponse();
+   public List<Exercise> getExercisesByApple(int appleId) {
 
-      List<Exercise> exercises = exerciseRepository.findAllByAppleId(appleId);
-      List<ExerciseDto> exercisesDto = mapModuleDto(exercises);
-      response.setExercises(exercisesDto);
-      return response;
-   }
-
-//   @Override
-//   public AppleResponse getApple(int id) {
-//      AppleResponse response = new AppleResponse();
-//      Optional<Apple> apple = appleRepository.findById(id);
-//      List<Apple> apples = new ArrayList<Apple>();
-//      apples.add(apple.orElseThrow());
-//      List<AppleDto> applesDto = mapModuleDto(apples);
-//      response.setApples(applesDto);
-//      return response;
-//   }
-
-//   @Override
-//   public AppleResponse getApplesFromMolude(int moduleId) {
-//      AppleResponse response = new AppleResponse();
-//
-//      List<Apple> apples = appleRepository.findAllByModuleId(moduleId);
-//      List<AppleDto> applesDto = mapModuleDto(apples);
-//      response.setApples(applesDto);
-//      return response;
-//   }
-
-   private List<ExerciseDto> mapModuleDto(List<Exercise> exercises) {
-      if (exercises.isEmpty()) {
-         return null;
-      }
-      List<ExerciseDto> exerciseDtoList = new ArrayList<>();
-      for (Exercise entity : exercises) {
-         exerciseDtoList.add(new ExerciseDto(entity.getId(), entity.getName(), entity.getExerciseType(), entity.getParameters()));
-      }
-      return exerciseDtoList;
+       return exerciseRepository.findAllByAppleId(appleId);
    }
 
 

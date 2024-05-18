@@ -2,6 +2,9 @@ package com.jvm.lecti.dto.response;
 
 import java.util.List;
 
+import lombok.Builder;
+
+@Builder
 public class ExerciseResponse {
 
    List<ExerciseDto> exercises;
