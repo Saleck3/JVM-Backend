@@ -21,4 +21,6 @@ public class PlayerDataResponse {
 
    private Integer recomendedModule;
 
+   private String alias;
+
 }

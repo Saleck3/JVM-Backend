@@ -71,6 +71,7 @@ public class AuthService {
                   .recomendedModule(player.getRecommendedModule())
                   .spentCrowns(player.getSpentCrowns())
                   .totalCrowns(player.getTotalCrowns())
+                  .alias(player.getAlias())
                   .build());
          }
          return playersDataResponse;
