@@ -7,9 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 
-import com.jvm.lecti.repository.PlayerRepository;
-import com.jvm.lecti.service.AuthService;
-import com.jvm.lecti.util.TokenUtil;
+import com.jvm.lecti.presentation.controller.ExerciseController;
 
 public class ExerciseControllerTest {
 

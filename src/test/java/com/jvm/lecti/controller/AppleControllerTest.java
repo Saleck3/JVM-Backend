@@ -5,8 +5,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import io.jsonwebtoken.Claims;
@@ -17,13 +15,11 @@ import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 
-import com.jvm.lecti.dto.response.AppleResponse;
-import com.jvm.lecti.entity.Apple;
-import com.jvm.lecti.entity.User;
-import com.jvm.lecti.exceptions.InvalidUserIdForPlayerException;
-import com.jvm.lecti.service.AppleService;
-import com.jvm.lecti.service.PlayerService;
-import com.jvm.lecti.util.TokenUtil;
+import com.jvm.lecti.domain.entity.Apple;
+import com.jvm.lecti.domain.service.AppleService;
+import com.jvm.lecti.domain.service.PlayerService;
+import com.jvm.lecti.presentation.controller.AppleController;
+import com.jvm.lecti.presentation.TokenUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 

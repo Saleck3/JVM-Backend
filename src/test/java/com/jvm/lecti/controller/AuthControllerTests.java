@@ -1,31 +1,25 @@
 package com.jvm.lecti.controller;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 
-import com.jvm.lecti.dto.request.LoginRequest;
-import com.jvm.lecti.dto.response.LoginResponse;
-import com.jvm.lecti.dto.response.PlayerDataResponse;
-import com.jvm.lecti.entity.Player;
-import com.jvm.lecti.entity.SecurityUser;
-import com.jvm.lecti.entity.User;
+import com.jvm.lecti.presentation.controller.AuthController;
+import com.jvm.lecti.presentation.dto.request.LoginRequest;
+import com.jvm.lecti.presentation.dto.response.PlayerDataResponse;
+import com.jvm.lecti.domain.entity.Player;
+import com.jvm.lecti.domain.entity.SecurityUser;
+import com.jvm.lecti.domain.entity.User;
 import com.jvm.lecti.repository.PlayerRepository;
-import com.jvm.lecti.service.AuthService;
-import com.jvm.lecti.util.TokenUtil;
+import com.jvm.lecti.domain.service.AuthService;
+import com.jvm.lecti.presentation.TokenUtil;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import lombok.AllArgsConstructor;
 
 @SpringBootTest
 public class AuthControllerTests {

@@ -1,7 +1,6 @@
 package com.jvm.lecti.auth;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jvm.lecti.util.TokenUtil;
+import com.jvm.lecti.presentation.TokenUtil;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -10,9 +10,7 @@ name: Compilation and tests
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: '*'
 
 jobs:
   build:

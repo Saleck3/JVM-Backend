@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import com.jvm.lecti.entity.Player;
+import com.jvm.lecti.domain.entity.Player;
 import org.springframework.transaction.annotation.Transactional;
 
 public interface PlayerRepository extends JpaRepository<Player, Long> {

@@ -7,13 +7,13 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.jvm.lecti.entity.Module;
+import com.jvm.lecti.domain.service.ModuleService;
+import com.jvm.lecti.domain.entity.Module;
 import com.jvm.lecti.repository.ModuleRepository;
 
 @SpringBootTest

@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.jvm.lecti.domain.service.AppleService;
+import com.jvm.lecti.domain.service.AppleServiceImpl;
 import com.jvm.lecti.repository.PlayerRepository;
 import com.jvm.lecti.repository.UserRepository;
 
@@ -15,10 +17,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.jvm.lecti.dto.response.AppleResponse;
-import com.jvm.lecti.entity.Apple;
-import com.jvm.lecti.entity.Module;
-import com.jvm.lecti.repository.AppleRepository;
+import com.jvm.lecti.domain.entity.Apple;
+import com.jvm.lecti.domain.entity.Module;
+import com.jvm.lecti.domain.AppleRepository;
 import com.jvm.lecti.repository.ResultRepository;
 
 @SpringBootTest

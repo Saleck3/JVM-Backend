@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.jvm.lecti.entity.Apple;
-import com.jvm.lecti.entity.Exercise;
+import com.jvm.lecti.domain.entity.Apple;
+import com.jvm.lecti.domain.entity.Exercise;
 
 @Repository
 public interface ExerciseRepository extends JpaRepository<Apple, Integer> {
