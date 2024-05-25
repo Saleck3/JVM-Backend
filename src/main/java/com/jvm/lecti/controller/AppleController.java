@@ -70,7 +70,7 @@ public class AppleController {
          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
       }
 
-      Optional<Apple> apple = appleService.getApple(playerId,appleId);
+      Optional<Apple> apple = appleService.getApple(playerId, appleId);
       //Not found
       if (apple.isEmpty()) {
          ErrorResponse errorResponse = new ErrorResponse(HttpStatus.NOT_FOUND, "There is no apple with id " + appleId);
@@ -126,8 +126,21 @@ public class AppleController {
          return null;
       }
       List<AppleDto> appleList = new ArrayList<>();
-      for (Apple entity : apples) {
-         appleList.add(new AppleDto(entity.getId(), entity.getName()));
+      for (Apple item : apples) {
+         int stars;
+         if (item.getScore() != 0) {
+            int percentage = (item.getScore() * 100) / item.getMax_score();
+            if (percentage >= 100) {
+               stars = 3;
+            } else if (percentage >= 75) {
+               stars = 2;
+            } else {
+               stars = 1;
+            }
+         } else {
+            stars = 0;
+         }
+         appleList.add(new AppleDto(item.getId(), item.getName(), stars));
       }
       return appleList;
    }
