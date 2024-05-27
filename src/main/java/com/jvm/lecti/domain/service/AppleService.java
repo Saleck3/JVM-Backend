@@ -12,6 +12,7 @@ import com.jvm.lecti.infraestructure.repository.PlayerRepository;
 import com.jvm.lecti.infraestructure.repository.UserRepository;
 
 import lombok.AllArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,18 +24,22 @@ import com.jvm.lecti.infraestructure.repository.ResultRepository;
 @Service("AppleService")
 @AllArgsConstructor
 public class AppleService {
+
    private AppleDAO appleDAO;
+
    private ResultDAO resultDAO;
+
    private UserDAO userDAO;
+
    private PlayerDAO playerDAO;
 
-//   public AppleService(AppleDAO appleDAO, ResultDAO resultDAO, UserDAO userDAO,
-//         PlayerDAO playerDAO) {
-//      this.resultDAO = resultDAO;
-//      this.appleDAO = appleDAO;
-//      this.userDAO = userDAO;
-//      this.playerDAO = playerDAO;
-//   }
+   //   public AppleService(AppleDAO appleDAO, ResultDAO resultDAO, UserDAO userDAO,
+   //         PlayerDAO playerDAO) {
+   //      this.resultDAO = resultDAO;
+   //      this.appleDAO = appleDAO;
+   //      this.userDAO = userDAO;
+   //      this.playerDAO = playerDAO;
+   //   }
 
    public Optional<Apple> getApple(int playerId, int appleId) {
 
