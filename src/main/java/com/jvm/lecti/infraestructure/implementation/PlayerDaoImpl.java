@@ -12,7 +12,7 @@ import java.util.List;
 public class PlayerDaoImpl implements PlayerDAO {
 
     @Autowired
-    PlayerRepository playerRepository;
+    private PlayerRepository playerRepository;
 
     public PlayerDaoImpl(PlayerRepository playerRepository){
         this.playerRepository = playerRepository;

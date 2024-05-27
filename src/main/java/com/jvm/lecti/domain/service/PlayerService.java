@@ -4,6 +4,7 @@ import com.jvm.lecti.domain.dao.AppleDAO;
 import com.jvm.lecti.domain.dao.PlayerDAO;
 import com.jvm.lecti.domain.dao.ResultDAO;
 import com.jvm.lecti.domain.dao.UserDAO;
+import com.jvm.lecti.exceptions.UserNotFoundException;
 import com.jvm.lecti.presentation.dto.request.PlayerRequest;
 import com.jvm.lecti.domain.entity.Player;
 import com.jvm.lecti.domain.entity.User;
@@ -61,13 +62,16 @@ public class PlayerService {
       return playerDAO.save(player);
    }
 
-   public void checkPermissions(String userEmail, long playerId) throws InvalidUserIdForPlayerException {
+   public void checkPermissions(String userEmail, long playerId) throws InvalidUserIdForPlayerException, UserNotFoundException {
       Optional<User> user = userDAO.findByEmail(userEmail);
-      List<Player> players = playerDAO.findByUserId(user.get().getId());
-      boolean playerExists;
-      playerExists = players.stream().anyMatch(player -> player.getId() == playerId);
-      if (!playerExists) {
-         throw new InvalidUserIdForPlayerException();
+      if (user.isPresent()) {
+         List<Player> players = playerDAO.findByUserId(user.get().getId());
+         boolean playerExists = players.stream().anyMatch(player -> player.getId() == playerId);
+         if (!playerExists) {
+            throw new InvalidUserIdForPlayerException();
+         }
+      } else {
+         throw new UserNotFoundException();
       }
    }
 

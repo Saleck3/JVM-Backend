@@ -6,12 +6,12 @@ import java.util.List;
 
 public interface PlayerDAO {
 
-    List<Player> findByUserId(Long id);
+   List<Player> findByUserId(Long id);
 
-    int updateCrowns(Integer totalCrowns, Integer spentCrowns);
+   int updateCrowns(Integer totalCrowns, Integer spentCrowns);
 
-    Player save(Player player);
+   Player save(Player player);
 
-    Player getReferenceById(long id);
+   Player getReferenceById(long id);
 
 }

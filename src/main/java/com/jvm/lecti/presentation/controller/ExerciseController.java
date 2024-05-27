@@ -34,17 +34,17 @@ public class ExerciseController {
    }
 
    @GetMapping("/getExerciseByAppleId")
-   public ResponseEntity getExcerciseByAppleId(@RequestParam(value = "appleId", required = false) Integer appleId) {
+   public ResponseEntity getExerciseByAppleId(@RequestParam(value = "appleId", required = false) Integer appleId) {
       if (appleId == null) {
-         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required parameter: appleId");
-         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required parameter: appleId"));
       }
-
+      //Falta ver la session
       List<Exercise> exercises = exerciseService.getExercisesByApple(appleId);
       List<ExerciseDto> exercisesDto = mapModuleDto(exercises);
       return ResponseEntity.ok(ExerciseResponse.builder().exercises(exercisesDto).build());
    }
 
+   //Crear mapper
    private List<ExerciseDto> mapModuleDto(List<Exercise> exercises) {
       if (exercises.isEmpty()) {
          return null;

@@ -7,8 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jvm.lecti.domain.entity.User;
-import com.jvm.lecti.exceptions.userNotFoundException;
-import com.jvm.lecti.infraestructure.repository.UserRepository;
+import com.jvm.lecti.exceptions.UserNotFoundException;
 
 @Service
 public class UserService {
@@ -16,10 +15,10 @@ public class UserService {
    @Autowired
    private UserDAO userDAO;
 
-   public User getUserByEmail(String mail) throws userNotFoundException {
+   public User getUserByEmail(String mail) throws UserNotFoundException {
       Optional<User> user = userDAO.findByEmail(mail);
       if (user.isEmpty()) {
-         throw new userNotFoundException();
+         throw new UserNotFoundException();
       }
       return user.get();
    }

@@ -21,7 +21,7 @@ public class ExerciseControllerTest {
    @Test
    public void returns400OnMissingAppleIdParam() {
 
-      ResponseEntity response = exerciseController.getExcerciseByAppleId(null);
+      ResponseEntity response = exerciseController.getExerciseByAppleId(null);
       assertEquals(400, response.getStatusCode().value());
    }
 

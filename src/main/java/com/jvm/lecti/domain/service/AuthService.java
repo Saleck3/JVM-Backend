@@ -11,14 +11,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.jvm.lecti.domain.dao.UserDAO;
+import com.jvm.lecti.domain.entity.Player;
+import com.jvm.lecti.domain.entity.SecurityUser;
+import com.jvm.lecti.domain.entity.User;
 import com.jvm.lecti.presentation.dto.request.LoginRequest;
 import com.jvm.lecti.presentation.dto.request.SignUpRequest;
 import com.jvm.lecti.presentation.dto.response.ErrorResponse;
 import com.jvm.lecti.presentation.dto.response.PlayerDataResponse;
-import com.jvm.lecti.domain.entity.Player;
-import com.jvm.lecti.domain.entity.SecurityUser;
-import com.jvm.lecti.domain.entity.User;
-import com.jvm.lecti.infraestructure.repository.UserRepository;
 
 @Service
 public class AuthService {
@@ -32,17 +32,17 @@ public class AuthService {
    private CustomUserDetailsService customUserDetailsService;
 
    @Autowired
-   private UserRepository userRepository;
+   private UserDAO userDAO;
 
    public SecurityUser authenticate(LoginRequest loginRequest) {
-         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-         return (SecurityUser) customUserDetailsService.loadUserByUsername(loginRequest.getEmail());
+      authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+      return (SecurityUser) customUserDetailsService.loadUserByUsername(loginRequest.getEmail());
    }
 
    public ResponseEntity signUpUser(SignUpRequest signUpRequest) {
-      List<User> userList = userRepository.findAllByEmail(signUpRequest.getEmail());
+      List<User> userList = userDAO.findAllByEmail(signUpRequest.getEmail());
       if (userList.isEmpty()) {
-         userRepository.save(createNewUser(signUpRequest));
+         userDAO.save(createNewUser(signUpRequest));
          return ResponseEntity.status(HttpStatus.OK).build();
       } else {
          ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, "Email already in use");

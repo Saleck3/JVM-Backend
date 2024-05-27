@@ -11,9 +11,11 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "exercise")
@@ -33,46 +35,6 @@ public class Exercise {
 
    private String parameters;
 
-   private String Name;
-
-   public Integer getId() {
-      return id;
-   }
-
-   public void setId(Integer id) {
-      this.id = id;
-   }
-
-   public String getName() {
-      return Name;
-   }
-
-   public void setName(String name) {
-      Name = name;
-   }
-
-   public Apple getApple() {
-      return apple;
-   }
-
-   public void setApple(Apple apple) {
-      this.apple = apple;
-   }
-
-   public ExerciseType getExerciseType() {
-      return exerciseType;
-   }
-
-   public void setExerciseType(ExerciseType exerciseType) {
-      this.exerciseType = exerciseType;
-   }
-
-   public String getParameters() {
-      return parameters;
-   }
-
-   public void setParameters(String parameters) {
-      this.parameters = parameters;
-   }
+   private String name;
 
 }

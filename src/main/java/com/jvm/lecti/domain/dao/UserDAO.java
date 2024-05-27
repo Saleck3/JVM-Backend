@@ -10,4 +10,6 @@ public interface UserDAO {
     List<User> findAllByEmail(String email);
 
     Optional<User> findByEmail(String email);
+
+    void save(User user);
 }

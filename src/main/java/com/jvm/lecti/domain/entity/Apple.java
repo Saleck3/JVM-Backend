@@ -12,9 +12,11 @@ import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "apple")
@@ -35,45 +37,9 @@ public class Apple {
 
    private int max_score;
 
-   public Apple(int id, String name){
+   public Apple(int id, String name) {
       this.id = id;
       this.name = name;
-   }
-
-   public Module getModulo() {
-      return modulo;
-   }
-
-   public void setModulo(Module modulo) {
-      this.modulo = modulo;
-   }
-
-   public Apple(int id){
-      this.id = id;
-   }
-
-   public Integer getId() {
-      return id;
-   }
-
-   public void setId(Integer id) {
-      this.id = id;
-   }
-
-   public String getName() {
-      return name;
-   }
-
-   public void setName(String name) {
-      this.name = name;
-   }
-
-   public int getScore() {
-      return score;
-   }
-
-   public void setScore(int score) {
-      this.score = score;
    }
 
 }

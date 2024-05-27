@@ -6,5 +6,6 @@ import java.util.Optional;
 
 public interface ResultDAO {
 
-    Optional<Result> findAllByAppleAndPlayerId(int appleId, int playerId);
+   Optional<Result> findAllByAppleAndPlayerId(int appleId, int playerId);
+
 }

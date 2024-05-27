@@ -29,18 +29,6 @@ public class AppleService {
 
    private ResultDAO resultDAO;
 
-   private UserDAO userDAO;
-
-   private PlayerDAO playerDAO;
-
-   //   public AppleService(AppleDAO appleDAO, ResultDAO resultDAO, UserDAO userDAO,
-   //         PlayerDAO playerDAO) {
-   //      this.resultDAO = resultDAO;
-   //      this.appleDAO = appleDAO;
-   //      this.userDAO = userDAO;
-   //      this.playerDAO = playerDAO;
-   //   }
-
    public Optional<Apple> getApple(int playerId, int appleId) {
 
       Optional<Apple> apple = appleDAO.findById(appleId);

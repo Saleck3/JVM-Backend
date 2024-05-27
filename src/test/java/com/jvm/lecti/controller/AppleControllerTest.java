@@ -19,6 +19,7 @@ import com.jvm.lecti.domain.entity.Apple;
 import com.jvm.lecti.domain.service.AppleService;
 import com.jvm.lecti.domain.service.PlayerService;
 import com.jvm.lecti.presentation.controller.AppleController;
+import com.jvm.lecti.presentation.util.ErrorResponseUtil;
 import com.jvm.lecti.presentation.util.TokenUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,25 +27,20 @@ import jakarta.servlet.http.HttpServletRequest;
 @SpringBootTest
 public class AppleControllerTest {
 
-   private final String TOKEN_HEADER = "Authorization";
-
    private AppleController appleController;
 
    private AppleService appleService;
 
    private HttpServletRequest request;
 
-   private TokenUtil tokenUtil;
-
-   private PlayerService playerService;
+   private ErrorResponseUtil errorResponseUtil;
 
    @Before
    public void init() {
       appleService = mock(AppleService.class);
-      tokenUtil = mock(TokenUtil.class);
+      errorResponseUtil = mock(ErrorResponseUtil.class);
       request = mock(HttpServletRequest.class);
-      playerService = mock(PlayerService.class);
-      appleController = new AppleController(appleService, tokenUtil, playerService);
+      appleController = new AppleController(appleService, errorResponseUtil);
    }
 
    @Test
@@ -52,7 +48,6 @@ public class AppleControllerTest {
       Integer playerId = 1;
       Integer appleId = 0;
       givenApple(playerId, appleId);
-      givenMockedClaims();
       ResponseEntity appleRsp = whenAskingForApple(playerId, appleId);
       assertEquals(404, appleRsp.getStatusCode().value());
    }
@@ -62,7 +57,6 @@ public class AppleControllerTest {
       Integer playerId = 1;
       Integer appleId = 1;
       givenApple(playerId, appleId);
-      givenMockedClaims();
       ResponseEntity appleRsp = whenAskingForApple(playerId, appleId);
       assertEquals(200, appleRsp.getStatusCode().value());
    }
@@ -78,16 +72,6 @@ public class AppleControllerTest {
          Optional<Apple> apple = Optional.of(new Apple());
          apple.get().setId(appleId);
          when(appleService.getApple(appleId, playerId)).thenReturn(apple);
-      }
-   }
-
-   private void givenMockedClaims() {
-      Claims claims = new DefaultClaims();
-      claims.setSubject("test@test.com");
-      try {
-         when(tokenUtil.resolveClaims(request)).thenReturn(claims);
-      } catch (Exception e) {
-         throw new RuntimeException(e);
       }
    }
 

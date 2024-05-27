@@ -21,6 +21,7 @@ import com.jvm.lecti.domain.entity.Apple;
 import com.jvm.lecti.domain.entity.Module;
 import com.jvm.lecti.exceptions.InvalidUserIdForPlayerException;
 import com.jvm.lecti.domain.service.ModuleService;
+import com.jvm.lecti.presentation.util.ErrorResponseUtil;
 import com.jvm.lecti.presentation.util.TokenUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,28 +37,16 @@ public class ModuleController {
    private AppleService appleService;
 
    @Autowired
-   private PlayerService playerService;
-
-   @Autowired
-   private TokenUtil tokenUtil;
+   private ErrorResponseUtil errorResponseUtil;
 
    @GetMapping("/")
    public ResponseEntity getAllModules(HttpServletRequest request, @RequestParam(value = "playerId") Integer playerId) {
-
-      Claims claims = null;
-      try {
-         claims = tokenUtil.resolveClaims(request);
-      } catch (Exception e) {
-         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
-         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
-      }
-      try {
-         playerService.checkPermissions(claims.get("sub").toString(), playerId);
-      } catch (InvalidUserIdForPlayerException e) {
-         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
-         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
+      ResponseEntity<ErrorResponse> errorResponse = errorResponseUtil.getErrorResponse(request, playerId);
+      if (errorResponse != null) {
+         return errorResponse;
       }
 
+      //Modificar
       List<ModuleDto> moduleList = new ArrayList<>();
       List<Module> modules = moduleService.getAll();
       List<Apple> ApplesInModule;
@@ -83,27 +72,15 @@ public class ModuleController {
    @GetMapping("/{idModule}")
    public ResponseEntity getModulesByModuleId(HttpServletRequest request, @RequestParam(value = "playerId", required = false) Integer playerId,
          @PathVariable Integer idModule) {
-
       if (playerId == null) {
-         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required parameter: playerId");
-         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required parameter: playerId"));
+      }
+      ResponseEntity<ErrorResponse> errorResponse = errorResponseUtil.getErrorResponse(request, playerId);
+      if (errorResponse != null) {
+         return errorResponse;
       }
 
-      Claims claims = null;
-      try {
-         claims = tokenUtil.resolveClaims(request);
-      } catch (Exception e) {
-         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
-         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
-      }
-      String email = claims.get("sub").toString();
-      try {
-         playerService.checkPermissions(email, playerId);
-      } catch (InvalidUserIdForPlayerException e) {
-         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
-         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
-      }
-
+      //Modificar
       Optional<Module> module = moduleService.getModuleById(idModule);
       if (module.orElse(null) == null) {
          return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(HttpStatus.NOT_FOUND, "Module not found"));

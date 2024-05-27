@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jvm.lecti.domain.service.PlayerService;
 import com.jvm.lecti.presentation.dto.request.LoginRequest;
 import com.jvm.lecti.presentation.dto.request.SignUpRequest;
 import com.jvm.lecti.presentation.dto.response.ErrorResponse;
@@ -19,7 +20,6 @@ import com.jvm.lecti.presentation.dto.response.PlayerDataResponse;
 import com.jvm.lecti.domain.entity.Player;
 import com.jvm.lecti.domain.entity.SecurityUser;
 import com.jvm.lecti.domain.entity.User;
-import com.jvm.lecti.infraestructure.repository.PlayerRepository;
 import com.jvm.lecti.domain.service.AuthService;
 import com.jvm.lecti.presentation.util.TokenUtil;
 
@@ -34,10 +34,10 @@ public class AuthController {
    private AuthService authService;
 
    @Autowired
-   private TokenUtil tokenUtil;
+   private PlayerService playerService;
 
    @Autowired
-   private PlayerRepository playerRepository;
+   private TokenUtil tokenUtil;
 
    @PostMapping(value = "/login")
    public ResponseEntity login(@RequestBody LoginRequest loginRequest) {
@@ -53,9 +53,9 @@ public class AuthController {
          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
       }
       User user = userDetails.getUser();
-      List<Player> playerList = playerRepository.findByUserId(user.getId());
+      List<Player> playerList = playerService.getPlayersByUserId(user.getId());
+      //Crear mapper
       List<PlayerDataResponse> playersDataResponse = authService.mapPlayerEntity(playerList);
-
       String token = tokenUtil.createToken(user);
       return ResponseEntity.ok(LoginResponse.builder().players(playersDataResponse).token(token).build());
    }

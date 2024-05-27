@@ -3,21 +3,16 @@ package com.jvm.lecti.presentation.dto.response;
 import java.util.List;
 
 import lombok.Builder;
+import lombok.Data;
 
 @Builder
+@Data
 public class PlayerResponse {
 
-   List<PlayerDto> players;
+   private List<PlayerDto> players;
 
-   public PlayerResponse(List<PlayerDto> players){
+   public PlayerResponse(List<PlayerDto> players) {
       this.players = players;
    }
 
-   public List<PlayerDto> getPlayers() {
-      return players;
-   }
-
-   public void setPlayers(List<PlayerDto> players) {
-      this.players = players;
-   }
 }

@@ -2,6 +2,7 @@ package com.jvm.lecti.presentation.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.jvm.lecti.domain.service.PlayerService;
 import com.jvm.lecti.domain.service.UserService;
@@ -11,7 +12,7 @@ import com.jvm.lecti.presentation.dto.response.PlayerDto;
 import com.jvm.lecti.presentation.dto.response.PlayerResponse;
 import com.jvm.lecti.domain.entity.Player;
 import com.jvm.lecti.domain.entity.User;
-import com.jvm.lecti.exceptions.userNotFoundException;
+import com.jvm.lecti.exceptions.UserNotFoundException;
 import com.jvm.lecti.presentation.util.TokenUtil;
 
 import io.jsonwebtoken.Claims;
@@ -46,41 +47,27 @@ public class PlayerController {
 
    @GetMapping("/getPlayers")
    public ResponseEntity getPlayers(HttpServletRequest request) {
-
-      Claims claims = null;
+      User user;
       try {
-         claims = tokenUtil.resolveClaims(request);
+         Claims claims = tokenUtil.resolveClaims(request);
+         String email = claims.getSubject();
+         user = userService.getUserByEmail(email);
       } catch (Exception e) {
          ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
       }
-      String email = claims.get("sub").toString();
-      User user;
-      try {
-         user = userService.getUserByEmail(email);
-      } catch (userNotFoundException e) {
-         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
-         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
-      }
-
       List<Player> players = playerService.getUserPlayers(user.getId());
       return ResponseEntity.ok(PlayerResponse.builder().players(mapModuleDto(players)).build());
    }
 
    @PostMapping(value = "/addPlayer")
    public ResponseEntity addPlayer(HttpServletRequest request, @RequestBody PlayerRequest playerRequest) {
-      Claims claims = null;
-      try {
-         claims = tokenUtil.resolveClaims(request);
-      } catch (Exception e) {
-         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
-         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
-      }
-      String email = claims.get("sub").toString();
       User user;
       try {
+         Claims claims = tokenUtil.resolveClaims(request);
+         String email = claims.getSubject();
          user = userService.getUserByEmail(email);
-      } catch (userNotFoundException e) {
+      } catch (Exception e) {
          ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
       }

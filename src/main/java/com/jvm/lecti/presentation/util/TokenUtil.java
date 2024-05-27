@@ -68,7 +68,7 @@ public class TokenUtil {
          return null;
       } catch (ExpiredJwtException ex) {
          req.setAttribute("expired", ex.getMessage());
-         throw new Exception("Token expired");
+         throw ex;
       } catch (Exception ex) {
          req.setAttribute("invalid", ex.getMessage());
          throw ex;
