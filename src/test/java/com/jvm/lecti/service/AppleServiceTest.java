@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.jvm.lecti.domain.dao.AppleDAO;
+import com.jvm.lecti.domain.dao.PlayerDAO;
+import com.jvm.lecti.domain.dao.ResultDAO;
+import com.jvm.lecti.domain.dao.UserDAO;
 import com.jvm.lecti.domain.service.AppleService;
 import com.jvm.lecti.infraestructure.repository.PlayerRepository;
 import com.jvm.lecti.infraestructure.repository.UserRepository;
@@ -26,21 +30,21 @@ public class AppleServiceTest {
 
    private AppleService appleService;
 
-   private AppleRepository appleRepository;
+   private AppleDAO appleDAO;
 
-   private ResultRepository resultRepository;
+   private ResultDAO resultDAO;
 
-   private UserRepository userRepository;
+   private UserDAO userDAO;
 
-   private PlayerRepository playerRepository;
+   private PlayerDAO playerDAO;
 
    @Before
    public void init() {
-      appleRepository = mock(AppleRepository.class);
-      resultRepository = mock(ResultRepository.class);
-      userRepository = mock(UserRepository.class);
-      playerRepository = mock(PlayerRepository.class);
-      appleService = new AppleService(appleRepository, resultRepository, userRepository, playerRepository);
+      appleDAO = mock(AppleDAO.class);
+      resultDAO = mock(ResultDAO.class);
+      userDAO = mock(UserDAO.class);
+      playerDAO = mock(PlayerDAO.class);
+      appleService = new AppleService(appleDAO, resultDAO, userDAO, playerDAO);
    }
 
    @Test
@@ -93,7 +97,7 @@ public class AppleServiceTest {
       List<Apple> applesOfModule = new ArrayList<Apple>();
       applesOfModule.add(getApple(1, "A", m));
       applesOfModule.add(getApple(2, "E", m));
-      when(appleRepository.findAllByModuleId(moduleId)).thenReturn(applesOfModule);
+      when(appleDAO.findAllByModuleId(moduleId)).thenReturn(applesOfModule);
    }
 
    private void givenNonExistingModuleWithApples(int moduleId, String mDescription) {
@@ -101,12 +105,12 @@ public class AppleServiceTest {
       List<Apple> applesOfModule = new ArrayList<Apple>();
       applesOfModule.add(getApple(1, "A", m));
       applesOfModule.add(getApple(2, "E", m));
-      when(appleRepository.findAllByModuleId(moduleId)).thenReturn(applesOfModule);
+      when(appleDAO.findAllByModuleId(moduleId)).thenReturn(applesOfModule);
    }
 
    private void givenExistingApple(int id, String description) {
       Apple apple = new Apple(id, description);
-      when(appleRepository.findById(id)).thenReturn(Optional.of(apple));
+      when(appleDAO.findById(id)).thenReturn(Optional.of(apple));
    }
 
    private Apple getApple(int id, String desc, Module mod) {

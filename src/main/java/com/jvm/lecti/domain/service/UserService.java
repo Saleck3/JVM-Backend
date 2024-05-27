@@ -2,6 +2,7 @@ package com.jvm.lecti.domain.service;
 
 import java.util.Optional;
 
+import com.jvm.lecti.domain.dao.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +14,10 @@ import com.jvm.lecti.infraestructure.repository.UserRepository;
 public class UserService {
 
    @Autowired
-   private UserRepository userRepository;
+   private UserDAO userDAO;
 
    public User getUserByEmail(String mail) throws userNotFoundException {
-      Optional<User> user = userRepository.findByEmail(mail);
+      Optional<User> user = userDAO.findByEmail(mail);
       if (user.isEmpty()) {
          throw new userNotFoundException();
       }

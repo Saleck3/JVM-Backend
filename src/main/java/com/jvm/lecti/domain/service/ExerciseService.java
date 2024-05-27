@@ -2,6 +2,7 @@ package com.jvm.lecti.domain.service;
 
 import java.util.List;
 
+import com.jvm.lecti.domain.dao.ExerciseDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,14 +13,14 @@ import com.jvm.lecti.infraestructure.repository.ExerciseRepository;
 public class ExerciseService {
 
    @Autowired
-   private ExerciseRepository exerciseRepository;
+   private ExerciseDAO exerciseDAO;
 
-   public ExerciseService(ExerciseRepository exerciseRepository) {
-      this.exerciseRepository = exerciseRepository;
+   public ExerciseService(ExerciseDAO exerciseDAO) {
+      this.exerciseDAO = exerciseDAO;
    }
 
    public List<Exercise> getExercisesByApple(Integer appleId) {
-      return exerciseRepository.findAllByAppleId(appleId);
+      return exerciseDAO.findAllByAppleId(appleId);
    }
 
 }

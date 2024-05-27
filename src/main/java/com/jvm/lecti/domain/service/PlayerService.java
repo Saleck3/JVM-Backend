@@ -1,5 +1,9 @@
 package com.jvm.lecti.domain.service;
 
+import com.jvm.lecti.domain.dao.AppleDAO;
+import com.jvm.lecti.domain.dao.PlayerDAO;
+import com.jvm.lecti.domain.dao.ResultDAO;
+import com.jvm.lecti.domain.dao.UserDAO;
 import com.jvm.lecti.presentation.dto.request.PlayerRequest;
 import com.jvm.lecti.domain.entity.Player;
 import com.jvm.lecti.domain.entity.User;
@@ -19,33 +23,33 @@ import java.util.Optional;
 public class PlayerService {
 
    @Autowired
-   private AppleRepository appleRepository;
+   private AppleDAO appleDAO;
 
    @Autowired
-   private PlayerRepository playerRepository;
+   private PlayerDAO playerDAO;
 
    @Autowired
-   private UserRepository userRepository;
+   private UserDAO userDAO;
 
    @Autowired
-   private ResultRepository resultRepository;
+   private ResultDAO resultDAO;
 
-   public PlayerService(PlayerRepository playerRepository, ResultRepository resultRepository, UserRepository userRepository) {
-      this.resultRepository = resultRepository;
-      this.playerRepository = playerRepository;
-      this.userRepository = userRepository;
+   public PlayerService(PlayerDAO playerDAO, ResultDAO resultDAO, UserDAO userDAO) {
+      this.resultDAO = resultDAO;
+      this.playerDAO = playerDAO;
+      this.userDAO = userDAO;
    }
 
    public List<Player> getPlayersByUserId(long userId) {
-      return playerRepository.findByUserId(userId);
+      return playerDAO.findByUserId(userId);
    }
 
    public Player getPlayer(long playerId) {
-      return playerRepository.getReferenceById(playerId);
+      return playerDAO.getReferenceById(playerId);
    }
 
    public List<Player> getUserPlayers(long userId) {
-      return playerRepository.findByUserId(userId);
+      return playerDAO.findByUserId(userId);
    }
 
    public boolean updatePlayerCrowns(int playerId, int totalCrowns, int spentCrowns) {
@@ -54,12 +58,12 @@ public class PlayerService {
 
    public Player addPlayer(PlayerRequest playerReq, User user) {
       Player player = new Player(playerReq.getFirstName(), playerReq.getBirthDate(), user, 0, 0, playerReq.getAlias());
-      return playerRepository.save(player);
+      return playerDAO.save(player);
    }
 
    public void checkPermissions(String userEmail, long playerId) throws InvalidUserIdForPlayerException {
-      Optional<User> user = userRepository.findByEmail(userEmail);
-      List<Player> players = playerRepository.findByUserId(user.get().getId());
+      Optional<User> user = userDAO.findByEmail(userEmail);
+      List<Player> players = playerDAO.findByUserId(user.get().getId());
       boolean playerExists;
       playerExists = players.stream().anyMatch(player -> player.getId() == playerId);
       if (!playerExists) {
