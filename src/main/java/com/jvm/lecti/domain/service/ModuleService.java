@@ -17,14 +17,6 @@ public class ModuleService {
 
    private ModuleDAO moduleDAO;
 
-   public Optional<Module> getModuleById(Integer moduleId) {
-      return moduleDAO.findById(moduleId);
-   }
-
-   public ModuleDto mapModuleDto(Module entity, int progress) {
-      return new ModuleDto(entity.getId(), entity.getDescription(), progress);
-   }
-
    public List<Module> findAllModules() {
       return moduleDAO.findAll();
    }
