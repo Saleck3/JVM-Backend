@@ -1,12 +1,9 @@
 package com.jvm.lecti.domain.service;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
 import com.jvm.lecti.domain.dao.ModuleDAO;
-import com.jvm.lecti.presentation.dto.response.ModuleDto;
 import com.jvm.lecti.domain.entity.Module;
 
 import lombok.AllArgsConstructor;

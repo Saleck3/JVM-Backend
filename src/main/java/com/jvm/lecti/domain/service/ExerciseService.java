@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jvm.lecti.domain.entity.Exercise;
-import com.jvm.lecti.infraestructure.repository.ExerciseRepository;
 
 @Service("ExerciseService")
 public class ExerciseService {

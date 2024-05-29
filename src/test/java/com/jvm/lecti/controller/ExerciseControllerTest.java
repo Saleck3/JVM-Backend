@@ -1,11 +1,7 @@
 package com.jvm.lecti.controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.http.ResponseEntity;
 
 import com.jvm.lecti.presentation.controller.ExerciseController;
 
@@ -20,9 +16,9 @@ public class ExerciseControllerTest {
 
    @Test
    public void returns400OnMissingAppleIdParam() {
-//
-//      ResponseEntity response = exerciseController.getExerciseByAppleId(null);
-//      assertEquals(400, response.getStatusCode().value());
+      //
+      //      ResponseEntity response = exerciseController.getExerciseByAppleId(null);
+      //      assertEquals(400, response.getStatusCode().value());
    }
 
 }

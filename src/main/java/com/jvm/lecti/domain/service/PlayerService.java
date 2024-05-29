@@ -5,7 +5,6 @@ import com.jvm.lecti.domain.dao.PlayerDAO;
 import com.jvm.lecti.domain.dao.ResultDAO;
 import com.jvm.lecti.domain.dao.UserDAO;
 import com.jvm.lecti.domain.exceptions.UserNotFoundException;
-import com.jvm.lecti.presentation.dto.request.PlayerRequest;
 import com.jvm.lecti.domain.entity.Player;
 import com.jvm.lecti.domain.entity.User;
 import com.jvm.lecti.domain.exceptions.InvalidUserIdForPlayerException;
