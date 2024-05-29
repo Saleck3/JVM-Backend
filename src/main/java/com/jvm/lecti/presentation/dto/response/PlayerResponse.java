@@ -11,8 +11,4 @@ public class PlayerResponse {
 
    private List<PlayerDto> players;
 
-   public PlayerResponse(List<PlayerDto> players) {
-      this.players = players;
-   }
-
 }

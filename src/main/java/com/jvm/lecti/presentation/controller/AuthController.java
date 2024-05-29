@@ -16,13 +16,15 @@ import com.jvm.lecti.presentation.dto.request.LoginRequest;
 import com.jvm.lecti.presentation.dto.request.SignUpRequest;
 import com.jvm.lecti.presentation.dto.response.ErrorResponse;
 import com.jvm.lecti.presentation.dto.response.LoginResponse;
-import com.jvm.lecti.presentation.dto.response.PlayerDataResponse;
+import com.jvm.lecti.presentation.dto.response.PlayerSessionResponse;
 import com.jvm.lecti.domain.entity.Player;
 import com.jvm.lecti.domain.entity.SecurityUser;
 import com.jvm.lecti.domain.entity.User;
 import com.jvm.lecti.domain.service.AuthService;
+import com.jvm.lecti.presentation.mappers.PlayerMapper;
 import com.jvm.lecti.presentation.util.TokenUtil;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -40,11 +42,10 @@ public class AuthController {
    private TokenUtil tokenUtil;
 
    @PostMapping(value = "/login")
-   public ResponseEntity login(@RequestBody LoginRequest loginRequest) {
-
+   public ResponseEntity login(@Valid @RequestBody LoginRequest loginRequest) {
       SecurityUser userDetails;
       try {
-         userDetails = authService.authenticate(loginRequest);
+         userDetails = authService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
       } catch (BadCredentialsException e) {
          ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, "Invalid username or password");
          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
@@ -54,15 +55,14 @@ public class AuthController {
       }
       User user = userDetails.getUser();
       List<Player> playerList = playerService.getPlayersByUserId(user.getId());
-      //Crear mapper
-      List<PlayerDataResponse> playersDataResponse = authService.mapPlayerEntity(playerList);
+      List<PlayerSessionResponse> playersDataResponse = PlayerMapper.INSTANCE.playerListToPlayerDataResponseListDto(playerList);
       String token = tokenUtil.createToken(user);
       return ResponseEntity.ok(LoginResponse.builder().players(playersDataResponse).token(token).build());
    }
 
    @PostMapping(value = "/signup")
-   public ResponseEntity signUp(@RequestBody SignUpRequest signUpRequest) {
-      return authService.signUpUser(signUpRequest);
+   public ResponseEntity signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
+      return authService.signUpUser(signUpRequest.getEmail(), signUpRequest.getPassword(), signUpRequest.getFirstName(), signUpRequest.getLastName());
    }
 
    //TODO ChangePassword

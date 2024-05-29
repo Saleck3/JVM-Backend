@@ -1,4 +1,4 @@
-package com.jvm.lecti.exceptions;
+package com.jvm.lecti.domain.exceptions;
 
 public class InvalidUserIdForPlayerException extends Exception {
 

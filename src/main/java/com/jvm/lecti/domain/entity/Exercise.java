@@ -3,7 +3,12 @@ package com.jvm.lecti.domain.entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
+import com.jvm.lecti.domain.enums.EExerciseType;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -29,12 +34,11 @@ public class Exercise {
    @JoinColumn(name = "apple_id")
    private Apple apple;
 
-   @ManyToOne
-   @JoinColumn(name = "exercise_type_id")
-   private ExerciseType exerciseType;
+   @Column(name = "exercise_type")
+   @Enumerated(EnumType.STRING)
+   private EExerciseType exerciseType;
 
+   @Column(name = "parameters")
    private String parameters;
-
-   private String name;
 
 }

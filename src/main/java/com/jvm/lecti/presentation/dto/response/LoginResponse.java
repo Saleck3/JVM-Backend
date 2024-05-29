@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class LoginResponse {
 
-   private List<PlayerDataResponse> players;
+   private List<PlayerSessionResponse> players;
 
    private String token;
 

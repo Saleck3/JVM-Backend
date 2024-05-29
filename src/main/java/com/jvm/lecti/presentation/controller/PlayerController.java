@@ -1,18 +1,15 @@
 package com.jvm.lecti.presentation.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import com.jvm.lecti.domain.service.PlayerService;
 import com.jvm.lecti.domain.service.UserService;
 import com.jvm.lecti.presentation.dto.request.PlayerRequest;
 import com.jvm.lecti.presentation.dto.response.ErrorResponse;
-import com.jvm.lecti.presentation.dto.response.PlayerDto;
 import com.jvm.lecti.presentation.dto.response.PlayerResponse;
 import com.jvm.lecti.domain.entity.Player;
 import com.jvm.lecti.domain.entity.User;
-import com.jvm.lecti.exceptions.UserNotFoundException;
+import com.jvm.lecti.presentation.mappers.PlayerMapper;
 import com.jvm.lecti.presentation.util.TokenUtil;
 
 import io.jsonwebtoken.Claims;
@@ -27,9 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/player")
-
 @NoArgsConstructor
-
 public class PlayerController {
 
    @Autowired
@@ -57,7 +52,10 @@ public class PlayerController {
          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
       }
       List<Player> players = playerService.getUserPlayers(user.getId());
-      return ResponseEntity.ok(PlayerResponse.builder().players(mapModuleDto(players)).build());
+      if (players.isEmpty()) {
+         ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No players assigned to the user");
+      }
+      return ResponseEntity.ok(PlayerResponse.builder().players(PlayerMapper.INSTANCE.playerListToPlayerListDto(players)).build());
    }
 
    @PostMapping(value = "/addPlayer")
@@ -71,22 +69,8 @@ public class PlayerController {
          ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
       }
-      Player player = playerService.addPlayer(playerRequest, user);
-      List<Player> players = new ArrayList<>();
-      players.add(player);
-      return ResponseEntity.ok(PlayerResponse.builder().players(mapModuleDto(players)).build());
-   }
-
-   private List<PlayerDto> mapModuleDto(List<Player> players) {
-      if (players.isEmpty()) {
-         return null;
-      }
-      List<PlayerDto> playerList = new ArrayList<>();
-      for (Player entity : players) {
-         playerList.add(new PlayerDto(entity.getId(), entity.getPlayerName(), entity.getBirthDate(), entity.getTotalCrowns(), entity.getSpentCrowns(),
-               entity.getAlias()));
-      }
-      return playerList;
+      playerService.addPlayer(playerRequest.getPlayerName(), playerRequest.getBirthDate(), playerRequest.getAlias(), user);
+      return ResponseEntity.ok("Player added successfully");
    }
 
 }

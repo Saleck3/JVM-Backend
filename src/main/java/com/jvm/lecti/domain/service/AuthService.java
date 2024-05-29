@@ -15,10 +15,8 @@ import com.jvm.lecti.domain.dao.UserDAO;
 import com.jvm.lecti.domain.entity.Player;
 import com.jvm.lecti.domain.entity.SecurityUser;
 import com.jvm.lecti.domain.entity.User;
-import com.jvm.lecti.presentation.dto.request.LoginRequest;
-import com.jvm.lecti.presentation.dto.request.SignUpRequest;
 import com.jvm.lecti.presentation.dto.response.ErrorResponse;
-import com.jvm.lecti.presentation.dto.response.PlayerDataResponse;
+import com.jvm.lecti.presentation.dto.response.PlayerSessionResponse;
 
 @Service
 public class AuthService {
@@ -34,15 +32,15 @@ public class AuthService {
    @Autowired
    private UserDAO userDAO;
 
-   public SecurityUser authenticate(LoginRequest loginRequest) {
-      authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-      return (SecurityUser) customUserDetailsService.loadUserByUsername(loginRequest.getEmail());
+   public SecurityUser authenticate(String email, String password) {
+      authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+      return (SecurityUser) customUserDetailsService.loadUserByUsername(email);
    }
 
-   public ResponseEntity signUpUser(SignUpRequest signUpRequest) {
-      List<User> userList = userDAO.findAllByEmail(signUpRequest.getEmail());
+   public ResponseEntity signUpUser(String email, String password, String firstName, String lastName) {
+      List<User> userList = userDAO.findAllByEmail(email);
       if (userList.isEmpty()) {
-         userDAO.save(createNewUser(signUpRequest));
+         userDAO.save(createNewUser(email, password, firstName, lastName));
          return ResponseEntity.status(HttpStatus.OK).build();
       } else {
          ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, "Email already in use");
@@ -50,29 +48,31 @@ public class AuthService {
       }
    }
 
-   private User createNewUser(SignUpRequest signUpRequest) {
+   private User createNewUser(String email, String password, String firstName, String lastName) {
       User user = new User();
-      user.setEmail(signUpRequest.getEmail());
-      user.setPassword(new MessageDigestPasswordEncoder(SHA_256).encode(signUpRequest.getPassword()));
-      user.setFirstName(signUpRequest.getFirstName());
-      user.setLastName(signUpRequest.getLastName());
+      user.setEmail(email);
+      user.setPassword(new MessageDigestPasswordEncoder(SHA_256).encode(password));
+      user.setFirstName(firstName);
+      user.setLastName(lastName);
       return user;
    }
 
-   public List<PlayerDataResponse> mapPlayerEntity(List<Player> playerList) {
-      List<PlayerDataResponse> playersDataResponse = new ArrayList<>();
+   public List<PlayerSessionResponse> mapPlayerEntity(List<Player> playerList) {
+      List<PlayerSessionResponse> playersDataResponse = new ArrayList<>();
       if (!playerList.isEmpty()) {
          for (Player player : playerList) {
-            playersDataResponse.add(PlayerDataResponse
-                  .builder()
-                  .id(player.getId())
-                  .playerName(player.getPlayerName())
-                  .birthDate(player.getBirthDate())
-                  .recomendedModule(player.getRecommendedModule())
-                  .spentCrowns(player.getSpentCrowns())
-                  .totalCrowns(player.getTotalCrowns())
-                  .alias(player.getAlias())
-                  .build());
+            playersDataResponse.add(
+                  PlayerSessionResponse
+                        .builder()
+                        .id(player.getId())
+                        .playerName(player.getPlayerName())
+                        .birthDate(player.getBirthDate())
+                        //Avisar al front
+                        .recommendedModule(player.getRecommendedModule())
+                        .spentCrowns(player.getSpentCrowns())
+                        .totalCrowns(player.getTotalCrowns())
+                        .alias(player.getAlias())
+                        .build());
          }
          return playersDataResponse;
       }

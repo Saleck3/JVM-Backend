@@ -3,6 +3,7 @@ package com.jvm.lecti.domain.entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -28,14 +29,9 @@ public class Apple {
 
    @ManyToOne
    @JoinColumn(name = "module_id")
-   private Module modulo;
+   private Module module;
 
    private String name;
-
-   @Transient
-   private int score;
-
-   private int max_score;
 
    public Apple(int id, String name) {
       this.id = id;

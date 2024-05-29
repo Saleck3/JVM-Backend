@@ -1,6 +1,5 @@
 package com.jvm.lecti.presentation.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,44 +15,35 @@ import com.jvm.lecti.presentation.dto.response.ErrorResponse;
 import com.jvm.lecti.presentation.dto.response.ExerciseDto;
 import com.jvm.lecti.presentation.dto.response.ExerciseResponse;
 import com.jvm.lecti.domain.entity.Exercise;
+import com.jvm.lecti.presentation.mappers.ExerciseMapper;
+import com.jvm.lecti.presentation.util.ErrorResponseUtil;
 
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @RestController
 @RequestMapping("/api/exercise")
-
 @NoArgsConstructor
-
+@AllArgsConstructor
 public class ExerciseController {
 
    @Autowired
    private ExerciseService exerciseService;
 
-   public ExerciseController(ExerciseService exerciseService) {
-      this.exerciseService = exerciseService;
-   }
+   @Autowired
+   private ErrorResponseUtil errorResponseUtil;
 
    @GetMapping("/getExerciseByAppleId")
-   public ResponseEntity getExerciseByAppleId(@RequestParam(value = "appleId", required = false) Integer appleId) {
+   public ResponseEntity getExerciseByAppleId(HttpServletRequest httpServletRequest, @RequestParam(value = "appleId") Integer appleId,
+         @RequestParam(value = "playerId") Integer playerId) {
       if (appleId == null) {
          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required parameter: appleId"));
       }
-      //Falta ver la session
-      List<Exercise> exercises = exerciseService.getExercisesByApple(appleId);
-      List<ExerciseDto> exercisesDto = mapModuleDto(exercises);
+      errorResponseUtil.checkPermissionForUser(httpServletRequest, appleId);
+      List<Exercise> exercises = exerciseService.getExercisesByApple(playerId);
+      List<ExerciseDto> exercisesDto = ExerciseMapper.INSTANCE.exerciseListToExerciseListDto(exercises);
       return ResponseEntity.ok(ExerciseResponse.builder().exercises(exercisesDto).build());
-   }
-
-   //Crear mapper
-   private List<ExerciseDto> mapModuleDto(List<Exercise> exercises) {
-      if (exercises.isEmpty()) {
-         return null;
-      }
-      List<ExerciseDto> exerciseDtoList = new ArrayList<>();
-      for (Exercise entity : exercises) {
-         exerciseDtoList.add(new ExerciseDto(entity.getId(), entity.getName(), entity.getExerciseType(), entity.getParameters()));
-      }
-      return exerciseDtoList;
    }
 
 }

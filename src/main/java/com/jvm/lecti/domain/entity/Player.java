@@ -34,10 +34,10 @@ public class Player {
    @Column(name = "birth_date", nullable = false)
    private LocalDateTime birthDate;
 
-   @Column(name = "total_crowns", nullable = false, columnDefinition = "INTEGER DEFAULT 0")
+   @Column(name = "total_crowns", nullable = false)
    private Integer totalCrowns;
 
-   @Column(name = "spent_crowns", nullable = false, columnDefinition = "INTEGER DEFAULT 0")
+   @Column(name = "spent_crowns", nullable = false)
    private Integer spentCrowns;
 
    @Column(name = "recommended_module")
@@ -50,12 +50,12 @@ public class Player {
    @JoinColumn(name = "user_id")
    private User user;
 
-   public Player(String name, LocalDateTime birthDate, User user, int totalCrowns, int spentCrowns, String alias) {
-      this.playerName = name;
+   public Player(String playerName, LocalDateTime birthDate, User user, String alias) {
+      this.playerName = playerName;
       this.birthDate = birthDate;
+      this.totalCrowns = 0;
+      this.spentCrowns = 0;
       this.user = user;
-      this.totalCrowns = totalCrowns;
-      this.spentCrowns = spentCrowns;
       this.alias = alias;
    }
 

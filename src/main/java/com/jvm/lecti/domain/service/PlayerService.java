@@ -4,19 +4,16 @@ import com.jvm.lecti.domain.dao.AppleDAO;
 import com.jvm.lecti.domain.dao.PlayerDAO;
 import com.jvm.lecti.domain.dao.ResultDAO;
 import com.jvm.lecti.domain.dao.UserDAO;
-import com.jvm.lecti.exceptions.UserNotFoundException;
+import com.jvm.lecti.domain.exceptions.UserNotFoundException;
 import com.jvm.lecti.presentation.dto.request.PlayerRequest;
 import com.jvm.lecti.domain.entity.Player;
 import com.jvm.lecti.domain.entity.User;
-import com.jvm.lecti.exceptions.InvalidUserIdForPlayerException;
-import com.jvm.lecti.infraestructure.repository.AppleRepository;
-import com.jvm.lecti.infraestructure.repository.PlayerRepository;
-import com.jvm.lecti.infraestructure.repository.ResultRepository;
-import com.jvm.lecti.infraestructure.repository.UserRepository;
+import com.jvm.lecti.domain.exceptions.InvalidUserIdForPlayerException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,9 +54,8 @@ public class PlayerService {
       return false;
    }
 
-   public Player addPlayer(PlayerRequest playerReq, User user) {
-      Player player = new Player(playerReq.getFirstName(), playerReq.getBirthDate(), user, 0, 0, playerReq.getAlias());
-      return playerDAO.save(player);
+   public void addPlayer(String playerName, LocalDateTime birthDate, String alias, User user) {
+      playerDAO.save(new Player(playerName, birthDate, user, alias));
    }
 
    public void checkPermissions(String userEmail, long playerId) throws InvalidUserIdForPlayerException, UserNotFoundException {

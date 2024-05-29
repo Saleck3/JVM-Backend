@@ -25,7 +25,7 @@ public class ModuleService {
       return new ModuleDto(entity.getId(), entity.getDescription(), progress);
    }
 
-   public List<Module> getAll() {
+   public List<Module> findAllModules() {
       return moduleDAO.findAll();
    }
 

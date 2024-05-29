@@ -12,9 +12,8 @@ import com.jvm.lecti.domain.dao.AppleDAO;
 import com.jvm.lecti.domain.dao.PlayerDAO;
 import com.jvm.lecti.domain.dao.ResultDAO;
 import com.jvm.lecti.domain.dao.UserDAO;
+import com.jvm.lecti.domain.objects.AppleResultValue;
 import com.jvm.lecti.domain.service.AppleService;
-import com.jvm.lecti.infraestructure.repository.PlayerRepository;
-import com.jvm.lecti.infraestructure.repository.UserRepository;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,8 +21,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.jvm.lecti.domain.entity.Apple;
 import com.jvm.lecti.domain.entity.Module;
-import com.jvm.lecti.infraestructure.repository.AppleRepository;
-import com.jvm.lecti.infraestructure.repository.ResultRepository;
 
 @SpringBootTest
 public class AppleServiceTest {
@@ -34,17 +31,11 @@ public class AppleServiceTest {
 
    private ResultDAO resultDAO;
 
-   private UserDAO userDAO;
-
-   private PlayerDAO playerDAO;
-
    @Before
    public void init() {
       appleDAO = mock(AppleDAO.class);
       resultDAO = mock(ResultDAO.class);
-      userDAO = mock(UserDAO.class);
-      playerDAO = mock(PlayerDAO.class);
-      appleService = new AppleService(appleDAO, resultDAO, userDAO, playerDAO);
+      appleService = new AppleService(appleDAO, resultDAO);
    }
 
    @Test
@@ -69,7 +60,7 @@ public class AppleServiceTest {
       String email = "test";
       givenExistingModuleWithApples(moduleId, modDesc);
       try {
-         List<Apple> apples = appleService.getApples(moduleId, 1);
+         List<AppleResultValue> apples = appleService.getAppleResultWithPlayerCrowns(moduleId, 1);
          thenObtainCorrectAppleResponse(2, apples.size());
       } catch (Exception e) {
       }
@@ -82,7 +73,7 @@ public class AppleServiceTest {
       String email = "test";
       givenExistingModuleWithApples(moduleId, modDesc);
       try {
-         List<Apple> apples = appleService.getApples(moduleId, 1);
+         List<AppleResultValue> apples = appleService.getAppleResultWithPlayerCrowns(moduleId, 1);
          thenObtainCorrectAppleResponse(2, apples.size());
       } catch (Exception e) {
       }
@@ -115,7 +106,7 @@ public class AppleServiceTest {
 
    private Apple getApple(int id, String desc, Module mod) {
       Apple apple = new Apple(id, desc);
-      apple.setModulo(mod);
+      apple.setModule(mod);
       return apple;
    }
 

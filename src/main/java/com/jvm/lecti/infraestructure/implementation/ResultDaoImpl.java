@@ -6,6 +6,7 @@ import com.jvm.lecti.infraestructure.repository.ResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -19,7 +20,13 @@ public class ResultDaoImpl implements ResultDAO {
     }
 
     @Override
-    public Optional<Result> findAllByAppleAndPlayerId(int appleId, int playerId) {
-        return resultRepository.findAllByAppleAndPlayerId(appleId, playerId);
+    public Optional<Result> findByAppleIdAndPlayerId(Integer appleId, Integer playerId) {
+        return resultRepository.findByAppleIdAndPlayerId(appleId, playerId);
     }
+
+    @Override
+    public Integer findTotalScoreByAppleIdAndPlayerId(List<Integer> appleIds, Integer playerId) {
+        return resultRepository.findTotalScoreByAppleIdAndPlayerId(appleIds,playerId);
+    }
+
 }

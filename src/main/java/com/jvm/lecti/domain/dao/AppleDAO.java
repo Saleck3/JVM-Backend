@@ -9,7 +9,10 @@ public interface AppleDAO {
 
    List<Apple> findAllById(Integer id);
 
-   List<Apple> findAllByModuleId(int moduleId);
+   List<Apple> findAllByModuleId(Integer moduleId);
+
+   List<Integer> findAllIdByModuleId(Integer moduleId);
+
 
    Optional<Apple> findById(Integer id);
 

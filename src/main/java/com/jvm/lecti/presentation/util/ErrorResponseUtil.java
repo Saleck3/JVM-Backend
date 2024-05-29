@@ -21,7 +21,7 @@ public class ErrorResponseUtil {
    @Autowired
    private PlayerService playerService;
 
-   public ResponseEntity<ErrorResponse> getErrorResponse(HttpServletRequest request, Integer playerId) {
+   public ResponseEntity<ErrorResponse> checkPermissionForUser(HttpServletRequest request, Integer playerId) {
       try {
          Claims claims = tokenUtil.resolveClaims(request);
          String email = claims.getSubject();

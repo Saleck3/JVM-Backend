@@ -13,6 +13,6 @@ public class AppleDto {
 
    private String name;
 
-   private Integer stars; // From 0 to 3
+   private Integer crowns; // From 0 to 3
 
 }

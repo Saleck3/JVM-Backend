@@ -12,7 +12,9 @@ import lombok.Data;
 public class ModuleDto {
 
    private Integer id;
+
    private String description;
+
    private Integer progress;
 
 }

@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Builder
 @Data
-public class PlayerDataResponse {
+public class PlayerSessionResponse {
 
    private Long id;
 
@@ -19,7 +19,7 @@ public class PlayerDataResponse {
 
    private Integer spentCrowns;
 
-   private Integer recomendedModule;
+   private Integer recommendedModule;
 
    private String alias;
 

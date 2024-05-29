@@ -71,7 +71,7 @@ public class AuthControllerTests {
       User user = new User();
       user.setId(Long.valueOf(1));
       var securityUser = new SecurityUser(user);
-      when(this.authService.authenticate(any())).thenReturn(securityUser);
+      when(this.authService.authenticate(any(), any())).thenReturn(securityUser);
    }
 
    private void playerRepositoryIsMocked() {

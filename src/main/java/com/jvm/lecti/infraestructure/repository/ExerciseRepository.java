@@ -12,6 +12,6 @@ import com.jvm.lecti.domain.entity.Exercise;
 @Repository
 public interface ExerciseRepository extends JpaRepository<Apple, Integer> {
 
-   @Query("SELECT e FROM Exercise e JOIN e.apple a JOIN e.exerciseType WHERE a.id = :appleId")
+   @Query("SELECT e FROM Exercise e JOIN e.apple a WHERE a.id = :appleId")
    List<Exercise> findAllByAppleId(Integer appleId);
 }
