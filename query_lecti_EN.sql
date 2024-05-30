@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: lecti
+-- Host: localhost    Database: lecti
 -- ------------------------------------------------------
--- Server version	8.0.36-0ubuntu0.22.04.1
+-- Server version	8.0.33
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -30,7 +30,7 @@ CREATE TABLE `apple` (
   PRIMARY KEY (`id`),
   KEY `module_id` (`module_id`),
   CONSTRAINT `apple_ibfk_1` FOREIGN KEY (`module_id`) REFERENCES `module` (`id`)
-) ;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,7 +39,7 @@ CREATE TABLE `apple` (
 
 LOCK TABLES `apple` WRITE;
 /*!40000 ALTER TABLE `apple` DISABLE KEYS */;
-INSERT INTO `apple` VALUES (1,'A',1,0),(2,'E',1,0),(3,'I',1,0),(4,'O',1,0),(5,'U',1,0),(6,'M',1,0),(7,'P',1,0),(8,'B',1,0),(9,'S',1,0),(10,'L',1,0),(11,'LL',1,0),(12,'N',1,0),(13,'D',1,0),(14,'T',1,0),(15,'R',1,0),(16,'RR',1,0),(17,'F',1,0),(18,'Ñ',1,0),(19,'K',1,0),(20,'Y',1,0),(21,'C',1,0),(22,'H',1,0),(23,'V',1,0),(24,'Q',1,0),(25,'J',1,0),(26,'G',1,0),(27,'Z',1,0),(28,'W',1,0),(29,'X',1,0),(30,'CH',1,0),(31,'BL',2,0),(32,'BR',2,0),(33,'CL',2,0),(34,'CR',2,0),(35,'DR',2,0),(36,'FL',2,0),(37,'FR',2,0),(38,'GL',2,0),(39,'GR',2,0),(40,'PL',2,0),(41,'PR',2,0),(42,'TR',2,0),(43,'TL',2,0);
+INSERT INTO `apple` VALUES (1,'A',1,0),(2,'E',1,0),(3,'I',1,0),(4,'O',1,0),(5,'U',1,0),(6,'M',1,0),(7,'P',1,0),(8,'B',1,0),(9,'S',1,0),(10,'L',1,0),(11,'LL',1,0),(12,'N',1,0),(13,'D',1,0),(14,'T',1,0),(15,'R',1,0),(16,'RR',1,0),(17,'F',1,0),(18,'Ñ',1,0),(19,'K',1,0),(20,'Y',1,0),(21,'C',1,0),(22,'H',1,0),(23,'V',1,0),(24,'Q',1,0),(25,'J',1,0),(26,'G',1,0),(27,'Z',1,0),(28,'W',1,0),(29,'X',1,0),(30,'CH',1,0),(31,'BL',2,0),(32,'BR',2,0),(33,'CL',2,0),(34,'CR',2,0),(35,'DR',2,0),(36,'FL',2,0),(37,'FR',2,0),(38,'GL',2,0),(39,'GR',2,0),(40,'PL',2,0),(41,'PR',2,0),(42,'TR',2,0),(43,'TL',2,0),(44,'ORACIONES',3,0),(45,'ADIVINANZAS',3,0),(46,'TRABALENGUAS',3,0);
 /*!40000 ALTER TABLE `apple` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -56,7 +56,7 @@ CREATE TABLE `avatar` (
   `url` varchar(50) DEFAULT NULL,
   `value` int NOT NULL,
   PRIMARY KEY (`id`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -78,12 +78,12 @@ DROP TABLE IF EXISTS `exercise`;
 CREATE TABLE `exercise` (
   `id` int NOT NULL AUTO_INCREMENT,
   `apple_id` int NOT NULL,
-  `parameters` varchar(300) NOT NULL,
+  `parameters` varchar(2000) NOT NULL,
   `exercise_type` enum('letter_ordering','image_selection','image_writing','audio_repeating','text_read','video','worksheets') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `apple_id` (`apple_id`),
   CONSTRAINT `exercise_ibfk_2` FOREIGN KEY (`apple_id`) REFERENCES `apple` (`id`)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,7 +92,7 @@ CREATE TABLE `exercise` (
 
 LOCK TABLES `exercise` WRITE;
 /*!40000 ALTER TABLE `exercise` DISABLE KEYS */;
-INSERT INTO `exercise` VALUES (2,6,'{\"words\": [\"MA\",\"NO\"],\"correctPhrase\": \"MANO\",\"url\":\"\"}','letter_ordering'),(3,6,'{\"words\": [\"MESA\",\"MOTO\",\"MONO\",\"MARCO\"],\"correctWord\": \"MESA\",\"url\": \"ImageURL\"}','image_selection'),(4,6,'{\"correctWord\": \"MONO\",\"url\": \"ImageURL\",\"preSelectedLetters\":[\"N\"]}','image_writing'),(5,6,'{\"url\":\"\"}','video'),(6,6,'{\"url\":\"\"}','worksheets'),(7,6,'{\"correctWord\": \"MOMIA\"}','audio_repeating'),(8,6,'{\"correctWord\": \"MIMA\"}','text_read'),(9,6,'{\"words\": [\"MESA\",\"MOTO\",\"MONO\",\"MARCO\"],\"correctWord\": \"ME\",\"url\": \"ImageURL\",\"label\":\"_ _ SA\"}','image_selection');
+INSERT INTO `exercise` VALUES (2,6,'{\"options\": [\"MA\",\"NO\"],\"correctAnswer\": \"MANO\",\"image\":\"\"}','letter_ordering'),(3,6,'{\"options\": [\"MESA\",\"MOTO\",\"MONO\",\"MARCO\"],\"correctAnswer\": \"MONO\",\"image\": \"ImageURL\"}','image_selection'),(4,6,'{\"correctAnswer\": \"MONO\",\"preSelectedLetters\":[\"N\"], \"image\": \"ImageURL\"}','image_writing'),(5,6,'{\"image\":\"\"}','video'),(6,6,'{\"image\":\"\"}','worksheets'),(7,6,'{\"correctAnswer\": \"MOMIA\"}','audio_repeating'),(8,6,'{\"correctAnswer\": \"MIMA\"}','text_read'),(9,6,'{\"options\": [\"MA\", \"ME\", \"MI\", \"MO\", \"MU\"], \"label\":\"_ _ SA\", \"correctAnswer\": \"ME\",\"image\": \"ImageURL\"}','image_selection'),(10,6,'{\"options\": [\"ME\",\"LON\"],\"correctAnswer\": \"MELON\",\"image\":\"\"}','letter_ordering'),(11,6,'{\"options\": [\"MA\",\"ME\",\"MI\",\"MO\", \"MU\"],\"label\": \"TO\",\"correctAnswer\": \"MO\",\"image\": \"ImageURL_moto\"}','image_selection'),(12,6,'{\"options\": [\"MA\",\"ME\",\"MI\",\"MO\", \"MU\"],\"label\": \"LETA\",\"correctAnswer\": \"MU\",\"image\": \"ImageURL_muleta\"}','image_selection'),(13,6,'{\"correctAnswer\": \"MI MAMA\"}','text_read'),(14,6,'{\"correctAnswer\": \"MI MAMA ME AMA\"}','audio_repeating'),(15,6,'{\"correctAnswer\": \"MI MAMA ME MIMA\"}','text_read'),(16,6,'{\"correctAnswer\": \"MI MAMA ME MIMA A MI\"}','audio_repeating'),(17,1,'{\"options\": [\"A\",\"VION\"],\"correctAnswer\": \"AVION\",\"image\":\"\"}','letter_ordering'),(18,1,'{\"options\": [\"A\", \"E\", \"I\", \"O\", \"U\"], \"label\":\"_ RAÑA\", \"correctAnswer\": \"A\",\"image\": \"ImageURL\"}','image_selection'),(19,1,'{\"correctAnswer\": \"ABEJA\",\"preSelectedLetters\": [{\"B\": 2},{\"E\": 3},{\"J\": 4}], \"image\": \"ImageURL\"}','image_writing'),(20,1,'{\"correctAnswer\": \"ANANA\"}','audio_repeating'),(21,2,'{\"options\": [\"CO\",\"ES\", \"BA\"],\"correctAnswer\": \"ESCOBA\",\"image\":\"\"}','letter_ordering'),(22,2,'{\"correctAnswer\": \"ELEFANTE\",\"preSelectedLetters\": [{\"L\": 2},{\"F\": 4},{\"N\": 6}, {\"T\": 7}], \"image\": \"ImageURL\"}','image_writing'),(23,2,'{\"options\": [\"JO\",\"PE\", \"ES\"],\"correctAnswer\": \"ESPEJO\",\"image\":\"\"}','letter_ordering'),(24,2,'{\"correctAnswer\": \"ESCOBA\"}','audio_repeating'),(25,2,'{\"correctAnswer\": \"ESCALERA\",\"preSelectedLetters\": [{\"S\": 2},{\"C\": 3},{\"L\": 5}, {\"R\": 7}], \"image\": \"ImageURL\"}','image_writing'),(26,3,'{\"correctAnswer\": \"ISLA\",\"preSelectedLetters\": [{\"S\": 2},{\"L\": 3}], \"image\": \"ImageURL\"}','image_writing'),(27,3,'{\"options\": [\"MAN\",\"I\"],\"correctAnswer\": \"ESCOBA\",\"image\":\"\"}','letter_ordering'),(28,3,'{\"options\": [\"IGLU\",\"ISLA\",\"INODORO\",\"IGLESIA\"],\"correctAnswer\": \"ISLA\",\"image\": \"ImageURL\"}','image_selection'),(29,3,'{\"correctAnswer\": \"IGLESIA\",\"preSelectedLetters\": [{\"G\": 2},{\"L\": 3}, {\"S\": 5}], \"image\": \"ImageURL\"}','image_writing'),(30,3,'{\"correctAnswer\": \"IGUANA\"}','audio_repeating'),(31,4,'{\"correctAnswer\": \"OLLA\",\"preSelectedLetters\": [{\"L\": 2},{\"L\": 3}], \"image\": \"ImageURL\"}','image_writing'),(32,4,'{\"options\": [\"JO\",\"O\"],\"correctAnswer\": \"OJO\",\"image\":\"\"}','letter_ordering'),(33,4,'{\"options\": [\"VE\",\"JA\", \"O\"],\"correctAnswer\": \"OVEJA\",\"image\":\"\"}','letter_ordering'),(34,4,'{\"correctAnswer\": \"OSO\",\"preSelectedLetters\": [{\"S\": 2}], \"image\": \"ImageURL\"}','image_writing'),(35,4,'{\"correctAnswer\": \"OSO\"}','audio_repeating'),(36,5,'{\"correctAnswer\": \"UVA\",\"preSelectedLetters\": [{\"v\": 2}], \"image\": \"ImageURL\"}','image_writing'),(37,5,'{\"correctAnswer\": \"UNICORNIO\",\"preSelectedLetters\": [{\"N\": 2}, {\"C\": 3},{\"R\": 5}, {\"N\": 6}], \"image\": \"ImageURL\"}','letter_ordering'),(38,5,'{\"options\": [\"UNIVERSO\",\"UÑA\",\"UNION\",\"UTILIDAD\"],\"correctAnswer\": \"UÑA\",\"image\": \"ImageURL\"}','image_selection'),(39,5,'{\"correctAnswer\": \"UVA\"}','audio_repeating'),(40,7,'{\"options\": [\"PA\",\"PE\",\"PI\",\"PO\", \"PU\"],\"correctAnswer\": \"PO\"}','image_selection'),(41,7,'{\"correctAnswer\": \"PA\"}','text_read'),(42,7,'{\"correctAnswer\": \"PI\"}','text_read'),(43,7,'{\"correctAnswer\": \"PE\"}','text_read'),(44,7,'{\"correctAnswer\": \"PU\"}','text_read'),(45,7,'{\"correctAnswer\": \"PIPA\"}','text_read'),(46,7,'{\"correctAnswer\": \"PEPA\"}','text_read'),(47,7,'{\"correctAnswer\": \"PUPO\"}','text_read'),(48,7,'{\"correctAnswer\": \"MI PAPA\"}','text_read'),(49,7,'{\"correctAnswer\": \"MI PAPA ME AMA\"}','text_read'),(50,7,'{\"options\": [\"PA\", \"PE\", \"PI\", \"PO\", \"PU\"], \"label\":\"_ _ RATA\", \"correctAnswer\": \"PI\",\"image\": \"ImageURL\"}','image_selection'),(51,7,'{\"correctAnswer\": \"PIRATA\",\"preSelectedLetters\": [{\"R\": 3}, {\"T\": 5}], \"image\": \"ImageURL\"}','image_writing'),(52,7,'{\"options\": [\"LO\",\"PE\", \"TA\"],\"correctAnswer\": \"PELOTA\",\"image\":\"\"}','letter_ordering'),(53,7,'{\"correctAnswer\": \"PATO\",\"preSelectedLetters\": [{\"T\": 3}], \"image\": \"ImageURL\"}','image_writing'),(54,7,'{\"correctAnswer\": \"PIRATA\",\"preSelectedLetters\": [{\"R\": 3}, {\"G\": 5}, {\"S\":8}], \"image\": \"ImageURL\"}','image_writing'),(55,7,'{\"correctAnswer\": \"PERA\",\"preSelectedLetters\": [{\"R\": 3}], \"image\": \"ImageURL\"}','image_writing'),(56,7,'{\"correctAnswer\": \"PIPA\",\"preSelectedLetters\": [], \"image\": \"ImageURL\"}','image_writing'),(57,7,'{\"correctAnswer\": \"MI PAPA\",\"preSelectedLetters\": [\"\"]}','image_writing'),(58,7,'{\"correctAnswer\": \"MI PAPA ME MIMA\",\"preSelectedLetters\": []}','image_writing'),(59,7,'{\"correctAnswer\": \"MI PAPA ME AMA\",\"preSelectedLetters\": []}','image_writing'),(60,8,'{\"options\": [\"BA\",\"BE\",\"BI\",\"BO\", \"BU\"],\"correctAnswer\": \"BO\"}','image_selection'),(61,8,'{\"correctAnswer\": \"BO\"}','text_read'),(62,8,'{\"correctAnswer\": \"BI\"}','text_read'),(63,8,'{\"correctAnswer\": \"BU\"}','text_read'),(64,8,'{\"correctAnswer\": \"BE\"}','text_read'),(65,8,'{\"correctAnswer\": \"BA\"}','text_read'),(66,8,'{\"correctAnswer\": \"BEBE\"}','text_read'),(67,8,'{\"correctAnswer\": \"BEBA\"}','text_read'),(68,8,'{\"correctAnswer\": \"MI BEBE\"}','text_read'),(69,8,'{\"options\": [\"BA\", \"BE\", \"BI\", \"BO\", \"BU\"], \"label\":\"_ _FANDA \", \"correctAnswer\": \"BU\",\"image\": \"ImageURL\"}','image_selection'),(70,8,'{\"correctAnswer\": \"BARCO\",\"preSelectedLetters\": [{\"R\": 3}, {\"C\": 4}], \"image\": \"ImageURL\"}','image_writing'),(71,8,'{\"correctAnswer\": \"BICICLETA\",\"preSelectedLetters\": [{\"B\": 1}, {\"C\": 3}, {\"C\":5}, {\"L\":6}, {\"T\":7} ], \"image\": \"ImageURL\"}','image_writing'),(72,8,'{\"options\": [\"TA\",\"CLE\", \"BI\", \"CI\"],\"correctAnswer\": \"BICICLETA\",\"image\":\"\"}','letter_ordering'),(73,8,'{\"correctAnswer\": \"BEBE\",\"preSelectedLetters\": [], \"image\": \"ImageURL\"}','image_writing'),(74,8,'{\"correctAnswer\": \"MI BEBE\",\"preSelectedLetters\": [], \"image\": \"ImageURL\"}','image_writing'),(75,31,'{\"options\": [\"BLA\",\"BLE\",\"BLI\",\"BLO\", \"BLU\"],\"correctAnswer\": \"BLU\"}','image_selection'),(76,31,'{\"correctAnswer\": \"BLA\"}','text_read'),(77,31,'{\"correctAnswer\": \"BLE\"}','text_read'),(78,31,'{\"correctAnswer\": \"BLI\"}','text_read'),(79,31,'{\"correctAnswer\": \"BLO\"}','text_read'),(80,31,'{\"correctAnswer\": \"BLU\"}','text_read'),(81,31,'{\"correctAnswer\": \"BLUSA\"}','text_read'),(82,31,'{\"correctAnswer\": \"PABLO\"}','text_read'),(83,31,'{\"correctAnswer\": \"TABLETA\"}','text_read'),(84,31,'{\"correctAnswer\": \"NEBLINA\"}','text_read'),(85,31,'{\"correctAnswer\": \"TABLA\"}','text_read'),(86,31,'{\"correctAnswer\": \"LA TABLA\"}','text_read'),(87,31,'{\"correctAnswer\": \"LA TABLETA DE PABLO\"}','text_read'),(88,31,'{\"correctAnswer\": \"NUBLADO\",\"preSelectedLetters\": [{\"N\": 1}, {\"D\": } ], \"image\": \"ImageURL\"}','image_writing'),(89,31,'{\"options\": [\"BLA\", \"BLE\", \"BLI\", \"BLO\", \"BLU\"], \"label\":\"CA_ _ _ \", \"correctAnswer\": \"BLE\",\"image\": \"ImageURL\"}','image_selection'),(90,31,'{\"options\": [\"DO\",\"NU\", \"BLA\"],\"correctAnswer\": \"NUBLADO\",\"image\":\"\"}','letter_ordering'),(91,31,'{\"correctAnswer\": \"TABLETA\",\"preSelectedLetters\": [ ], \"image\": \"ImageURL\"}','image_writing'),(92,31,'{\"correctAnswer\": \"LA TABLA DUELE\",\"preSelectedLetters\": [ ]}','image_writing'),(93,31,'{\"correctAnswer\": \"LA TABLETA DE PABLO\",\"preSelectedLetters\": [ ]}','image_writing'),(94,44,'{\"correctAnswer\": \"LA BEBE DE MARIA\"}','text_read'),(95,44,'{\"correctAnswer\": \"LAS NENAS AMAN A SU MAMA\"}','text_read'),(96,44,'{\"correctAnswer\": \"LOS NENES Y LAS NENAS SE PELEAN\"}','text_read'),(97,44,'{\"correctAnswer\": \"UN BEBE Y UNA NENA\"}','text_read'),(98,44,'{\"correctAnswer\": \"UNOS BOTINES NUEVOS SE PUSO\"}','text_read'),(99,44,'{\"correctAnswer\": \"UNOS BOTINES NUEVOS SE PUSO PARA JUGAR A LA PELOTA\"}','text_read');
 /*!40000 ALTER TABLE `exercise` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -107,7 +107,7 @@ CREATE TABLE `module` (
   `id` int NOT NULL AUTO_INCREMENT,
   `description` varchar(40) NOT NULL,
   PRIMARY KEY (`id`)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -139,7 +139,7 @@ CREATE TABLE `player` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `player_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-);
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -169,7 +169,7 @@ CREATE TABLE `result` (
   KEY `apple_id` (`apple_id`),
   CONSTRAINT `result_ibfk_1` FOREIGN KEY (`player_id`) REFERENCES `player` (`id`),
   CONSTRAINT `result_ibfk_2` FOREIGN KEY (`apple_id`) REFERENCES `apple` (`id`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -197,7 +197,7 @@ CREATE TABLE `unlocked_avatar` (
   KEY `avatar_id` (`avatar_id`),
   CONSTRAINT `unlocked_avatar_ibfk_1` FOREIGN KEY (`player_id`) REFERENCES `player` (`id`),
   CONSTRAINT `unlocked_avatar_ibfk_2` FOREIGN KEY (`avatar_id`) REFERENCES `avatar` (`id`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -223,7 +223,7 @@ CREATE TABLE `users` (
   `password` varchar(200) NOT NULL,
   `email` varchar(40) NOT NULL,
   PRIMARY KEY (`id`)
-) ;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -245,4 +245,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-27 22:08:33
+-- Dump completed on 2024-05-30 19:16:49
