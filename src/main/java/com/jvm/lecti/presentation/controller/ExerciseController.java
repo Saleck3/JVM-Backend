@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jvm.lecti.domain.service.ExerciseService;
+import com.jvm.lecti.domain.service.ModuleService;
 import com.jvm.lecti.presentation.dto.response.ErrorResponse;
 import com.jvm.lecti.presentation.dto.response.ExerciseDto;
 import com.jvm.lecti.presentation.dto.response.ExerciseResponse;
@@ -32,6 +33,9 @@ public class ExerciseController {
    private ExerciseService exerciseService;
 
    @Autowired
+   private ModuleService moduleService;
+
+   @Autowired
    private ErrorResponseUtil errorResponseUtil;
 
    @GetMapping("/getExerciseByAppleId")
@@ -40,10 +44,12 @@ public class ExerciseController {
       if (appleId == null) {
          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required parameter: appleId"));
       }
-      errorResponseUtil.checkPermissionForUser(httpServletRequest, appleId);
-      List<Exercise> exercises = exerciseService.getExercisesByApple(playerId);
+      errorResponseUtil.checkPermissionForUser(httpServletRequest, playerId);
+      List<Exercise> exercises = exerciseService.getExercisesByApple(appleId);
       List<ExerciseDto> exercisesDto = ExerciseMapper.INSTANCE.exerciseListToExerciseListDto(exercises);
-      return ResponseEntity.ok(ExerciseResponse.builder().exercises(exercisesDto).build());
+      Integer moduleId = moduleService.obtainModuleIdFromExercise(exercises);
+
+      return ResponseEntity.ok(ExerciseResponse.builder().moduleId(moduleId).exercises(exercisesDto).build());
    }
 
 }

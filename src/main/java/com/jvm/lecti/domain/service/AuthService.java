@@ -57,26 +57,4 @@ public class AuthService {
       return user;
    }
 
-   public List<PlayerSessionResponse> mapPlayerEntity(List<Player> playerList) {
-      List<PlayerSessionResponse> playersDataResponse = new ArrayList<>();
-      if (!playerList.isEmpty()) {
-         for (Player player : playerList) {
-            playersDataResponse.add(
-                  PlayerSessionResponse
-                        .builder()
-                        .id(player.getId())
-                        .playerName(player.getPlayerName())
-                        .birthDate(player.getBirthDate())
-                        //Avisar al front
-                        .recommendedModule(player.getRecommendedModule())
-                        .spentCrowns(player.getSpentCrowns())
-                        .totalCrowns(player.getTotalCrowns())
-                        .alias(player.getAlias())
-                        .build());
-         }
-         return playersDataResponse;
-      }
-      return null;
-   }
-
 }

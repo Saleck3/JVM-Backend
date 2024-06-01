@@ -9,6 +9,8 @@ import lombok.Data;
 @Builder
 public class ExerciseResponse {
 
+   private Integer moduleId;
+
    private List<ExerciseDto> exercises;
 
 }

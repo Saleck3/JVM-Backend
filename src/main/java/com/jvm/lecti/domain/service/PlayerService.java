@@ -1,8 +1,6 @@
 package com.jvm.lecti.domain.service;
 
-import com.jvm.lecti.domain.dao.AppleDAO;
 import com.jvm.lecti.domain.dao.PlayerDAO;
-import com.jvm.lecti.domain.dao.ResultDAO;
 import com.jvm.lecti.domain.dao.UserDAO;
 import com.jvm.lecti.domain.exceptions.UserNotFoundException;
 import com.jvm.lecti.domain.entity.Player;
@@ -20,19 +18,12 @@ import java.util.Optional;
 public class PlayerService {
 
    @Autowired
-   private AppleDAO appleDAO;
-
-   @Autowired
    private PlayerDAO playerDAO;
 
    @Autowired
    private UserDAO userDAO;
 
-   @Autowired
-   private ResultDAO resultDAO;
-
-   public PlayerService(PlayerDAO playerDAO, ResultDAO resultDAO, UserDAO userDAO) {
-      this.resultDAO = resultDAO;
+   public PlayerService(PlayerDAO playerDAO, UserDAO userDAO) {
       this.playerDAO = playerDAO;
       this.userDAO = userDAO;
    }
