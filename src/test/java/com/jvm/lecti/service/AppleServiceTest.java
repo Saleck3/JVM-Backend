@@ -8,39 +8,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.jvm.lecti.repository.PlayerRepository;
-import com.jvm.lecti.repository.UserRepository;
+import com.jvm.lecti.domain.dao.AppleDAO;
+import com.jvm.lecti.domain.dao.PlayerDAO;
+import com.jvm.lecti.domain.dao.ResultDAO;
+import com.jvm.lecti.domain.dao.UserDAO;
+import com.jvm.lecti.domain.objects.AppleResultValue;
+import com.jvm.lecti.domain.service.AppleService;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.jvm.lecti.dto.response.AppleResponse;
-import com.jvm.lecti.entity.Apple;
-import com.jvm.lecti.entity.Module;
-import com.jvm.lecti.repository.AppleRepository;
-import com.jvm.lecti.repository.ResultRepository;
+import com.jvm.lecti.domain.entity.Apple;
+import com.jvm.lecti.domain.entity.Module;
 
 @SpringBootTest
 public class AppleServiceTest {
 
    private AppleService appleService;
 
-   private AppleRepository appleRepository;
+   private AppleDAO appleDAO;
 
-   private ResultRepository resultRepository;
-
-   private UserRepository userRepository;
-
-   private PlayerRepository playerRepository;
+   private ResultDAO resultDAO;
 
    @Before
    public void init() {
-      appleRepository = mock(AppleRepository.class);
-      resultRepository = mock(ResultRepository.class);
-      userRepository = mock(UserRepository.class);
-      playerRepository = mock(PlayerRepository.class);
-      appleService = new AppleServiceImpl(appleRepository, resultRepository, userRepository, playerRepository);
+      appleDAO = mock(AppleDAO.class);
+      resultDAO = mock(ResultDAO.class);
+      appleService = new AppleService(appleDAO, resultDAO);
    }
 
    @Test
@@ -65,7 +60,7 @@ public class AppleServiceTest {
       String email = "test";
       givenExistingModuleWithApples(moduleId, modDesc);
       try {
-         List<Apple> apples = appleService.getApples(moduleId, 1);
+         List<AppleResultValue> apples = appleService.getAppleResultWithPlayerCrowns(moduleId, 1);
          thenObtainCorrectAppleResponse(2, apples.size());
       } catch (Exception e) {
       }
@@ -78,7 +73,7 @@ public class AppleServiceTest {
       String email = "test";
       givenExistingModuleWithApples(moduleId, modDesc);
       try {
-         List<Apple> apples = appleService.getApples(moduleId, 1);
+         List<AppleResultValue> apples = appleService.getAppleResultWithPlayerCrowns(moduleId, 1);
          thenObtainCorrectAppleResponse(2, apples.size());
       } catch (Exception e) {
       }
@@ -93,7 +88,7 @@ public class AppleServiceTest {
       List<Apple> applesOfModule = new ArrayList<Apple>();
       applesOfModule.add(getApple(1, "A", m));
       applesOfModule.add(getApple(2, "E", m));
-      when(appleRepository.findAllByModuleId(moduleId)).thenReturn(applesOfModule);
+      when(appleDAO.findAllByModuleId(moduleId)).thenReturn(applesOfModule);
    }
 
    private void givenNonExistingModuleWithApples(int moduleId, String mDescription) {
@@ -101,17 +96,17 @@ public class AppleServiceTest {
       List<Apple> applesOfModule = new ArrayList<Apple>();
       applesOfModule.add(getApple(1, "A", m));
       applesOfModule.add(getApple(2, "E", m));
-      when(appleRepository.findAllByModuleId(moduleId)).thenReturn(applesOfModule);
+      when(appleDAO.findAllByModuleId(moduleId)).thenReturn(applesOfModule);
    }
 
    private void givenExistingApple(int id, String description) {
       Apple apple = new Apple(id, description);
-      when(appleRepository.findById(id)).thenReturn(Optional.of(apple));
+      when(appleDAO.findById(id)).thenReturn(Optional.of(apple));
    }
 
    private Apple getApple(int id, String desc, Module mod) {
       Apple apple = new Apple(id, desc);
-      apple.setModulo(mod);
+      apple.setModule(mod);
       return apple;
    }
 
