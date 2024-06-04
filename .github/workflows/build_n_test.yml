@@ -1,4 +1,4 @@
-name: Build and run tests
+name: Build and test
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: production
+    environment: test
     env:
       MYSQL_URL: ${{ vars.MYSQL_URL }}
       MYSQL_USER: ${{ vars.MYSQL_USER }}
