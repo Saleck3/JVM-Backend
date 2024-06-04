@@ -27,6 +27,7 @@ CREATE TABLE `apple` (
   `name` varchar(40) NOT NULL,
   `module_id` int DEFAULT NULL,
   `index` int unsigned DEFAULT NULL,
+  `apple_type` enum('NO_IA','VOICE_IA','IMAGE_IA') DEFAULT 'NO_IA',
   PRIMARY KEY (`id`),
   UNIQUE KEY `order_on_module` (`module_id`,`index`),
   KEY `module_id` (`module_id`),
@@ -40,7 +41,7 @@ CREATE TABLE `apple` (
 
 LOCK TABLES `apple` WRITE;
 /*!40000 ALTER TABLE `apple` DISABLE KEYS */;
-INSERT INTO `apple` VALUES (1,'A',1,1),(2,'E',1,2),(3,'I',1,3),(4,'O',1,4),(5,'U',1,5),(6,'M',1,6),(7,'P',1,7),(8,'B',1,8),(9,'S',1,9),(10,'L',1,10),(11,'LL',1,11),(12,'N',1,12),(13,'D',1,13),(14,'T',1,14),(15,'R',1,15),(16,'RR',1,16),(17,'F',1,17),(18,'Ñ',1,18),(19,'K',1,19),(20,'Y',1,20),(21,'C',1,21),(22,'H',1,22),(23,'V',1,23),(24,'Q',1,24),(25,'J',1,25),(26,'G',1,26),(27,'Z',1,27),(28,'W',1,28),(29,'X',1,29),(30,'CH',1,30),(31,'BL',2,1),(32,'BR',2,2),(33,'CL',2,3),(34,'CR',2,4),(35,'DR',2,5),(36,'FL',2,6),(37,'FR',2,7),(38,'GL',2,8),(39,'GR',2,9),(40,'PL',2,10),(41,'PR',2,11),(42,'TR',2,12),(43,'TL',2,13),(44,'ORACIONES',3,1),(45,'ADIVINANZAS',3,2),(46,'TRABALENGUAS',3,3),(47,'TEST',NULL,NULL);
+INSERT INTO `apple` VALUES (1,'A',1,1,'NO_IA'),(2,'E',1,2,'NO_IA'),(3,'I',1,3,'NO_IA'),(4,'O',1,4,'NO_IA'),(5,'U',1,5,'NO_IA'),(6,'M',1,6,'NO_IA'),(7,'P',1,7,'NO_IA'),(8,'B',1,8,'NO_IA'),(9,'S',1,9,'NO_IA'),(10,'L',1,10,'NO_IA'),(11,'LL',1,11,'NO_IA'),(12,'N',1,12,'NO_IA'),(13,'D',1,13,'NO_IA'),(14,'T',1,14,'NO_IA'),(15,'R',1,15,'NO_IA'),(16,'RR',1,16,'NO_IA'),(17,'F',1,17,'NO_IA'),(18,'Ñ',1,18,'NO_IA'),(19,'K',1,19,'NO_IA'),(20,'Y',1,20,'NO_IA'),(21,'C',1,21,'NO_IA'),(22,'H',1,22,'NO_IA'),(23,'V',1,23,'NO_IA'),(24,'Q',1,24,'NO_IA'),(25,'J',1,25,'NO_IA'),(26,'G',1,26,'NO_IA'),(27,'Z',1,27,'NO_IA'),(28,'W',1,28,'NO_IA'),(29,'X',1,29,'NO_IA'),(30,'CH',1,30,'NO_IA'),(31,'BL',2,1,'NO_IA'),(32,'BR',2,2,'NO_IA'),(33,'CL',2,3,'NO_IA'),(34,'CR',2,4,'NO_IA'),(35,'DR',2,5,'NO_IA'),(36,'FL',2,6,'NO_IA'),(37,'FR',2,7,'NO_IA'),(38,'GL',2,8,'NO_IA'),(39,'GR',2,9,'NO_IA'),(40,'PL',2,10,'NO_IA'),(41,'PR',2,11,'NO_IA'),(42,'TR',2,12,'NO_IA'),(43,'TL',2,13,'NO_IA'),(44,'ORACIONES',3,1,'NO_IA'),(45,'ADIVINANZAS',3,2,'NO_IA'),(46,'TRABALENGUAS',3,3,'NO_IA'),(47,'TEST',NULL,NULL,'NO_IA');
 /*!40000 ALTER TABLE `apple` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -246,4 +247,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-03 22:26:15
+-- Dump completed on 2024-06-03 22:44:13
