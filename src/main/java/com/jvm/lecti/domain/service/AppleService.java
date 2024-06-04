@@ -9,7 +9,6 @@ import com.jvm.lecti.domain.dao.ResultDAO;
 
 import lombok.AllArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jvm.lecti.domain.entity.Apple;
@@ -27,10 +26,16 @@ public class AppleService {
 
    public List<AppleResultValue> getAppleResultWithPlayerCrowns(Integer moduleId, Integer playerId) {
       List<AppleResultValue> appleResultValueList = new ArrayList<>();
-      List<Apple> appleList = appleDAO.findAllByModuleId(moduleId);
+      List<Apple> appleList = appleDAO.findAllByModuleIdOrderByIndex(moduleId);
       if (!appleList.isEmpty()) {
          for (Apple apple : appleList) {
-            AppleResultValue appleResultValue = AppleResultValue.builder().id(apple.getId()).name(apple.getName()).crowns(0).build();
+            AppleResultValue appleResultValue = AppleResultValue
+                  .builder()
+                  .id(apple.getId())
+                  .name(apple.getName())
+                  .crowns(0)
+                  .appleType(apple.getAppleType())
+                  .build();
             Optional<Result> resultOptional = resultDAO.findByAppleIdAndPlayerId(apple.getId(), playerId);
             if (resultOptional.isPresent()) {
                Result resultEntity = resultOptional.get();

@@ -1,5 +1,7 @@
 package com.jvm.lecti.presentation.dto.response;
 
+import com.jvm.lecti.domain.enums.EAppleType;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +15,8 @@ public class AppleDto {
 
    private String name;
 
-   private Integer crowns; // From 0 to 3
+   private Integer crowns;
+
+   private EAppleType appleType;
 
 }

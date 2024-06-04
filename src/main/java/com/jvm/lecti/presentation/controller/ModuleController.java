@@ -46,28 +46,6 @@ public class ModuleController {
       return ResponseEntity.ok(ModuleResponse.builder().modules(moduleDtoList).build());
    }
 
-//   @GetMapping("/{idModule}")
-//   public ResponseEntity getApplesFromModule(HttpServletRequest request, @RequestParam(value = "playerId") Integer playerId,
-//         @PathVariable Integer idModule) {
-//      if (playerId == null) {
-//         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required parameter: playerId"));
-//      }
-//      ResponseEntity<ErrorResponse> errorResponse = errorResponseUtil.checkPermissionForUser(request, playerId);
-//      if (errorResponse != null) {
-//         return errorResponse;
-//      }
-//      Optional<Module> moduleOptional = moduleService.getModuleById(idModule);
-//      if (moduleOptional.isEmpty()) {
-//         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse(HttpStatus.NOT_FOUND, "Module not found"));
-//      }
-//      Module module = moduleOptional.get();
-//      List<AppleResultValue> appleResultValues = appleService.getAppleResultWithPlayerCrowns(module.getId(), playerId);
-//      List<AppleDto> appleDtoList = AppleMapper.INSTANCE.appleResultListToAppleDtoList(appleResultValues);
-//
-//      return ResponseEntity.ok(
-//            ModuleAppleResponse.builder().id(module.getId()).description(module.getDescription()).appleList(appleDtoList).build());
-//   }
-
 }
 
 
