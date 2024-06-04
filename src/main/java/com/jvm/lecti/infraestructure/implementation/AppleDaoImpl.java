@@ -26,8 +26,8 @@ public class AppleDaoImpl implements AppleDAO {
    }
 
    @Override
-   public List<Apple> findAllByModuleId(Integer moduleId) {
-      return appleRepository.findAllByModuleId(moduleId);
+   public List<Apple> findAllByModuleIdOrderByIndex(Integer moduleId) {
+      return appleRepository.findAllByModuleIdOrderByIndex(moduleId);
    }
 
    @Override

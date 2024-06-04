@@ -62,7 +62,8 @@ public class AuthController {
 
    @PostMapping(value = "/signup")
    public ResponseEntity signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
-      return authService.signUpUser(signUpRequest.getEmail(), signUpRequest.getPassword(), signUpRequest.getFirstName(), signUpRequest.getLastName());
+      return authService.signUp(signUpRequest.getEmail(), signUpRequest.getPassword(), signUpRequest.getFirstName(), signUpRequest.getLastName(),
+            signUpRequest.getPlayerName(), signUpRequest.getBirthDate(), signUpRequest.getAlias(), signUpRequest.getRecommendedModule());
    }
 
    //TODO ChangePassword

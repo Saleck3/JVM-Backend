@@ -11,5 +11,5 @@ public interface UserDAO {
 
     Optional<User> findByEmail(String email);
 
-    void save(User user);
+    User save(User user);
 }

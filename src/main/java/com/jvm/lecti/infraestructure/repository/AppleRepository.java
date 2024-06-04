@@ -14,8 +14,8 @@ public interface AppleRepository extends JpaRepository<Apple, Integer> {
    @Query("SELECT a FROM Apple a where a.id = :id")
    List<Apple> findAllById(Integer id);
 
-   @Query("SELECT a FROM Apple a JOIN a.module m WHERE m.id = :moduleId")
-   List<Apple> findAllByModuleId(Integer moduleId);
+   @Query("SELECT a FROM Apple a JOIN a.module m WHERE m.id = :moduleId ORDER BY a.index")
+   List<Apple> findAllByModuleIdOrderByIndex(Integer moduleId);
 
    @Query("SELECT a.id FROM Apple a WHERE a.module.id = :moduleId")
    List<Integer> findAllIdByModuleId(Integer moduleId);

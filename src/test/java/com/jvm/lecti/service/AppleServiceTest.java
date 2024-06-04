@@ -9,9 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.jvm.lecti.domain.dao.AppleDAO;
-import com.jvm.lecti.domain.dao.PlayerDAO;
 import com.jvm.lecti.domain.dao.ResultDAO;
-import com.jvm.lecti.domain.dao.UserDAO;
 import com.jvm.lecti.domain.objects.AppleResultValue;
 import com.jvm.lecti.domain.service.AppleService;
 
@@ -88,7 +86,7 @@ public class AppleServiceTest {
       List<Apple> applesOfModule = new ArrayList<Apple>();
       applesOfModule.add(getApple(1, "A", m));
       applesOfModule.add(getApple(2, "E", m));
-      when(appleDAO.findAllByModuleId(moduleId)).thenReturn(applesOfModule);
+      when(appleDAO.findAllByModuleIdOrderByIndex(moduleId)).thenReturn(applesOfModule);
    }
 
    private void givenNonExistingModuleWithApples(int moduleId, String mDescription) {
@@ -96,7 +94,7 @@ public class AppleServiceTest {
       List<Apple> applesOfModule = new ArrayList<Apple>();
       applesOfModule.add(getApple(1, "A", m));
       applesOfModule.add(getApple(2, "E", m));
-      when(appleDAO.findAllByModuleId(moduleId)).thenReturn(applesOfModule);
+      when(appleDAO.findAllByModuleIdOrderByIndex(moduleId)).thenReturn(applesOfModule);
    }
 
    private void givenExistingApple(int id, String description) {
