@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.31, for Win64 (x86_64)
 --
--- Host: localhost    Database: lecti
+-- Host: 127.0.0.1    Database: lecti
 -- ------------------------------------------------------
--- Server version	8.0.33
+-- Server version	8.0.36-0ubuntu0.22.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -26,8 +26,9 @@ CREATE TABLE `apple` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(40) NOT NULL,
   `module_id` int DEFAULT NULL,
-  `max_score` int DEFAULT NULL,
+  `index` int unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `order_on_module` (`module_id`,`index`),
   KEY `module_id` (`module_id`),
   CONSTRAINT `apple_ibfk_1` FOREIGN KEY (`module_id`) REFERENCES `module` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -39,7 +40,7 @@ CREATE TABLE `apple` (
 
 LOCK TABLES `apple` WRITE;
 /*!40000 ALTER TABLE `apple` DISABLE KEYS */;
-INSERT INTO `apple` VALUES (1,'A',1,0),(2,'E',1,0),(3,'I',1,0),(4,'O',1,0),(5,'U',1,0),(6,'M',1,0),(7,'P',1,0),(8,'B',1,0),(9,'S',1,0),(10,'L',1,0),(11,'LL',1,0),(12,'N',1,0),(13,'D',1,0),(14,'T',1,0),(15,'R',1,0),(16,'RR',1,0),(17,'F',1,0),(18,'Ñ',1,0),(19,'K',1,0),(20,'Y',1,0),(21,'C',1,0),(22,'H',1,0),(23,'V',1,0),(24,'Q',1,0),(25,'J',1,0),(26,'G',1,0),(27,'Z',1,0),(28,'W',1,0),(29,'X',1,0),(30,'CH',1,0),(31,'BL',2,0),(32,'BR',2,0),(33,'CL',2,0),(34,'CR',2,0),(35,'DR',2,0),(36,'FL',2,0),(37,'FR',2,0),(38,'GL',2,0),(39,'GR',2,0),(40,'PL',2,0),(41,'PR',2,0),(42,'TR',2,0),(43,'TL',2,0),(44,'ORACIONES',3,0),(45,'ADIVINANZAS',3,0),(46,'TRABALENGUAS',3,0),(47,'TEST',NULL,NULL);
+INSERT INTO `apple` VALUES (1,'A',1,1),(2,'E',1,2),(3,'I',1,3),(4,'O',1,4),(5,'U',1,5),(6,'M',1,6),(7,'P',1,7),(8,'B',1,8),(9,'S',1,9),(10,'L',1,10),(11,'LL',1,11),(12,'N',1,12),(13,'D',1,13),(14,'T',1,14),(15,'R',1,15),(16,'RR',1,16),(17,'F',1,17),(18,'Ñ',1,18),(19,'K',1,19),(20,'Y',1,20),(21,'C',1,21),(22,'H',1,22),(23,'V',1,23),(24,'Q',1,24),(25,'J',1,25),(26,'G',1,26),(27,'Z',1,27),(28,'W',1,28),(29,'X',1,29),(30,'CH',1,30),(31,'BL',2,1),(32,'BR',2,2),(33,'CL',2,3),(34,'CR',2,4),(35,'DR',2,5),(36,'FL',2,6),(37,'FR',2,7),(38,'GL',2,8),(39,'GR',2,9),(40,'PL',2,10),(41,'PR',2,11),(42,'TR',2,12),(43,'TL',2,13),(44,'ORACIONES',3,1),(45,'ADIVINANZAS',3,2),(46,'TRABALENGUAS',3,3),(47,'TEST',NULL,NULL);
 /*!40000 ALTER TABLE `apple` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -223,7 +224,7 @@ CREATE TABLE `users` (
   `password` varchar(200) NOT NULL,
   `email` varchar(40) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -232,7 +233,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Saleck','Gonzalez','{PsMlP92WRzalaIOXG5UiZ6hocAyx9slEpXnL7IFnaSY=}63139bd5292412c3a705b8bef38be05ab1dd900aa27c096d4797a2a871add2f3','saleck@lecti.com'),(2,'laura','martin','{wrAdYHxcT1IvzZY1QZHCMin5TbPG+BnZN3oaXc4NJjY=}b021857a0fc701324cd37610675bf71cdef4a5e0d32fbf2fa47b33ac04ff3234','sssss@gmail.com'),(3,'laura','martin','{FppYYmZB8N6/2yruLmtZXGsQKcK4/iCi6XiDLUeiwFs=}acd540dfe299c953026c8d2c26e26f344815e6fb748dc8b141a62f4760c47aee','sssss@g'),(4,'laura','mlmlmlm','{ctUlRRQJztF7KHN0b64U6R+zuncGUyDUK1zxtqGc9BM=}c15b5d7550fe56dca913d788f3ed3a66b82a0fa57054c409cf75698880e2603f','gerfman@grg.com'),(5,'laura','mlmlmlm','{yYeoH1g2o3Ker/TP75iDUs1qGh6s+UPbHHlXmSlhpAw=}36cd556516604035b5aafce4a357e61cdb1f3705c8b96d60c4e7bbc146747cbf','german@grg.com'),(6,'Laura Giselle','Martinez','{TbavI3vciVj7w+4+kFEr6D9uhEuoCtHBrQkC5tj/NAk=}c11dc87c7c65e06ff128aeb819ffeed6c840293337b5d68161c8671b7cb1f85d','laury_charly@hotmail.com'),(7,'Laura Giselle','Martinez','{Ljf2OQA7smw9Qlm+dTn67qn+yAsWgwqt7rAdzVHCaHU=}a133d5fb4dd9899ec2f4baf7ad1e08c1f43e14800c4fb556955f8d87b0a2dc9b','lauragisellemz@hotmail.com'),(8,'laura','martin','{nGlgX9EkIXSdlV0EjUq0BPXw0FNdMJYg7zru7poKPCs=}dfcdd84501bfc2b56605d959dbadd71da751d1971fce2ab0498773c52f718202','aaaaasssss@g'),(9,'laura','aaaaaaaaaaa','{O7DbklfRrjFDr2AqbO6vou/8u7Om0JwTJZvH+F/dBKM=}9bc219ff56da388dc267d70f36ea987b1b51386bedc09a153d3fc0899ff9128a','germhghghgan@grg.com'),(10,'laura','aaaaaaaaaaa','{/lMipOx+huVbNFvzzEuEIbWS9FB+YdOfkRJyZEyYJoY=}d2edbbf1b49febf86cebafe777157887083bd349fdb70327a0d637e21f1281cb','gersssman@grg.com'),(11,'laura','mlmlmlm','{vgoOjqO5vtHi0mN8rBMeSWMgZrTEHDiZTEuicp3yDDM=}d76d2f9d9b0325bd24bd4a9e3ee45470e042bb03fd766fc3921547762628423c','gerssssssssman@grg.com'),(12,'laura','aaaaaaaaaaa','{msS1jtprTng2AB40YVfvdy5eT8c7EG3s7tFYslcqyPo=}fe287c890c415d23aaa23119ea35f7859a3242246144e81cc3c6e51dafe01971',' german@grg.com'),(13,'pepem','mlmlmlm','{otWIq0P0/0gZwMwW1AAHtMZAMNNmomPhZOe4W3EBxDI=}5fddafeec346446e46cd4082d09d9b04cb1e6043b4e79a373b083547d27a4d30','dededeman@grg.com'),(14,'pedal','pile','{Tne6d3GVBapI77vRE1a4PFhsFIyX4EkqJMzlZUQqCUI=}2be13e80fd098c5900ca7d91e0754ff6edcd4c1950d2a5dbe6cb13b018a32519','pepen@grg.com'),(15,'vrtrtr','mlmlmlm','{YTx0a8pm6rRrOEJyLg5U58pHylocOZHze3bvnrVRuD8=}d30a69a90b2d67f2635a4987989e4878f3abc9b150a95ccd72c241115d66b53d','germrrrrrrrran@grg.com'),(16,'laura','mlmlmlm','{JTTelrRsuQyGoJya1w94JqOxsXE1D+gKwtpFfUjYSn0=}215f90e3c46d14440dd73fe62aad66143bda11e61abd1a88865a663de9f2dabb','dadasdasdadsadasda@gmail.com'),(17,'dedede','mlmlmlm','{wcZ+cwqcpVD2gJBx1RxlxayVRgeACB5AXKSPpo2lhlw=}77d34f85db295813578a82ab93122f92fe05198b98ab14ebff901de92e87edfe','vvvvvvvn@grg.com'),(18,'swswswsw','aaaaaa','{z2+crs7uisCzyetENKPORAIbs1txxOQYb5WieK+ENpk=}5121981129c1dcdf98d78a111551ef56c36e544a29683c26aa78f97548af41f3','germanaaaaaa@grg.com'),(19,'sqsqsqs','mlmlmlm','{BsZU6DQsdJUXPuqLLJ1o9gbyclilfQUnfZ66LsgMIHs=}d129707ed0f8eff5a83723404132cbc4a636cc1af0fbbac16e398c66f62d97a1','gaaaaaaaerman@grg.com'),(20,'laurawwwwwwww','mlmlmlm','{I8PhaLHS+XSysVQVeDk82vVvGbK21t3wFbQPrCJ53Oo=}5239448b0e66c7f9c6b27917ff0e70ea5e847b8d2116ba180375afcbc35171aa','gerwwwwwwwwwwwman@grg.com'),(21,'rerere','iiiiiiii','{5KcEcrs5neged5nZPRaS5y8rEueeZ6qT3HaJ6UlsByo=}4ac377fabc84d0000aa7c76bab8d035a7747417b5e56a9973c0f8bc7a750994d','geeeeeeeeeeeerman@grg.com'),(22,'frfrfr','mlmlmlm','{CwrkL4XBCHp5DFN44G9sji4BgQURjSkqU/NUOPhrOVM=}4f12d4246f4aa434ee238c14a204d8196365b3db07e4d21493dbacea4062dd3b','aaaaaaagerman@grg.com'),(23,'laura','mlmlmlmeeee','{a20iLY2v3qxOxYC7G9qHELJzsOijBM+84vTR8JwCj4Y=}38e1c396374c031cc760a848b46f0f10bdb62bea1cb7c486229d4b702d06d555','gereeeeman@grg.com'),(24,'lauraww','mlmlmlm','{vJRDReIWDLUtRGDejGTBE/JN1Itclddfhwe3O3lflGU=}3b42eabc4acfd57311b847b72d0a9f4e1efe5a3998487a01f36f22df0dc977df','gewwwwwwwrman@grg.com'),(25,'laura','mlmlmlmsdsds','{4OCra+60UkOavWw+v6gN32qqQ4gsABpSYUWAob/NM9M=}7c76d2b0bbda51354fc1ff23272058ffe361f33c368bebf90a960103f5361b17','germsdsdsdsdsdan@grg.com'),(26,'lauradede','mlmlmlmddd','{Ztcm93zAEAJCLshB7dFErpfAhmLaZ8sDeUl4Uk+DGWk=}b9b4c265c1e8adadc6b832a6d9be03f4b2a8eec67e8006a410270d4c77c5ad8f','germdddan@grg.com'),(27,'laira ','mlmlmlm','{OLuvLh3P47WGusxYjSpasYbTc4D/MluyHX4D43Pd3fk=}500716fcb0896f6be85dc48042e54aec14bd8971f98c8efb71871de452b67656','geaarman@grg.com'),(28,'pedro','paramo','{HO/3LaBcsjNduC3qj/5J9fAd6oyhVtjPWcpq8/+pB4M=}8acafc67ccd2d39c893707d33a473a7f91fffb1bffe0382464bf03164ca446df','pedro@gmail.com'),(29,'pipio','dsadas','{Edz7yvx/Y9POQCEb/Q6wEPMvLsZFNZsGW9bob9jVYnQ=}8195c31530b87d7a7e2d95e06fdec8ac4b901e17ce36599451127a38831a5334','germxan@grg.com'),(30,'laura','mlmlmlm','{OBTaSwAwpwJHlIO9A3f8+eiDTJrxSdYToeCeSnexLcA=}ba58ed4b2358a02b79b3f07c117d0108853dbd572dbf6076a784004b1c21cbb2','germgrgrgrgrgran@grg.com'),(31,'laura','mlmlmlm','{G9oP1ci72FyOQbLBnXuvW3pO0//rBX+T1LQRuIOU+ns=}f8e7550a361adc86ec7f71447bf1ad4a2725ca5bb4b8fa95e1adebd2fe2debec','dsadazdssds@gmail.com'),(32,'laura','mlmlmlm','{8c2duafAckLUO1yCu9uIGiPrkjIUxMQhMxGUi/bC8TA=}662abb3720bf5851362a08669b87a791dcfe1a8f24b95a5a49da25c36a17f798','gerdsdaasdman@grg.com'),(33,'laura','iiiiiiii','{rACQYCt4kPJFORO4R/cMR4BteSdMR1NAgmuD7LTrxmw=}969f22869393a5881c3a23738c927aaf49f5d3ee1f112c3919f0376d0145ec20','germadsdaasasasadddn@grg.com'),(34,'laura','iiiiiiii','{1S7Ym18Rpw5vgUATL3sK+ze0cldInxteJ7ep0TnX30o=}88f83237b8087a0d19c0b2fd8400c27a2644db8f6b22f237e73e735d00590155','fsfsff@gmail.com');
+INSERT INTO `users` VALUES (1,'Saleck','Gonzalez','{PsMlP92WRzalaIOXG5UiZ6hocAyx9slEpXnL7IFnaSY=}63139bd5292412c3a705b8bef38be05ab1dd900aa27c096d4797a2a871add2f3','saleck@lecti.com'),(36,'marcelo','Juárez','{cJjx/lXz/a7g4aSGFLghGGpUqPGQ6YXMBT+7C3Cl45E=}b1b1c6139ebc674ffaaac67a48f64a3a8cfdf67f2c588c9f41269f5b57c0debd','marcelo@lecti.com');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -245,4 +246,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-03 21:11:04
+-- Dump completed on 2024-06-03 22:26:15
