@@ -10,6 +10,7 @@ import com.jvm.lecti.domain.exceptions.InvalidUserIdForPlayerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +45,7 @@ public class PlayerService {
       return false;
    }
 
-   public void addPlayer(String playerName, LocalDateTime birthDate, String alias, User user) {
+   public void addPlayer(String playerName, LocalDate birthDate, String alias, User user) {
       playerDAO.save(new Player(playerName, birthDate, user, alias));
    }
 

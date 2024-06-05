@@ -1,5 +1,6 @@
 package com.jvm.lecti.domain.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class AuthService {
       return (SecurityUser) customUserDetailsService.loadUserByUsername(email);
    }
 
-   public ResponseEntity signUp(String email, String password, String firstName, String lastName, String playerName, LocalDateTime birthDate,
+   public ResponseEntity signUp(String email, String password, String firstName, String lastName, String playerName, LocalDate birthDate,
          String alias, int recommendedModule) {
       List<User> userList = userDAO.findAllByEmail(email);
       if (userList.isEmpty()) {
@@ -69,7 +70,7 @@ public class AuthService {
       return user;
    }
 
-   private Player createNewPlayer(String playerName, LocalDateTime birthDate, String alias, User user, int recommendedModule) {
+   private Player createNewPlayer(String playerName, LocalDate birthDate, String alias, User user, int recommendedModule) {
       Player player = new Player();
       player.setPlayerName(playerName);
       player.setBirthDate(birthDate);

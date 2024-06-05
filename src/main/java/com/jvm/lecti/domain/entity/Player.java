@@ -1,5 +1,6 @@
 package com.jvm.lecti.domain.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -32,7 +33,7 @@ public class Player {
    private String playerName;
 
    @Column(name = "birth_date", nullable = false)
-   private LocalDateTime birthDate;
+   private LocalDate birthDate;
 
    @Column(name = "total_crowns", nullable = false)
    private Integer totalCrowns;
@@ -50,7 +51,7 @@ public class Player {
    @JoinColumn(name = "user_id")
    private User user;
 
-   public Player(String playerName, LocalDateTime birthDate, User user, String alias) {
+   public Player(String playerName, LocalDate birthDate, User user, String alias) {
       this.playerName = playerName;
       this.birthDate = birthDate;
       this.totalCrowns = 0;
