@@ -33,16 +33,8 @@ public class PlayerService {
       return playerDAO.findByUserId(userId);
    }
 
-   public Player getPlayer(long playerId) {
-      return playerDAO.getReferenceById(playerId);
-   }
-
    public List<Player> getUserPlayers(long userId) {
       return playerDAO.findByUserId(userId);
-   }
-
-   public boolean updatePlayerCrowns(int playerId, int totalCrowns, int spentCrowns) {
-      return false;
    }
 
    public void addPlayer(String playerName, LocalDate birthDate, String alias, User user) {
