@@ -36,8 +36,10 @@ public class PlayerController {
    @Autowired
    private UserService userService;
 
-   public PlayerController(PlayerService playerService) {
+   public PlayerController(PlayerService playerService, TokenUtil tokenUtil, UserService userService) {
       this.playerService = playerService;
+      this.tokenUtil = tokenUtil;
+      this.userService = userService;
    }
 
    @GetMapping("/getPlayers")
