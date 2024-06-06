@@ -152,6 +152,7 @@ LOCK TABLES `player` WRITE;
 /*!40000 ALTER TABLE `player` DISABLE KEYS */;
 INSERT INTO `player` VALUES (1,'saleck\'s child','2022-06-23 00:00:00',12,6,1,NULL,'saleck80');
 /*!40000 ALTER TABLE `player` ENABLE KEYS */;
+ALTER TABLE player MODIFY birth_date datetime NULL;
 UNLOCK TABLES;
 
 --
