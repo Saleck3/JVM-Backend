@@ -20,6 +20,11 @@ public class ResultDaoImpl implements ResultDAO {
     }
 
     @Override
+    public Result save(Result result) {
+        return resultRepository.save(result);
+    }
+
+    @Override
     public Optional<Result> findByAppleIdAndPlayerId(Integer appleId, Integer playerId) {
         return resultRepository.findByAppleIdAndPlayerId(appleId, playerId);
     }

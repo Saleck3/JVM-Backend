@@ -71,7 +71,7 @@ public class PlayerController {
          ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
       }
-      playerService.addPlayer(playerRequest.getPlayerName(), playerRequest.getBirthDate(), playerRequest.getAlias(), user);
+      playerService.addPlayer(playerRequest.getPlayerName(), playerRequest.getBirthDate(), user);
       return ResponseEntity.ok("Player added successfully");
    }
 

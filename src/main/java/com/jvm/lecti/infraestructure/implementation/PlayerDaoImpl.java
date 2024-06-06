@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class PlayerDaoImpl implements PlayerDAO {
@@ -19,22 +20,19 @@ public class PlayerDaoImpl implements PlayerDAO {
     }
 
     @Override
+    public Optional<Player> findById(Long id) {
+        return playerRepository.findById(id);
+    }
+
+    @Override
     public List<Player> findByUserId(Long id) {
         return playerRepository.findByUserId(id);
     }
 
-    @Override
-    public int updateCrowns(Integer totalCrowns, Integer spentCrowns) {
-        return 0;
-    }
 
     @Override
     public Player save(Player player) {
         return playerRepository.save(player);
     }
 
-    @Override
-    public Player getReferenceById(long id) {
-        return playerRepository.getReferenceById(id);
-    }
 }
