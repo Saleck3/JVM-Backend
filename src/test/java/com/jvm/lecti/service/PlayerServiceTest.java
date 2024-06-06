@@ -69,10 +69,9 @@ public class PlayerServiceTest {
    public void testAddPlayer() {
       String playerName = "Player1";
       LocalDate birthDate = LocalDate.now();
-      String alias = "Alias1";
       User user = new User();
 
-      playerService.addPlayer(playerName, birthDate, alias, user);
+      playerService.addPlayer(playerName, birthDate, user);
 
       ArgumentCaptor<Player> playerCaptor = ArgumentCaptor.forClass(Player.class);
       verify(playerDAO).save(playerCaptor.capture());
@@ -80,7 +79,7 @@ public class PlayerServiceTest {
 
       assertEquals(playerName, savedPlayer.getPlayerName());
       assertEquals(birthDate, savedPlayer.getBirthDate());
-      assertEquals(alias, savedPlayer.getAlias());
+      assertEquals(playerName, savedPlayer.getAlias());
       assertEquals(user, savedPlayer.getUser());
    }
 
@@ -123,4 +122,5 @@ public class PlayerServiceTest {
 
       assertDoesNotThrow(() -> playerService.checkPermissions(userEmail, playerId));
    }
+
 }

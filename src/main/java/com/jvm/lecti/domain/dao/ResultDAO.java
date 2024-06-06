@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface ResultDAO {
 
+   Result save(Result result);
+
    Optional<Result> findByAppleIdAndPlayerId(Integer appleId, Integer playerId);
 
    Integer findTotalScoreByAppleIdAndPlayerId(List<Integer> appleIds, Integer playerId);

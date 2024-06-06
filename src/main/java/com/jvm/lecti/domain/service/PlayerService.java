@@ -37,8 +37,8 @@ public class PlayerService {
       return playerDAO.findByUserId(userId);
    }
 
-   public void addPlayer(String playerName, LocalDate birthDate, String alias, User user) {
-      playerDAO.save(new Player(playerName, birthDate, user, alias));
+   public void addPlayer(String playerName, LocalDate birthDate, User user) {
+      playerDAO.save(new Player(playerName, birthDate, user, playerName));
    }
 
    public void checkPermissions(String userEmail, long playerId) throws InvalidUserIdForPlayerException, UserNotFoundException {
