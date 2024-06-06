@@ -76,7 +76,7 @@ public class ExerciseController {
          ScoreResponse scoreResponse = ScoreResponse.builder().score(finalScore).build();
          return ResponseEntity.ok(scoreResponse);
       } catch (ApplePlayerNotFoundException | InvalidErrorQuantityException ex) {
-         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST, "Error inside the request"));
+         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage()));
       }
    }
 
