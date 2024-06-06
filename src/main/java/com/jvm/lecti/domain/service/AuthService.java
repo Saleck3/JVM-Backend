@@ -43,13 +43,12 @@ public class AuthService {
       return (SecurityUser) customUserDetailsService.loadUserByUsername(email);
    }
 
-   public ResponseEntity signUp(String email, String password, String firstName, String lastName, String playerName, LocalDate birthDate,
-         String alias, int recommendedModule) {
+   public ResponseEntity signUp(String email, String password, String firstName, String lastName, String playerName, int recommendedModule) {
       List<User> userList = userDAO.findAllByEmail(email);
       if (userList.isEmpty()) {
          try {
             User newUser = userDAO.save(createNewUser(email, password, firstName, lastName));
-            playerDAO.save(createNewPlayer(playerName, birthDate, alias, newUser, recommendedModule));
+            playerDAO.save(createNewPlayer(playerName, newUser, recommendedModule));
             return ResponseEntity.status(HttpStatus.OK).build();
          } catch (Exception e) {
             ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, GENERIC_ERROR_MESSAGE);
@@ -70,11 +69,10 @@ public class AuthService {
       return user;
    }
 
-   private Player createNewPlayer(String playerName, LocalDate birthDate, String alias, User user, int recommendedModule) {
+   private Player createNewPlayer(String playerName, User user, int recommendedModule) {
       Player player = new Player();
       player.setPlayerName(playerName);
-      player.setBirthDate(birthDate);
-      player.setAlias(alias);
+      player.setAlias(playerName);
       player.setUser(user);
       player.setSpentCrowns(0);
       player.setTotalCrowns(0);

@@ -66,8 +66,6 @@ public class AuthServiceTest {
       String firstName = "First";
       String lastName = "Last";
       String playerName = "PlayerName";
-      LocalDate birthDate = LocalDate.now();
-      String alias = "Alias";
       int recommendedModule = 1;
       when(userDAO.findAllByEmail(email)).thenReturn(Collections.emptyList());
 
@@ -76,7 +74,7 @@ public class AuthServiceTest {
       when(userDAO.save(any(User.class))).thenReturn(mockUser);
       when(playerDAO.save(any(Player.class))).thenReturn(mockPlayer);
 
-      ResponseEntity result = authService.signUp(email, password, firstName, lastName, playerName, birthDate, alias, recommendedModule);
+      ResponseEntity result = authService.signUp(email, password, firstName, lastName, playerName, recommendedModule);
 
       assertEquals(HttpStatus.OK, result.getStatusCode());
       verify(userDAO).save(any(User.class));
@@ -90,12 +88,11 @@ public class AuthServiceTest {
       String firstName = "First";
       String lastName = "Last";
       String playerName = "PlayerName";
-      LocalDate birthDate = LocalDate.now();
-      String alias = "Alias";
+
       int recommendedModule = 1;
       when(userDAO.findAllByEmail(email)).thenReturn(Collections.singletonList(new User()));
 
-      ResponseEntity result = authService.signUp(email, password, firstName, lastName, playerName, birthDate, alias, recommendedModule);
+      ResponseEntity result = authService.signUp(email, password, firstName, lastName, playerName, recommendedModule);
 
       assertEquals(HttpStatus.CONFLICT, result.getStatusCode());
       verify(userDAO, never()).save(any(User.class));
@@ -109,17 +106,16 @@ public class AuthServiceTest {
       String firstName = "First";
       String lastName = "Last";
       String playerName = "PlayerName";
-      LocalDate birthDate = LocalDate.now();
-      String alias = "Alias";
       int recommendedModule = 1;
       when(userDAO.findAllByEmail(email)).thenReturn(Collections.emptyList());
       when(userDAO.save(any(User.class))).thenThrow(new RuntimeException());
 
-      ResponseEntity result = authService.signUp(email, password, firstName, lastName, playerName, birthDate, alias, recommendedModule);
+      ResponseEntity result = authService.signUp(email, password, firstName, lastName, playerName, recommendedModule);
 
       assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
       verify(userDAO).save(any(User.class));
       verify(playerDAO, never()).save(any(Player.class));
    }
+
 }
 
