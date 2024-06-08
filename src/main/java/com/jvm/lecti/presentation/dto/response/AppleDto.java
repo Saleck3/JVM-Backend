@@ -15,7 +15,7 @@ public class AppleDto {
 
    private String name;
 
-   private Integer crowns;
+   private Integer score;
 
    private EAppleType appleType;
 

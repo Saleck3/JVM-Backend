@@ -7,7 +7,6 @@ import com.jvm.lecti.domain.service.AppleService;
 import com.jvm.lecti.presentation.dto.response.ErrorResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +20,7 @@ import com.jvm.lecti.presentation.util.ErrorResponseUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @RestController
 @RequestMapping("/api/apple")
@@ -35,14 +35,9 @@ public class AppleController {
    private ErrorResponseUtil errorResponseUtil;
 
    @GetMapping("/getApplesByModuleId")
-   public ResponseEntity getApplesFromModule(HttpServletRequest request, @RequestParam(value = "moduleId", required = false) Integer moduleId,
-         @RequestParam(value = "playerId", required = false) Integer playerId) {
-      if (playerId == null) {
-         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required parameter: playerId"));
-      }
-      if (moduleId == null) {
-         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required parameter: moduleId"));
-      }
+   public ResponseEntity getApplesFromModule(HttpServletRequest request,
+         @NonNull @RequestParam(value = "moduleId", required = false) Integer moduleId,
+         @NonNull @RequestParam(value = "playerId", required = false) Integer playerId) {
       ResponseEntity<ErrorResponse> errorResponse = errorResponseUtil.checkPermissionForUser(request, playerId);
       if (errorResponse != null) {
          return errorResponse;

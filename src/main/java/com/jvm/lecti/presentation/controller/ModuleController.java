@@ -17,6 +17,7 @@ import com.jvm.lecti.presentation.mappers.ModuleMapper;
 import com.jvm.lecti.presentation.util.ErrorResponseUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.NonNull;
 
 @RestController
 @RequestMapping("/api/modules")
@@ -32,7 +33,7 @@ public class ModuleController {
    private ErrorResponseUtil errorResponseUtil;
 
    @GetMapping
-   public ResponseEntity getAllModules(HttpServletRequest request, @RequestParam(value = "playerId") Integer playerId) {
+   public ResponseEntity getAllModules(HttpServletRequest request, @NonNull @RequestParam(value = "playerId") Integer playerId) {
       ResponseEntity<ErrorResponse> errorResponse = errorResponseUtil.checkPermissionForUser(request, playerId);
       if (errorResponse != null) {
          return errorResponse;

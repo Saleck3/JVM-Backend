@@ -1,7 +1,6 @@
 package com.jvm.lecti.presentation.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,8 +27,10 @@ import com.jvm.lecti.presentation.mappers.ExerciseMapper;
 import com.jvm.lecti.presentation.util.ErrorResponseUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @RestController
 @RequestMapping("/api/exercise")
@@ -50,12 +51,14 @@ public class ExerciseController {
    private ScoringService scoringService;
 
    @GetMapping("/getExerciseByAppleId")
-   public ResponseEntity getExerciseByAppleId(HttpServletRequest httpServletRequest, @RequestParam(value = "appleId") Integer appleId,
-         @RequestParam(value = "playerId") Integer playerId) {
-      if (appleId == null) {
-         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required parameter: appleId"));
+   public ResponseEntity getExerciseByAppleId(HttpServletRequest httpServletRequest, @NonNull @RequestParam(value = "appleId") Integer appleId,
+         @NonNull @RequestParam(value = "playerId") Integer playerId) {
+      ResponseEntity<ErrorResponse> errorResponse = errorResponseUtil.checkPermissionForUser(httpServletRequest, playerId);
+
+      if (errorResponse != null) {
+         return errorResponse;
       }
-      errorResponseUtil.checkPermissionForUser(httpServletRequest, playerId);
+
       List<Exercise> exercises = exerciseService.getExercisesByApple(appleId);
       List<ExerciseDto> exercisesDto = ExerciseMapper.INSTANCE.exerciseListToExerciseListDto(exercises);
       Integer moduleId = moduleService.obtainModuleIdFromExercise(exercises);
@@ -64,12 +67,13 @@ public class ExerciseController {
    }
 
    @PostMapping("/obtainScore")
-   public ResponseEntity generateScoreForPlayer(HttpServletRequest httpServletRequest, @RequestBody ScoreRequest scoreRequest) {
-      Optional<ResponseEntity<ErrorResponse>> validationError = validateRequest(scoreRequest);
-      if (validationError.isPresent()) {
-         return validationError.get();
+   public ResponseEntity generateScoreForPlayer(HttpServletRequest httpServletRequest, @Valid @RequestBody ScoreRequest scoreRequest) {
+      ResponseEntity<ErrorResponse> errorResponse = errorResponseUtil.checkPermissionForUser(httpServletRequest, scoreRequest.getPlayerId());
+
+      if (errorResponse != null) {
+         return errorResponse;
       }
-      errorResponseUtil.checkPermissionForUser(httpServletRequest, scoreRequest.getPlayerId());
+
       try {
          Integer finalScore = scoringService.generateScoreForPlayer(scoreRequest.getPlayerId(), scoreRequest.getAppleId(),
                scoreRequest.getExercises());
@@ -78,23 +82,6 @@ public class ExerciseController {
       } catch (ApplePlayerNotFoundException | InvalidErrorQuantityException ex) {
          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage()));
       }
-   }
-
-   private Optional<ResponseEntity<ErrorResponse>> validateRequest(ScoreRequest scoreRequest) {
-      if (scoreRequest.getPlayerId() == null) {
-         return Optional.of(
-               ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required parameter: playerId")));
-      }
-      if (scoreRequest.getAppleId() == null) {
-         return Optional.of(
-               ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required parameter: appleId")));
-      }
-      if (scoreRequest.getExercises() == null || scoreRequest.getExercises().isEmpty()) {
-         return Optional.of(ResponseEntity
-               .status(HttpStatus.BAD_REQUEST)
-               .body(new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required parameter: exercises")));
-      }
-      return Optional.empty();
    }
 
 }
