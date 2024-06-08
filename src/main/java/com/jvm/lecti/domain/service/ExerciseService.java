@@ -22,4 +22,6 @@ public class ExerciseService {
       return exerciseDAO.findAllByAppleId(appleId);
    }
 
+
+
 }

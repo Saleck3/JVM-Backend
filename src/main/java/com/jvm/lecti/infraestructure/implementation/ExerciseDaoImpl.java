@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class ExerciseDaoImpl implements ExerciseDAO {
@@ -22,4 +23,10 @@ public class ExerciseDaoImpl implements ExerciseDAO {
     public List<Exercise> findAllByAppleId(Integer appleId) {
         return exerciseRepository.findAllByAppleId(appleId);
     }
+
+    @Override
+    public Optional<Exercise> findById(Integer exerciseId) {
+        return exerciseRepository.findById(exerciseId);
+    }
+
 }
