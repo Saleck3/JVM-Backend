@@ -2,6 +2,7 @@ package com.jvm.lecti.presentation.controller;
 
 import java.util.List;
 
+import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,14 +46,9 @@ public class AudioExerciseController {
    }
 
    @PostMapping("/checkAudio")
-   public ResponseEntity checkAudio(HttpServletRequest request, @RequestParam(value = "exerciseId", required = false) Integer exerciseId,
-         @RequestParam("file") MultipartFile file) {
-      if (exerciseId == null) {
-         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing required parameter: playerId"));
-      }
-      if (file == null ) {
-         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST, "Missing or Empty required parameter: file"));
-      }
+   public ResponseEntity checkAudio(HttpServletRequest request,@NonNull @RequestParam(value = "exerciseId", required = false) Integer exerciseId,
+         @NonNull @RequestParam("file") MultipartFile file) {
+
       AudioExerciseValue aev = audioExerciseService.checkExercise(file, exerciseId);
       return ResponseEntity.ok(aev);
    }
