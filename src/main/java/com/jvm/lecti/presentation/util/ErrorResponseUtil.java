@@ -27,10 +27,9 @@ public class ErrorResponseUtil {
          String email = claims.getSubject();
          playerService.checkPermissions(email, playerId);
       } catch (Exception e) {
-         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, e.getMessage());
+         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, "The user doesn't have permission to access to this player");
          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
-      }
-      return null;
+      } return null;
    }
 
 }
