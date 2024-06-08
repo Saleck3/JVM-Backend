@@ -27,6 +27,7 @@ import com.jvm.lecti.presentation.mappers.ExerciseMapper;
 import com.jvm.lecti.presentation.util.ErrorResponseUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -66,7 +67,7 @@ public class ExerciseController {
    }
 
    @PostMapping("/obtainScore")
-   public ResponseEntity generateScoreForPlayer(HttpServletRequest httpServletRequest, @RequestBody ScoreRequest scoreRequest) {
+   public ResponseEntity generateScoreForPlayer(HttpServletRequest httpServletRequest, @Valid @RequestBody ScoreRequest scoreRequest) {
       ResponseEntity<ErrorResponse> errorResponse = errorResponseUtil.checkPermissionForUser(httpServletRequest, scoreRequest.getPlayerId());
 
       if (errorResponse != null) {

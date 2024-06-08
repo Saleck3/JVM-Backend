@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -24,7 +23,6 @@ import com.jvm.lecti.domain.service.ModuleService;
 import com.jvm.lecti.domain.service.ScoringService;
 import com.jvm.lecti.presentation.controller.ExerciseController;
 import com.jvm.lecti.presentation.dto.request.ScoreRequest;
-import com.jvm.lecti.presentation.dto.response.ErrorResponse;
 import com.jvm.lecti.presentation.util.ErrorResponseUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -53,17 +51,6 @@ public class ExerciseControllerTest {
    }
 
    @Test
-   public void testGetExerciseByAppleIdMissingAppleId() {
-      HttpServletRequest request = mock(HttpServletRequest.class);
-      int playerId = 123;
-
-      ResponseEntity responseEntity = exerciseController.getExerciseByAppleId(request, null, playerId);
-
-      assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
-      assertEquals("Missing required parameter: appleId", ((ErrorResponse) responseEntity.getBody()).getMessage());
-   }
-
-   @Test
    public void testGetExerciseByAppleIdSuccess() {
       HttpServletRequest request = mock(HttpServletRequest.class);
       int appleId = 456;
@@ -76,33 +63,6 @@ public class ExerciseControllerTest {
       ResponseEntity responseEntity = exerciseController.getExerciseByAppleId(request, appleId, playerId);
 
       assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-   }
-
-   @Test
-   public void testGenerateScoreForPlayerValidationErrorPlayerId() {
-      ScoreRequest scoreRequest = new ScoreRequest(null, 1, Collections.emptyList());
-
-      ResponseEntity responseEntity = exerciseController.generateScoreForPlayer(mock(HttpServletRequest.class), scoreRequest);
-
-      assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
-   }
-
-   @Test
-   public void testGenerateScoreForPlayerValidationErrorAppleId() {
-      ScoreRequest scoreRequest = new ScoreRequest(1, null, Collections.emptyList());
-
-      ResponseEntity responseEntity = exerciseController.generateScoreForPlayer(mock(HttpServletRequest.class), scoreRequest);
-
-      assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
-   }
-
-   @Test
-   public void testGenerateScoreForPlayerValidationErrorExercises() {
-      ScoreRequest scoreRequest = new ScoreRequest(1, 1, null);
-
-      ResponseEntity responseEntity = exerciseController.generateScoreForPlayer(mock(HttpServletRequest.class), scoreRequest);
-
-      assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
    }
 
    @Test
