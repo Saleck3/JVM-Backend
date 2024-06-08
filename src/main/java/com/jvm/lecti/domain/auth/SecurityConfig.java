@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.MessageDigestPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.jvm.lecti.domain.service.CustomUserDetailsService;
 
@@ -40,17 +39,19 @@ public class SecurityConfig {
 
    @Bean
    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-      http
-            .csrf(csrf -> csrf.disable()) // Disable CSRF protection
-            .authorizeHttpRequests(authorize -> authorize
-                  .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
-                  .requestMatchers("/api/auth/**").permitAll()// Allow unauthenticated access to /api/auth/**
-                  .anyRequest().authenticated() // All other requests require authentication
-            )
-            .sessionManagement(session -> session
-                  .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless session management
-            )
-            .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT filter before UsernamePasswordAuthenticationFilter
+      http.csrf(csrf -> csrf.disable()) // Disable CSRF protection
+          .authorizeHttpRequests(authorize -> authorize
+                .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR)
+                .permitAll()
+                .requestMatchers("/api/auth/**")
+                .permitAll()// Allow unauthenticated access to /api/auth/**
+                .anyRequest()
+                .authenticated() // All other requests require authentication
+          )
+          .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless session management
+          )
+          .addFilterBefore(jwtAuthorizationFilter,
+                UsernamePasswordAuthenticationFilter.class); // Add JWT filter before UsernamePasswordAuthenticationFilter
 
       return http.build();
    }

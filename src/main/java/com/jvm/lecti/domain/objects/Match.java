@@ -29,7 +29,7 @@ public class Match {
 
    private List<String> unmatchTranscriptWords;
 
-   public Match(Transcript t, String expectedText){
+   public Match(Transcript t, String expectedText) {
       transcript = t;
       this.expectedText = expectedText.toLowerCase();
       matchWords = new ArrayList<>();
@@ -37,38 +37,38 @@ public class Match {
       unmatchTranscriptWords = new ArrayList<>();
    }
 
-   public boolean textMatch(){
+   public boolean textMatch() {
       String transText = transcript.getText().get();
       transText = normalizeAndRemoveSpecialChars(transText);
       return transText.equalsIgnoreCase(expectedText);
    }
 
-   public List<String> getExpectedWords(){
+   public List<String> getExpectedWords() {
       List<String> expWords = new ArrayList<>();
-      for(String ew : Arrays.asList(expectedText.split(" "))){
+      for (String ew : Arrays.asList(expectedText.split(" "))) {
          expWords.add(normalizeAndRemoveSpecialChars(ew));
       }
       return expWords;
    }
 
-   public List<TranscriptWord> getTranscriptWords(){
+   public List<TranscriptWord> getTranscriptWords() {
       return transcript.getWords().get();
    }
 
-   public List<String> getTranscriptWordsValue(){
+   public List<String> getTranscriptWordsValue() {
       List<String> twv = new ArrayList<String>();
-      for(TranscriptWord tw : getTranscriptWords()){
+      for (TranscriptWord tw : getTranscriptWords()) {
          String normalizeTW = normalizeAndRemoveSpecialChars(tw.getText()).toLowerCase();
-         if(!twv.contains(normalizeTW)){
+         if (!twv.contains(normalizeTW)) {
             twv.add(normalizeTW);
          }
       }
       return twv;
    }
 
-   public void addWordToList(String word, int list){ //1 match, 2 unmatchExpected, 3 unmatchedTranscript
-      switch (list){
-         case 1 :
+   public void addWordToList(String word, int list) { //1 match, 2 unmatchExpected, 3 unmatchedTranscript
+      switch (list) {
+         case 1:
             matchWords.add(word);
             break;
          case 2:
@@ -89,8 +89,8 @@ public class Match {
       return normalized;
    }
 
-   public boolean expectedIsAWord(){
-      return getExpectedWords().size()==1 ? true : false;
+   public boolean expectedIsAWord() {
+      return getExpectedWords().size() == 1 ? true : false;
    }
 
 }

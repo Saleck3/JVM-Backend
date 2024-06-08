@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class AudioExerciseValue {
 
-   private Integer crowns;
+   private Integer score;
 
    private boolean isCorrect;
 

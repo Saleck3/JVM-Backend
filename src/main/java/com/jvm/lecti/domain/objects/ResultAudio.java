@@ -6,11 +6,9 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 
 @Setter
 @Getter
@@ -28,41 +26,43 @@ public class ResultAudio {
 
    private String correctionDesc;
 
-
-   public ResultAudio(boolean isCorrect){
+   public ResultAudio(boolean isCorrect) {
       this.isCorrect = isCorrect;
       correctionByWord = new HashMap<>();
       correctionDesc = "";
-      if(isCorrect) correctionText = correctAnswerText;
+      if (isCorrect) {
+         correctionText = correctAnswerText;
+      }
    }
 
-   public void setCorrect(){
+   public void setCorrect() {
       this.correctAnswerText = correctAnswerText;
    }
 
-   public void addWordToCorrectionMessage(String word, boolean isCorrect){
-      if(isCorrect){
-         correctionText.concat("#"+word+"#"+"|");
+   public void addWordToCorrectionMessage(String word, boolean isCorrect) {
+      if (isCorrect) {
+         correctionText.concat("#" + word + "#" + "|");
       } else {
-         correctionText.concat("*"+word+"*"+"|");
+         correctionText.concat("*" + word + "*" + "|");
       }
    }
-   public void processRetry(Match ma){
+
+   public void processRetry(Match ma) {
       isCorrect = false;
       correctionText = getFeedback(ma);
    }
 
-   private String getMessageRetry(Match ma){
+   private String getMessageRetry(Match ma) {
       String msg = "Probemos devuelta!";
       String msgRetryWords = "Repasando la palabra ";
-      for(String uew : ma.getUnmatchExpectedWords()){
-         msgRetryWords += uew+" ";
+      for (String uew : ma.getUnmatchExpectedWords()) {
+         msgRetryWords += uew + " ";
       }
       msg += msgRetryWords;
       return msg;
    }
 
-   private String getFeedback(Match ma){
+   private String getFeedback(Match ma) {
       StringBuilder feedback = new StringBuilder();
 
       if (ma.expectedIsAWord()) {
@@ -77,13 +77,13 @@ public class ResultAudio {
          feedback.append("Buen trabajo! Lo estás haciendo muy bien.");
 
          if (!ma.getMatchWords().isEmpty()) {
-            feedback.append("Dijiste correctamente estas palabras: ");
+            feedback.append(" Dijiste correctamente estas palabras: ");
             feedback.append(String.join(", ", ma.getMatchWords()));
             feedback.append(".");
          }
 
          if (!ma.getUnmatchExpectedWords().isEmpty()) {
-            feedback.append("Intentemos de nuevo con estas palabras: ");
+            feedback.append(" Intentemos de nuevo con estas palabras: ");
             feedback.append(String.join(", ", ma.getUnmatchExpectedWords()));
             feedback.append(".");
          }
@@ -98,4 +98,5 @@ public class ResultAudio {
       Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
       return pattern.matcher(normalized).replaceAll("");
    }
+
 }
