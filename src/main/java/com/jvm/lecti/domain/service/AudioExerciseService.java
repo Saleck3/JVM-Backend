@@ -34,7 +34,7 @@ public class AudioExerciseService {
       Transcript transcript;
       ResultAudio ra = new ResultAudio();
       try {
-         expectedText = exerciseDAO.findById(exerciseId).get().getParameters();
+         expectedText = "el leon ruge";//exerciseDAO.findById(exerciseId).get().getParameters();
          transcript = assemblyAiService.trasncribe(convertToFile(mFile, "exercise" + ".mp3"));
          ra = processResult(transcript, expectedText);
       } catch (Exception e) {
