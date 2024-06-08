@@ -48,6 +48,13 @@ jobs:
           property: "jwt.secret"
           value: "${{ secrets.JWT_SECRET }}"
 
+      - name: Rewrite ASSEMBLY_AI_SECRET
+        uses: Reedyuk/write-properties@v1.0.3
+        with:
+          path: "./src/main/resources/application-prod.properties"
+          property: "assemblyAi.secret"
+          value: "${{ secrets.ASSEMBLY_AI_SECRET }}"
+
       - name: Build with Maven
         run: mvn package --file pom.xml
 
@@ -56,13 +63,6 @@ jobs:
         with:
           name: java-app
           path: "${{ github.workspace }}/target/*.jar"
-
-      - name: Rewrite ASSEMBLY_AI_SECRET
-        uses: Reedyuk/write-properties@v1.0.3
-        with:
-          path: "./src/main/resources/application-prod.properties"
-          property: "assemblyAi.secret"
-          value: "${{ secrets.ASSEMBLY_AI_SECRET }}"
 
   deploy:
     runs-on: ubuntu-latest
