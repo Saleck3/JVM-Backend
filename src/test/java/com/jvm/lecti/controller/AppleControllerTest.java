@@ -36,7 +36,7 @@ public class AppleControllerTest {
 
    @Test
    public void testGetApplesFromModuleSuccess() {
-      AppleResultValue appleResultValue = AppleResultValue.builder().id(1).name("Apple test").crowns(2).appleType(EAppleType.NO_IA).build();
+      AppleResultValue appleResultValue = AppleResultValue.builder().id(1).name("Apple test").score(2).appleType(EAppleType.NO_IA).build();
       HttpServletRequest request = mock(HttpServletRequest.class);
       int playerId = 123;
       int moduleId = 456;

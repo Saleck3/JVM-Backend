@@ -52,8 +52,8 @@ public class AppleServiceTest {
       List<AppleResultValue> resultValues = appleService.getAppleResultWithPlayerCrowns(moduleId, playerId);
 
       assertEquals(2, resultValues.size());
-      assertEquals(5, resultValues.get(0).getCrowns());
-      assertEquals(0, resultValues.get(1).getCrowns());
+      assertEquals(5, resultValues.get(0).getScore());
+      assertEquals(0, resultValues.get(1).getScore());
       verify(appleDAO, times(1)).findAllByModuleIdOrderByIndex(moduleId);
       verify(resultDAO, times(1)).findByAppleIdAndPlayerId(1, playerId);
       verify(resultDAO, times(1)).findByAppleIdAndPlayerId(2, playerId);

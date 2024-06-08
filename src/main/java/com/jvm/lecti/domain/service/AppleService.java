@@ -33,13 +33,13 @@ public class AppleService {
                   .builder()
                   .id(apple.getId())
                   .name(apple.getName())
-                  .crowns(0)
+                  .score(0)
                   .appleType(apple.getAppleType())
                   .build();
             Optional<Result> resultOptional = resultDAO.findByAppleIdAndPlayerId(apple.getId(), playerId);
             if (resultOptional.isPresent()) {
                Result resultEntity = resultOptional.get();
-               appleResultValue.setCrowns(resultEntity.getScore());
+               appleResultValue.setScore(resultEntity.getScore());
             }
 
             appleResultValueList.add(appleResultValue);

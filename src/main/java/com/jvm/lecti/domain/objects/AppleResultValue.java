@@ -13,7 +13,7 @@ public class AppleResultValue {
 
    private String name;
 
-   private Integer crowns;
+   private Integer score;
 
    private EAppleType appleType;
 
