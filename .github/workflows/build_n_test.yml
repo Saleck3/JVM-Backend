@@ -3,7 +3,7 @@ name: Build and test
 on:
   push:
     branches:
-      - '**'
+      - "**"
   workflow_dispatch:
 
 jobs:
@@ -15,6 +15,7 @@ jobs:
       MYSQL_USER: ${{ vars.MYSQL_USER }}
       MYSQL_PASS: ${{ secrets.MYSQL_PASS }}
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      ASSEMBLY_AI_SECRET: ${{ secrets.ASSEMBLY_AI_SECRET }}
 
     steps:
       - uses: actions/checkout@v4
@@ -46,6 +47,13 @@ jobs:
           path: "./src/main/resources/application-prod.properties"
           property: "jwt.secret"
           value: "${{ secrets.JWT_SECRET }}"
+
+      - name: Rewrite ASSEMBLY_AI_SECRET
+        uses: Reedyuk/write-properties@v1.0.3
+        with:
+          path: "./src/main/resources/application-prod.properties"
+          property: "assemblyAi.secret"
+          value: "${{ secrets.ASSEMBLY_AI_SECRET }}"
 
       - name: Build with Maven
         run: mvn package --file pom.xml
