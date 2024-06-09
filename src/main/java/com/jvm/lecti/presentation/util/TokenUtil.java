@@ -24,7 +24,7 @@ public class TokenUtil {
    @Value("${jwt.secret}")
    private String secretKey;
 
-   private long accessTokenValidity = 40 * 60 * 1000;
+   private long accessTokenValidity = 180 * 60 * 1000;
 
    private final JwtParser jwtParser;
 
