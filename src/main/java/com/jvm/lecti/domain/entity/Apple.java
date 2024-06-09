@@ -3,7 +3,7 @@ package com.jvm.lecti.domain.entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
-import com.jvm.lecti.domain.enums.EAppleType;
+import com.jvm.lecti.domain.enums.AppleType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,7 +42,7 @@ public class Apple {
 
    @Column(name = "apple_type")
    @Enumerated(EnumType.STRING)
-   private EAppleType appleType;
+   private AppleType appleType;
 
    public Apple(int id, String name) {
       this.id = id;

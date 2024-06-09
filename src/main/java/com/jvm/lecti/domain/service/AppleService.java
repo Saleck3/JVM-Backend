@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.jvm.lecti.domain.entity.Apple;
 import com.jvm.lecti.domain.entity.Result;
-import com.jvm.lecti.domain.enums.ECrownScore;
+import com.jvm.lecti.domain.enums.CrownScore;
 import com.jvm.lecti.domain.objects.AppleResultValue;
 
 @Service("AppleService")
@@ -27,24 +27,10 @@ public class AppleService {
    public List<AppleResultValue> getAppleResultWithPlayerCrowns(Integer moduleId, Integer playerId) {
       List<AppleResultValue> appleResultValueList = new ArrayList<>();
       List<Apple> appleList = appleDAO.findAllByModuleIdOrderByIndex(moduleId);
-      if (!appleList.isEmpty()) {
-         for (Apple apple : appleList) {
-            AppleResultValue appleResultValue = AppleResultValue
-                  .builder()
-                  .id(apple.getId())
-                  .name(apple.getName())
-                  .score(0)
-                  .appleType(apple.getAppleType())
-                  .build();
-            Optional<Result> resultOptional = resultDAO.findByAppleIdAndPlayerId(apple.getId(), playerId);
-            if (resultOptional.isPresent()) {
-               Result resultEntity = resultOptional.get();
-               appleResultValue.setScore(resultEntity.getScore());
-            }
+      appleList.forEach(apple -> {
+         completeWithResult(playerId, apple, appleResultValueList);
+      });
 
-            appleResultValueList.add(appleResultValue);
-         }
-      }
       return appleResultValueList;
    }
 
@@ -60,8 +46,24 @@ public class AppleService {
       return 0;
    }
 
+   private void completeWithResult(Integer playerId, Apple apple, List<AppleResultValue> appleResultValueList) {
+      AppleResultValue appleResultValue = AppleResultValue
+            .builder()
+            .id(apple.getId())
+            .name(apple.getName())
+            .score(0)
+            .appleType(apple.getAppleType())
+            .build();
+      Optional<Result> resultOptional = resultDAO.findByAppleIdAndPlayerId(apple.getId(), playerId);
+      if (resultOptional.isPresent()) {
+         Result resultEntity = resultOptional.get();
+         appleResultValue.setScore(resultEntity.getScore());
+      }
+      appleResultValueList.add(appleResultValue);
+   }
+
    private Integer getProgressFromApples(Integer totalApples, Integer totalScoreFromPlayer) {
-      Integer totalAppleCrowns = totalApples * ECrownScore.THREE_CROWN.getValue();
+      Integer totalAppleCrowns = totalApples * CrownScore.THREE_CROWN.getValue();
       // Verificar si totalAppleCrowns es 0 para evitar división por cero
       if (totalAppleCrowns == 0) {
          return 0;

@@ -59,10 +59,12 @@ public class ExerciseController {
          return errorResponse;
       }
 
+      //Revisar
       List<Exercise> exercises = exerciseService.getExercisesByApple(appleId);
       List<ExerciseDto> exercisesDto = ExerciseMapper.INSTANCE.exerciseListToExerciseListDto(exercises);
       Integer moduleId = moduleService.obtainModuleIdFromExercise(exercises);
 
+      //Revisar firma
       return ResponseEntity.ok(ExerciseResponse.builder().moduleId(moduleId).exercises(exercisesDto).build());
    }
 

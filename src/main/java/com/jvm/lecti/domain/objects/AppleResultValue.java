@@ -1,6 +1,6 @@
 package com.jvm.lecti.domain.objects;
 
-import com.jvm.lecti.domain.enums.EAppleType;
+import com.jvm.lecti.domain.enums.AppleType;
 
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +15,6 @@ public class AppleResultValue {
 
    private Integer score;
 
-   private EAppleType appleType;
+   private AppleType appleType;
 
 }

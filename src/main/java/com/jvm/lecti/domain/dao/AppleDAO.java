@@ -13,7 +13,6 @@ public interface AppleDAO {
 
    List<Integer> findAllIdByModuleId(Integer moduleId);
 
-
    Optional<Apple> findById(Integer id);
 
 }
