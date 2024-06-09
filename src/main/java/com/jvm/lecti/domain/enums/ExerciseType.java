@@ -1,6 +1,6 @@
 package com.jvm.lecti.domain.enums;
 
-public enum EExerciseType {
+public enum ExerciseType {
 
    letter_ordering,
    image_selection,

@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.jvm.lecti.domain.enums.EAppleType;
+import com.jvm.lecti.domain.enums.AppleType;
 import com.jvm.lecti.domain.objects.AppleResultValue;
 import com.jvm.lecti.domain.service.AppleService;
 import com.jvm.lecti.presentation.controller.AppleController;
@@ -36,7 +36,7 @@ public class AppleControllerTest {
 
    @Test
    public void testGetApplesFromModuleSuccess() {
-      AppleResultValue appleResultValue = AppleResultValue.builder().id(1).name("Apple test").score(2).appleType(EAppleType.NO_IA).build();
+      AppleResultValue appleResultValue = AppleResultValue.builder().id(1).name("Apple test").score(2).appleType(AppleType.NO_IA).build();
       HttpServletRequest request = mock(HttpServletRequest.class);
       int playerId = 123;
       int moduleId = 456;

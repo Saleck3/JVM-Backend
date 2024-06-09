@@ -1,6 +1,6 @@
 package com.jvm.lecti.presentation.dto.response;
 
-import com.jvm.lecti.domain.enums.EExerciseType;
+import com.jvm.lecti.domain.enums.ExerciseType;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ public class ExerciseDto {
 
    private Integer id;
 
-   private EExerciseType exerciseType;
+   private ExerciseType exerciseType;
 
    private String parameters;
 

@@ -1,5 +1,9 @@
 package com.jvm.lecti.domain.service;
 
+import static com.jvm.lecti.domain.enums.CrownScore.ONE_CROWN;
+import static com.jvm.lecti.domain.enums.CrownScore.THREE_CROWN;
+import static com.jvm.lecti.domain.enums.CrownScore.TWO_CROWN;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +17,6 @@ import com.jvm.lecti.domain.entity.Apple;
 import com.jvm.lecti.domain.entity.Player;
 import com.jvm.lecti.domain.entity.Result;
 import com.jvm.lecti.domain.entity.ResultId;
-import com.jvm.lecti.domain.enums.ECrownScore;
 import com.jvm.lecti.domain.exceptions.ApplePlayerNotFoundException;
 import com.jvm.lecti.domain.exceptions.InvalidErrorQuantityException;
 
@@ -61,11 +64,11 @@ public class ScoringService {
 
    private Integer getScoreFromErrors(Integer errors) {
       if (errors <= AT_LEAST_ONE_ERROR) {
-         return ECrownScore.THREE_CROWN.getValue();
+         return THREE_CROWN.getValue();
       } else if (errors <= AT_LEAST_THREE_ERRORS) {
-         return ECrownScore.TWO_CROWN.getValue();
+         return TWO_CROWN.getValue();
       } else {
-         return ECrownScore.ONE_CROWN.getValue();
+         return ONE_CROWN.getValue();
       }
    }
 

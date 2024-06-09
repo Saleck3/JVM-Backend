@@ -1,6 +1,6 @@
 package com.jvm.lecti.domain.enums;
 
-public enum ECrownScore {
+public enum CrownScore {
 
    ONE_CROWN(1),
    TWO_CROWN(2),
@@ -8,7 +8,7 @@ public enum ECrownScore {
 
    private final int value;
 
-   ECrownScore(int value) {
+   CrownScore(int value) {
       this.value = value;
    }
 

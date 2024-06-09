@@ -1,6 +1,6 @@
 package com.jvm.lecti.presentation.dto.response;
 
-import com.jvm.lecti.domain.enums.EAppleType;
+import com.jvm.lecti.domain.enums.AppleType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +17,6 @@ public class AppleDto {
 
    private Integer score;
 
-   private EAppleType appleType;
+   private AppleType appleType;
 
 }

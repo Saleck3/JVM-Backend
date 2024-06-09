@@ -3,7 +3,7 @@ package com.jvm.lecti.domain.entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
-import com.jvm.lecti.domain.enums.EExerciseType;
+import com.jvm.lecti.domain.enums.ExerciseType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,7 +36,7 @@ public class Exercise {
 
    @Column(name = "exercise_type")
    @Enumerated(EnumType.STRING)
-   private EExerciseType exerciseType;
+   private ExerciseType exerciseType;
 
    @Column(name = "parameters")
    private String parameters;

@@ -1,6 +1,6 @@
 package com.jvm.lecti.domain.enums;
 
-public enum EAppleType {
+public enum AppleType {
 
    NO_IA,
    VOICE_IA,
