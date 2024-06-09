@@ -4,5 +4,6 @@ public enum AppleType {
 
    NO_IA,
    VOICE_IA,
-   IMAGE_IA
+   IMAGE_IA,
+   RECOMMENDED_MODULE
 }

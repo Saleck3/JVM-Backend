@@ -1,5 +1,7 @@
 package com.jvm.lecti.presentation.controller;
 
+import static com.jvm.lecti.domain.enums.AppleType.RECOMMENDED_MODULE;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +86,14 @@ public class ExerciseController {
       } catch (ApplePlayerNotFoundException | InvalidErrorQuantityException ex) {
          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage()));
       }
+   }
+
+   @GetMapping("/obtainTest")
+   public ResponseEntity getExercisesRecommendationTest() {
+      List<Exercise> exercises = exerciseService.getExercisesByAppleType(RECOMMENDED_MODULE);
+      List<ExerciseDto> exercisesDto = ExerciseMapper.INSTANCE.exerciseListToExerciseListDto(exercises);
+      Integer moduleId = moduleService.obtainModuleIdFromExercise(exercises);
+      return ResponseEntity.ok(ExerciseResponse.builder().moduleId(moduleId).exercises(exercisesDto).build());
    }
 
 }

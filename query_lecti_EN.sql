@@ -35,13 +35,15 @@ CREATE TABLE `apple` (
 ) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+ALTER TABLE `apple`
+    MODIFY `apple_type` ENUM('NO_IA', 'VOICE_IA', 'IMAGE_IA', 'RECOMMENDED_MODULE') DEFAULT 'NO_IA';
 --
 -- Dumping data for table `apple`
 --
 
 LOCK TABLES `apple` WRITE;
 /*!40000 ALTER TABLE `apple` DISABLE KEYS */;
-INSERT INTO `apple` VALUES (1,'A',1,1,'NO_IA'),(2,'E',1,2,'NO_IA'),(3,'I',1,4,'NO_IA'),(4,'O',1,6,'NO_IA'),(5,'U',1,8,'NO_IA'),(6,'M',1,10,'NO_IA'),(7,'P',1,12,'NO_IA'),(8,'B',1,14,'NO_IA'),(9,'S',1,16,'NO_IA'),(10,'L',1,17,'NO_IA'),(11,'LL',1,18,'NO_IA'),(12,'N',1,19,'NO_IA'),(13,'D',1,20,'NO_IA'),(14,'T',1,21,'NO_IA'),(15,'R',1,22,'NO_IA'),(16,'RR',1,23,'NO_IA'),(17,'F',1,24,'NO_IA'),(18,'Ñ',1,25,'NO_IA'),(19,'K',1,26,'NO_IA'),(20,'Y',1,27,'NO_IA'),(21,'C',1,28,'NO_IA'),(22,'H',1,29,'NO_IA'),(23,'V',1,30,'NO_IA'),(24,'Q',1,31,'NO_IA'),(25,'J',1,32,'NO_IA'),(26,'G',1,33,'NO_IA'),(27,'Z',1,34,'NO_IA'),(28,'W',1,35,'NO_IA'),(29,'X',1,36,'NO_IA'),(30,'CH',1,37,'NO_IA'),(31,'BL',2,1,'NO_IA'),(32,'BR',2,2,'NO_IA'),(33,'CL',2,3,'NO_IA'),(34,'CR',2,4,'NO_IA'),(35,'DR',2,5,'NO_IA'),(36,'FL',2,6,'NO_IA'),(37,'FR',2,7,'NO_IA'),(38,'GL',2,8,'NO_IA'),(39,'GR',2,9,'NO_IA'),(40,'PL',2,10,'NO_IA'),(41,'PR',2,11,'NO_IA'),(42,'TR',2,12,'NO_IA'),(43,'TL',2,13,'NO_IA'),(44,'ORACIONES',3,1,'NO_IA'),(45,'ADIVINANZAS',3,2,'NO_IA'),(46,'TRABALENGUAS',3,3,'NO_IA'),(47,'TEST',NULL,NULL,'NO_IA'),(48,'M',1,11,'VOICE_IA'),(49,'E',1,3,'VOICE_IA'),(50,'I',1,5,'VOICE_IA'),(51,'O',1,7,'VOICE_IA'),(52,'U',1,9,'VOICE_IA'),(53,'P',1,13,'VOICE_IA'),(54,'BL',2,NULL,'VOICE_IA'),(55,'B',1,15,'VOICE_IA');
+INSERT INTO `apple` VALUES (1,'A',1,1,'NO_IA'),(2,'E',1,2,'NO_IA'),(3,'I',1,4,'NO_IA'),(4,'O',1,6,'NO_IA'),(5,'U',1,8,'NO_IA'),(6,'M',1,10,'NO_IA'),(7,'P',1,12,'NO_IA'),(8,'B',1,14,'NO_IA'),(9,'S',1,16,'NO_IA'),(10,'L',1,17,'NO_IA'),(11,'LL',1,18,'NO_IA'),(12,'N',1,19,'NO_IA'),(13,'D',1,20,'NO_IA'),(14,'T',1,21,'NO_IA'),(15,'R',1,22,'NO_IA'),(16,'RR',1,23,'NO_IA'),(17,'F',1,24,'NO_IA'),(18,'Ñ',1,25,'NO_IA'),(19,'K',1,26,'NO_IA'),(20,'Y',1,27,'NO_IA'),(21,'C',1,28,'NO_IA'),(22,'H',1,29,'NO_IA'),(23,'V',1,30,'NO_IA'),(24,'Q',1,31,'NO_IA'),(25,'J',1,32,'NO_IA'),(26,'G',1,33,'NO_IA'),(27,'Z',1,34,'NO_IA'),(28,'W',1,35,'NO_IA'),(29,'X',1,36,'NO_IA'),(30,'CH',1,37,'NO_IA'),(31,'BL',2,1,'NO_IA'),(32,'BR',2,2,'NO_IA'),(33,'CL',2,3,'NO_IA'),(34,'CR',2,4,'NO_IA'),(35,'DR',2,5,'NO_IA'),(36,'FL',2,6,'NO_IA'),(37,'FR',2,7,'NO_IA'),(38,'GL',2,8,'NO_IA'),(39,'GR',2,9,'NO_IA'),(40,'PL',2,10,'NO_IA'),(41,'PR',2,11,'NO_IA'),(42,'TR',2,12,'NO_IA'),(43,'TL',2,13,'NO_IA'),(44,'ORACIONES',3,1,'NO_IA'),(45,'ADIVINANZAS',3,2,'NO_IA'),(46,'TRABALENGUAS',3,3,'NO_IA'),(47,'TEST',NULL,NULL,'RECOMMENDED_MODULE'),(48,'M',1,11,'VOICE_IA'),(49,'E',1,3,'VOICE_IA'),(50,'I',1,5,'VOICE_IA'),(51,'O',1,7,'VOICE_IA'),(52,'U',1,9,'VOICE_IA'),(53,'P',1,13,'VOICE_IA'),(54,'BL',2,NULL,'VOICE_IA'),(55,'B',1,15,'VOICE_IA');
 /*!40000 ALTER TABLE `apple` ENABLE KEYS */;
 UNLOCK TABLES;
 
