@@ -54,7 +54,7 @@ public class ModuleController {
       return ResponseEntity.ok(ModuleResponse.builder().modules(moduleDtoList).build());
    }
 
-   @GetMapping("/recommendedModule")
+   @PostMapping("/recommendedModule")
    public ResponseEntity<ModuleRecommendedResponse> getRecommendedModule(@Valid @RequestBody ModuleScoreRequest request) {
       return ResponseEntity.ok(
             ModuleRecommendedResponse.builder().recommendedModule(scoringService.obtainRecommendedModule(request.getExercises())).build());

@@ -9,7 +9,7 @@ public class ExerciseDto {
 
    private Integer id;
 
-   private ExerciseType exerciseType;
+   private String exerciseType;
 
    private String parameters;
 

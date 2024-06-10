@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 import com.jvm.lecti.domain.entity.Exercise;
+import com.jvm.lecti.domain.enums.ExerciseType;
 import com.jvm.lecti.domain.exceptions.ApplePlayerNotFoundException;
 import com.jvm.lecti.domain.exceptions.InvalidErrorQuantityException;
 import com.jvm.lecti.domain.service.ExerciseService;
@@ -56,7 +57,10 @@ public class ExerciseControllerTest {
       int appleId = 456;
       int playerId = 123;
       List<Exercise> mockExercises = new ArrayList<>();
-      mockExercises.add(new Exercise());
+      Exercise ex = new Exercise();
+      ex.setExerciseType(ExerciseType.audio_repeating);
+      ex.setParameters("test");
+      mockExercises.add(ex);
       when(exerciseService.getExercisesByApple(appleId)).thenReturn(mockExercises);
       when(moduleService.obtainModuleIdFromExercise(mockExercises)).thenReturn(789);
 
