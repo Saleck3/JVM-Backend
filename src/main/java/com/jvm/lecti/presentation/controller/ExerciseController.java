@@ -92,8 +92,7 @@ public class ExerciseController {
    public ResponseEntity getExercisesRecommendationTest() {
       List<Exercise> exercises = exerciseService.getExercisesByAppleType(RECOMMENDED_MODULE);
       List<ExerciseDto> exercisesDto = ExerciseMapper.INSTANCE.exerciseListToExerciseListDto(exercises);
-      Integer moduleId = moduleService.obtainModuleIdFromExercise(exercises);
-      return ResponseEntity.ok(ExerciseResponse.builder().moduleId(moduleId).exercises(exercisesDto).build());
+      return ResponseEntity.ok(ExerciseResponse.builder().exercises(exercisesDto).build());
    }
 
 }
