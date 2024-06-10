@@ -46,7 +46,9 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**")
                 .permitAll()// Allow unauthenticated access to /api/auth/**
                 .requestMatchers("/api/exercise/obtainTest")
-                .permitAll()// Allow unauthenticated access to /api/auth/**
+                .permitAll()
+                .requestMatchers("/api/modules/recommendedModule")
+                .permitAll()
                 .anyRequest()
                 .authenticated() // All other requests require authentication
           )

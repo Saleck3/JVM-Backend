@@ -3,6 +3,9 @@ package com.jvm.lecti.domain.service;
 import static com.jvm.lecti.domain.enums.CrownScore.ONE_CROWN;
 import static com.jvm.lecti.domain.enums.CrownScore.THREE_CROWN;
 import static com.jvm.lecti.domain.enums.CrownScore.TWO_CROWN;
+import static com.jvm.lecti.domain.enums.RecommendationScore.MODULE_RECOMMENDATION_ADVANCED;
+import static com.jvm.lecti.domain.enums.RecommendationScore.MODULE_RECOMMENDATION_BASIC;
+import static com.jvm.lecti.domain.enums.RecommendationScore.MODULE_RECOMMENDATION_INTERMEDIATE;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +23,6 @@ import com.jvm.lecti.domain.entity.ResultId;
 import com.jvm.lecti.domain.exceptions.ApplePlayerNotFoundException;
 import com.jvm.lecti.domain.exceptions.InvalidErrorQuantityException;
 
-
 @Service("ScoringService")
 public class ScoringService {
 
@@ -31,6 +33,10 @@ public class ScoringService {
    private final Integer ZERO_ERROR = 0;
 
    private final Integer FIVE_ERRORS = 5;
+
+   private final Integer FIVE_EXERCISES_CORRECT = 5;
+
+   private final Integer THREE_EXERCISES_CORRECT = 3;
 
    @Autowired
    private ResultDAO resultDAO;
@@ -50,6 +56,21 @@ public class ScoringService {
       saveResult(playerId, appleId, finalScore);
 
       return finalScore;
+   }
+
+   public Integer obtainRecommendedModule(List<Boolean> exerciseResult) {
+      int successCount = (int) exerciseResult.stream().filter(b -> b).count();
+      return getRecommendedModuleBySuccessCount(successCount);
+   }
+
+   private int getRecommendedModuleBySuccessCount(int successCount) {
+      if (successCount >= FIVE_EXERCISES_CORRECT) {
+         return MODULE_RECOMMENDATION_ADVANCED.getValue();
+      } else if (successCount >= THREE_EXERCISES_CORRECT) {
+         return MODULE_RECOMMENDATION_INTERMEDIATE.getValue();
+      } else {
+         return MODULE_RECOMMENDATION_BASIC.getValue();
+      }
    }
 
    private void validateExercises(List<Integer> exercises) throws InvalidErrorQuantityException {
