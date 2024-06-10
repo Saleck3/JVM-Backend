@@ -8,8 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.jvm.lecti.domain.service.AppleService;
+import com.jvm.lecti.domain.service.ScoringService;
+import com.jvm.lecti.presentation.dto.request.ModuleScoreRequest;
 import com.jvm.lecti.presentation.dto.response.ErrorResponse;
 import com.jvm.lecti.presentation.dto.response.ModuleDto;
+import com.jvm.lecti.presentation.dto.response.ModuleRecommendedResponse;
 import com.jvm.lecti.presentation.dto.response.ModuleResponse;
 import com.jvm.lecti.domain.entity.Module;
 import com.jvm.lecti.domain.service.ModuleService;
@@ -17,6 +20,7 @@ import com.jvm.lecti.presentation.mappers.ModuleMapper;
 import com.jvm.lecti.presentation.util.ErrorResponseUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.NonNull;
 
 @RestController
@@ -28,6 +32,9 @@ public class ModuleController {
 
    @Autowired
    private AppleService appleService;
+
+   @Autowired
+   private ScoringService scoringService;
 
    @Autowired
    private ErrorResponseUtil errorResponseUtil;
@@ -45,6 +52,12 @@ public class ModuleController {
          moduleDtoList.add(ModuleMapper.INSTANCE.moduleEntityToModuleDto(module, progress));
       }
       return ResponseEntity.ok(ModuleResponse.builder().modules(moduleDtoList).build());
+   }
+
+   @GetMapping("/recommendedModule")
+   public ResponseEntity<ModuleRecommendedResponse> getRecommendedModule(@Valid @RequestBody ModuleScoreRequest request) {
+      return ResponseEntity.ok(
+            ModuleRecommendedResponse.builder().recommendedModule(scoringService.obtainRecommendedModule(request.getExercises())).build());
    }
 
 }
