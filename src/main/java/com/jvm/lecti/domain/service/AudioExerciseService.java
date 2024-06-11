@@ -52,18 +52,9 @@ public class AudioExerciseService {
 
    private ResultAudio getResult(Match ma) {
       ResultAudio ra = new ResultAudio();
-      if (ma.textMatch()) {
+      if (ma.textMatch() || ma.getMatchWords().size() == ma.getExpectedWords().size()) {
          return new ResultAudio(true);
       }
-      //      if(ma.getMatchWords().size() < ma.getExpectedWords().size()){
-      //         for(String ew : ma.getExpectedWords()){
-      //            if(ma.getMatchWords().contains(ew)){
-      //               ra.addWordToCorrectionMessage(ew,true);
-      //            } else {
-      //               ra.addWordToCorrectionMessage(ew,false);
-      //            }
-      //         }
-      //      }
       ra.processRetry(ma);
       return ra;
    }
@@ -92,18 +83,6 @@ public class AudioExerciseService {
          }
       }
    }
-
-   //   private String delSpecChars(String word){
-   //      String finalWord = word;
-   //      char[] delSpeCha = word.toCharArray();
-   //      for(int i = 0 ; i < delSpeCha.length; i++){
-   //         char c = delSpeCha[i];
-   //         //         if(!Character.isAlphabetic(c)){
-   //         finalWord = word.replaceAll("[^\\p{L} ]", "");
-   //         //         }
-   //      }
-   //      return finalWord;
-   //   }
 
    private File convertToFile(MultipartFile file, String fileName) throws IOException {
       File convFile = new File(System.getProperty("java.io.tmpdir") + "/" + fileName);
