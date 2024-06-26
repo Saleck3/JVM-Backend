@@ -41,4 +41,7 @@ public class Exercise {
    @Column(name = "parameters")
    private String parameters;
 
+   @Column(name = "index")
+   private Integer index;
+
 }

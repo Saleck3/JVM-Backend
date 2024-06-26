@@ -13,7 +13,7 @@ import com.jvm.lecti.domain.enums.AppleType;
 @Repository
 public interface ExerciseRepository extends JpaRepository<Exercise, Integer> {
 
-   @Query("SELECT e FROM Exercise e JOIN e.apple a WHERE a.id = :appleId")
+   @Query("SELECT e FROM Exercise e JOIN e.apple a WHERE a.id = :appleId ORDER BY e.index")
    List<Exercise> findAllByAppleId(Integer appleId);
 
    @Query("SELECT e FROM Exercise e JOIN e.apple a WHERE a.appleType = :appleType")
