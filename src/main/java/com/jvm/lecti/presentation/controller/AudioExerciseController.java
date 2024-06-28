@@ -1,5 +1,7 @@
 package com.jvm.lecti.presentation.controller;
 
+import java.io.IOException;
+
 import lombok.NonNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.jvm.lecti.domain.objects.AudioExerciseValue;
 import com.jvm.lecti.domain.service.AudioExerciseService;
-import com.jvm.lecti.presentation.util.ErrorResponseUtil;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -27,16 +27,9 @@ public class AudioExerciseController {
    @Autowired
    private AudioExerciseService audioExerciseService;
 
-   @Autowired
-   private ErrorResponseUtil errorResponseUtil;
-
-   public AudioExerciseController(AudioExerciseService audioExerciseService) {
-      this.audioExerciseService = audioExerciseService;
-   }
-
    @PostMapping("/checkAudio")
-   public ResponseEntity checkAudio(HttpServletRequest request, @NonNull @RequestParam(value = "exerciseId", required = false) Integer exerciseId,
-         @NonNull @RequestParam("file") MultipartFile file) {
+   public ResponseEntity checkAudio(@NonNull @RequestParam(value = "exerciseId", required = false) Integer exerciseId,
+         @NonNull @RequestParam("file") MultipartFile file) throws IOException {
       AudioExerciseValue aev = audioExerciseService.checkExercise(file, exerciseId);
       return ResponseEntity.ok(aev);
    }

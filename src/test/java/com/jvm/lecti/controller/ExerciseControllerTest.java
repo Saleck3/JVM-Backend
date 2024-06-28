@@ -76,7 +76,7 @@ public class ExerciseControllerTest {
       List<Integer> exercises = List.of(1, 2, 3);
       ScoreRequest scoreRequest = new ScoreRequest(1, 1, exercises);
 
-      when(errorResponseUtil.checkPermissionForUser(request, 1)).thenReturn(null);
+      when(errorResponseUtil.checkPermissionForPlayer(request, 1)).thenReturn(null);
       when(scoringService.generateScoreForPlayer(1, 1, exercises)).thenReturn(3);
 
       ResponseEntity responseEntity = exerciseController.generateScoreForPlayer(request, scoreRequest);

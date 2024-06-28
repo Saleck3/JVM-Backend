@@ -42,22 +42,28 @@ public class AuthController {
    private TokenUtil tokenUtil;
 
    @PostMapping(value = "/login")
-   public ResponseEntity login(@Valid @RequestBody LoginRequest loginRequest) {
+   public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
       SecurityUser userDetails;
+      LoginResponse.LoginResponseBuilder responseBuilder = LoginResponse.builder();
+
       try {
          userDetails = authService.authenticate(loginRequest.getEmail(), loginRequest.getPassword());
       } catch (BadCredentialsException e) {
-         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, "Invalid username or password");
-         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+         responseBuilder.errorMessage("Invalid username or password");
+         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBuilder.build());
       } catch (Exception e) {
-         ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
-         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+         responseBuilder.errorMessage(e.getMessage());
+         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBuilder.build());
       }
+
       User user = userDetails.getUser();
       List<Player> playerList = playerService.getPlayersByUserId(user.getId());
       List<PlayerSessionResponse> playersDataResponse = PlayerMapper.INSTANCE.playerListToPlayerDataResponseListDto(playerList);
       String token = tokenUtil.createToken(user);
-      return ResponseEntity.ok(LoginResponse.builder().players(playersDataResponse).token(token).build());
+
+      responseBuilder.players(playersDataResponse).token(token);
+
+      return ResponseEntity.ok(responseBuilder.build());
    }
 
    @PostMapping(value = "/signup")
@@ -66,5 +72,4 @@ public class AuthController {
             signUpRequest.getPlayerName(), signUpRequest.getRecommendedModule());
    }
 
-   //TODO ChangePassword
 }

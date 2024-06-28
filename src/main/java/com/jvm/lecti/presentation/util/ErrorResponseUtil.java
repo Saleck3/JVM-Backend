@@ -21,16 +21,16 @@ public class ErrorResponseUtil {
    @Autowired
    private PlayerService playerService;
 
-   public ResponseEntity<ErrorResponse> checkPermissionForUser(HttpServletRequest request, Integer playerId) {
+   public ResponseEntity<ErrorResponse> checkPermissionForPlayer(HttpServletRequest request, Integer playerId) {
       try {
          Claims claims = tokenUtil.resolveClaims(request);
          String email = claims.getSubject();
          playerService.checkPermissions(email, playerId);
       } catch (Exception e) {
-         //Revisar
          ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED, "The user doesn't have permission to access to this player");
          return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
-      } return null;
+      }
+      return null;
    }
 
 }

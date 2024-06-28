@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jvm.lecti.domain.annotation.CheckPermission;
 import com.jvm.lecti.domain.exceptions.ApplePlayerNotFoundException;
 import com.jvm.lecti.domain.exceptions.InvalidErrorQuantityException;
 import com.jvm.lecti.domain.service.ExerciseService;
@@ -47,49 +48,35 @@ public class ExerciseController {
    private ModuleService moduleService;
 
    @Autowired
-   private ErrorResponseUtil errorResponseUtil;
-
-   @Autowired
    private ScoringService scoringService;
 
+   @CheckPermission
    @GetMapping("/getExerciseByAppleId")
-   public ResponseEntity getExerciseByAppleId(HttpServletRequest httpServletRequest, @NonNull @RequestParam(value = "appleId") Integer appleId,
-         @NonNull @RequestParam(value = "playerId") Integer playerId) {
-      ResponseEntity<ErrorResponse> errorResponse = errorResponseUtil.checkPermissionForUser(httpServletRequest, playerId);
-
-      if (errorResponse != null) {
-         return errorResponse;
-      }
-
-      //Revisar
+   public ResponseEntity<ExerciseResponse> getExerciseByAppleId(HttpServletRequest httpServletRequest,
+         @NonNull @RequestParam(value = "appleId") Integer appleId, @NonNull @RequestParam(value = "playerId") Integer playerId) {
       List<Exercise> exercises = exerciseService.getExercisesByApple(appleId);
       List<ExerciseDto> exercisesDto = ExerciseMapper.INSTANCE.exerciseListToExerciseListDto(exercises);
       Integer moduleId = moduleService.obtainModuleIdFromExercise(exercises);
 
-      //Revisar firma
       return ResponseEntity.ok(ExerciseResponse.builder().moduleId(moduleId).exercises(exercisesDto).build());
    }
 
+   @CheckPermission
    @PostMapping("/obtainScore")
-   public ResponseEntity generateScoreForPlayer(HttpServletRequest httpServletRequest, @Valid @RequestBody ScoreRequest scoreRequest) {
-      ResponseEntity<ErrorResponse> errorResponse = errorResponseUtil.checkPermissionForUser(httpServletRequest, scoreRequest.getPlayerId());
-
-      if (errorResponse != null) {
-         return errorResponse;
-      }
-
+   public ResponseEntity<ScoreResponse> generateScoreForPlayer(HttpServletRequest httpServletRequest, @Valid @RequestBody ScoreRequest scoreRequest) {
       try {
          Integer finalScore = scoringService.generateScoreForPlayer(scoreRequest.getPlayerId(), scoreRequest.getAppleId(),
                scoreRequest.getExercises());
          ScoreResponse scoreResponse = ScoreResponse.builder().score(finalScore).build();
          return ResponseEntity.ok(scoreResponse);
       } catch (ApplePlayerNotFoundException | InvalidErrorQuantityException ex) {
-         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage()));
+         //Avisar
+         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ScoreResponse.builder().errorMessage(ex.getMessage()).build());
       }
    }
 
    @GetMapping("/obtainTest")
-   public ResponseEntity getExercisesRecommendationTest() {
+   public ResponseEntity<ExerciseResponse> getExercisesRecommendationTest() {
       List<Exercise> exercises = exerciseService.getExercisesByAppleType(RECOMMENDED_MODULE);
       List<ExerciseDto> exercisesDto = ExerciseMapper.INSTANCE.exerciseListToExerciseListDto(exercises);
       return ResponseEntity.ok(ExerciseResponse.builder().exercises(exercisesDto).build());

@@ -13,35 +13,24 @@ import com.jvm.lecti.domain.config.Config;
 @Service
 public class AssemblyAiService {
 
-   AssemblyAI client;
+   private AssemblyAI client;
 
    @Autowired
-   Config config;
+   private Config config;
 
    public AssemblyAiService(Config config) {
       this.config = config;
-      client = AssemblyAI.builder().apiKey(config.getAssemblyAiKey()).build();
-      System.out.println("llego");
+      this.client = AssemblyAI.builder().apiKey(config.getAssemblyAiKey()).build();
    }
 
-   public Transcript trasncribe(File f) {
+   public Transcript transcribe(File file) throws IOException {
       Transcript transcript = null;
-      try {
-         if (f.exists() || f.canRead()) {
-            transcript = client.transcripts().transcribe(f, TranscriptOptionalParams.builder().languageCode(TranscriptLanguageCode.ES)
-                                                                                    //                  .speechModel(SpeechModel.NANO)
-                                                                                    .build());
-
-            if (transcript.getStatus().equals(TranscriptStatus.ERROR)) {
-               System.err.println(transcript.getError());
-            }
+      if (file.exists() || file.canRead()) {
+         transcript = client.transcripts().transcribe(file, TranscriptOptionalParams.builder().languageCode(TranscriptLanguageCode.ES).build());
+         if (transcript.getStatus().equals(TranscriptStatus.ERROR)) {
+            System.err.println(transcript.getError());
          }
-      } catch (IOException e) {
-         e.printStackTrace();
-      } catch (Exception e) {
-         e.printStackTrace();
       }
-
       return transcript;
    }
 

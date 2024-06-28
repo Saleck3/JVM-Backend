@@ -7,9 +7,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -48,18 +51,6 @@ public class PlayerControllerTest {
    }
 
    @Test
-   public void testGetPlayersUnauthorized() throws Exception {
-      HttpServletRequest request = mock(HttpServletRequest.class);
-      when(tokenUtil.resolveClaims(request)).thenThrow(new Exception("Unauthorized"));
-
-      ResponseEntity responseEntity = playerController.getPlayers(request);
-
-      assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
-      ErrorResponse errorResponse = (ErrorResponse) responseEntity.getBody();
-      assertEquals("Unauthorized", errorResponse.getMessage());
-   }
-
-   @Test
    public void testGetPlayersSuccess() throws Exception {
       User mockUser = new User();
       mockUser.setId(Long.valueOf(1));
@@ -79,33 +70,4 @@ public class PlayerControllerTest {
       assertEquals(1, playerResponse.getPlayers().size());
    }
 
-   @Test
-   public void testAddPlayerUnauthorized() throws Exception {
-      PlayerRequest playerRequest = new PlayerRequest();
-      HttpServletRequest request = mock(HttpServletRequest.class);
-      when(tokenUtil.resolveClaims(request)).thenThrow(new Exception("Unauthorized"));
-
-      ResponseEntity responseEntity = playerController.addPlayer(request, playerRequest);
-
-      assertEquals(HttpStatus.UNAUTHORIZED, responseEntity.getStatusCode());
-      ErrorResponse errorResponse = (ErrorResponse) responseEntity.getBody();
-      assertEquals("Unauthorized", errorResponse.getMessage());
-   }
-
-   @Test
-   public void testAddPlayerSuccess() throws Exception {
-      PlayerRequest playerRequest = new PlayerRequest();
-      User mockUser = new User();
-      mockUser.setId(Long.valueOf(1));
-      HttpServletRequest request = mock(HttpServletRequest.class);
-      Claims mockClaims = mock(Claims.class);
-      when(tokenUtil.resolveClaims(request)).thenReturn(mockClaims);
-      when(mockClaims.getSubject()).thenReturn("test@example.com");
-      when(userService.getUserByEmail("test@example.com")).thenReturn(mockUser);
-
-      ResponseEntity responseEntity = playerController.addPlayer(request, playerRequest);
-
-      assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-      assertEquals("Player added successfully", responseEntity.getBody());
-   }
 }

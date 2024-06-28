@@ -7,17 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.jvm.lecti.domain.annotation.CheckPermission;
 import com.jvm.lecti.domain.service.AppleService;
 import com.jvm.lecti.domain.service.ScoringService;
 import com.jvm.lecti.presentation.dto.request.ModuleScoreRequest;
-import com.jvm.lecti.presentation.dto.response.ErrorResponse;
 import com.jvm.lecti.presentation.dto.response.ModuleDto;
 import com.jvm.lecti.presentation.dto.response.ModuleRecommendedResponse;
 import com.jvm.lecti.presentation.dto.response.ModuleResponse;
 import com.jvm.lecti.domain.entity.Module;
 import com.jvm.lecti.domain.service.ModuleService;
 import com.jvm.lecti.presentation.mappers.ModuleMapper;
-import com.jvm.lecti.presentation.util.ErrorResponseUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -36,15 +35,9 @@ public class ModuleController {
    @Autowired
    private ScoringService scoringService;
 
-   @Autowired
-   private ErrorResponseUtil errorResponseUtil;
-
+   @CheckPermission
    @GetMapping
-   public ResponseEntity getAllModules(HttpServletRequest request, @NonNull @RequestParam(value = "playerId") Integer playerId) {
-      ResponseEntity<ErrorResponse> errorResponse = errorResponseUtil.checkPermissionForUser(request, playerId);
-      if (errorResponse != null) {
-         return errorResponse;
-      }
+   public ResponseEntity<ModuleResponse> getAllModules(HttpServletRequest request, @NonNull @RequestParam(value = "playerId") Integer playerId) {
       List<ModuleDto> moduleDtoList = new ArrayList<>();
       List<Module> modules = moduleService.findAllModules();
       for (Module module : modules) {

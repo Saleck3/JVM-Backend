@@ -59,7 +59,7 @@ public class TokenUtil {
       return jwtParser.parseClaimsJws(token).getBody();
    }
 
-   public Claims resolveClaims(HttpServletRequest req) throws Exception {
+   public Claims resolveClaims(HttpServletRequest req) {
       try {
          String token = resolveToken(req);
          if (token != null) {
