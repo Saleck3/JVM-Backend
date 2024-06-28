@@ -17,4 +17,7 @@ public class LoginResponse {
 
    private String token;
 
+   //AVISAR
+   private String errorMessage;
+
 }

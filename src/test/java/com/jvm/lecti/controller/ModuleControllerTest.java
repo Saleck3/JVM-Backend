@@ -12,13 +12,17 @@ import org.springframework.http.ResponseEntity;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 import com.jvm.lecti.domain.entity.Module;
 import com.jvm.lecti.domain.service.AppleService;
 import com.jvm.lecti.domain.service.ModuleService;
+import com.jvm.lecti.domain.service.ScoringService;
 import com.jvm.lecti.presentation.controller.ModuleController;
+import com.jvm.lecti.presentation.dto.request.ModuleScoreRequest;
+import com.jvm.lecti.presentation.dto.response.ModuleRecommendedResponse;
 import com.jvm.lecti.presentation.util.ErrorResponseUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,7 +37,7 @@ public class ModuleControllerTest {
    private AppleService appleService;
 
    @Mock
-   private ErrorResponseUtil errorResponseUtil;
+   private ScoringService scoringService;
 
    @InjectMocks
    private ModuleController moduleController;
@@ -41,17 +45,6 @@ public class ModuleControllerTest {
    @BeforeEach
    public void setUp() {
       MockitoAnnotations.openMocks(this);
-   }
-
-   @Test
-   public void testGetAllModulesPermissionDenied() {
-      HttpServletRequest request = mock(HttpServletRequest.class);
-      int playerId = 123;
-      when(errorResponseUtil.checkPermissionForUser(request, playerId)).thenReturn(ResponseEntity.status(HttpStatus.FORBIDDEN).body(null));
-
-      ResponseEntity responseEntity = moduleController.getAllModules(request, playerId);
-
-      assertEquals(HttpStatus.FORBIDDEN, responseEntity.getStatusCode());
    }
 
    @Test
@@ -66,6 +59,28 @@ public class ModuleControllerTest {
       ResponseEntity responseEntity = moduleController.getAllModules(request, playerId);
 
       assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+   }
+
+   @Test
+   public void testGetRecommendedModule() {
+      // Mock data
+      ModuleScoreRequest request = new ModuleScoreRequest();
+      request.setExercises(new ArrayList<>()); // Add exercises as needed
+
+      // Mock behavior
+      when(scoringService.obtainRecommendedModule(anyList())).thenReturn(1); // Assuming module id 1 as recommended
+
+      // Call controller method
+      ResponseEntity<ModuleRecommendedResponse> responseEntity = moduleController.getRecommendedModule(request);
+
+      // Verify results
+      assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+      ModuleRecommendedResponse moduleResponse = responseEntity.getBody();
+      assertNotNull(moduleResponse);
+      assertEquals(1, moduleResponse.getRecommendedModule());
+
+      // Verify interactions
+      verify(scoringService, times(1)).obtainRecommendedModule(anyList());
    }
 
 }

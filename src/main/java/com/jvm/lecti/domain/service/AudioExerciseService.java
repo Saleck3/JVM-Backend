@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import com.google.gson.JsonParser;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,38 +30,38 @@ public class AudioExerciseService {
       this.exerciseDAO = exerciseDAO;
    }
 
-   public AudioExerciseValue checkExercise(MultipartFile mFile, final int exerciseId) {
+   public AudioExerciseValue checkExercise(MultipartFile mFile, int exerciseId) throws IOException {
       int crowns = 3;
       String expectedText = "";
       Transcript transcript;
-      ResultAudio ra = new ResultAudio();
-      try {
-         expectedText = JsonParser.parseString(exerciseDAO.findById(exerciseId).get().getParameters()).getAsJsonObject().get("correctAnswer").getAsString();
-         transcript = assemblyAiService.trasncribe(convertToFile(mFile, "exercise" + ".mp3"));
-         ra = processResult(transcript, expectedText);
-      } catch (Exception e) {
-         e.printStackTrace();
-      }
-      return AudioExerciseValue.builder().score(crowns).isCorrect(ra.getIsCorrect()).corrections(ra.getCorrectionText()).build();
+      ResultAudio resultAudio;
+      expectedText = JsonParser
+            .parseString(exerciseDAO.findById(exerciseId).get().getParameters())
+            .getAsJsonObject()
+            .get("correctAnswer")
+            .getAsString();
+      transcript = assemblyAiService.transcribe(convertToFile(mFile, "exercise" + ".mp3"));
+      resultAudio = processResult(transcript, expectedText);
+
+      return AudioExerciseValue.builder().score(crowns).isCorrect(resultAudio.getIsCorrect()).corrections(resultAudio.getCorrectionText()).build();
    }
 
-   private ResultAudio processResult(Transcript t, String expectedText) {
-      Match ma;
-      ma = matchResults(t, expectedText);
-      return getResult(ma);
+   private ResultAudio processResult(Transcript transcript, String expectedText) {
+      Match match = matchResults(transcript, expectedText);
+      return getResult(match);
    }
 
-   private ResultAudio getResult(Match ma) {
-      ResultAudio ra = new ResultAudio();
-      if (ma.textMatch() || ma.getMatchWords().size() == ma.getExpectedWords().size()) {
+   private ResultAudio getResult(Match match) {
+      ResultAudio resultAudio = new ResultAudio();
+      if (match.textMatch() || match.getMatchWords().size() == match.getExpectedWords().size()) {
          return new ResultAudio(true);
       }
-      ra.processRetry(ma);
-      return ra;
+      resultAudio.processRetry(match);
+      return resultAudio;
    }
 
-   private Match matchResults(Transcript t, String expectedText) {
-      Match match = new Match(t, expectedText);
+   private Match matchResults(Transcript transcript, String expectedText) {
+      Match match = new Match(transcript, expectedText);
       if (match.textMatch()) {
          return match;
       } else {
@@ -70,16 +71,16 @@ public class AudioExerciseService {
    }
 
    private void fillMatchWords(Match match) {
-      for (String ew : match.getExpectedWords()) {
-         if (match.getTranscriptWordsValue().contains(ew)) {
-            match.addWordToList(ew, 1);   //agrego a la lista de matcheados
+      for (String expectedWord : match.getExpectedWords()) {
+         if (match.getTranscriptWordsValue().contains(expectedWord)) {
+            match.addWordToList(expectedWord, 1);   //agrego a la lista de matcheados
          } else {
-            match.addWordToList(ew, 2);   //agrego a la lista de palabras esperadas faltantes
+            match.addWordToList(expectedWord, 2);   //agrego a la lista de palabras esperadas faltantes
          }
       }
-      for (String tw : match.getTranscriptWordsValue()) {
-         if (!match.getExpectedWords().contains(tw)) {
-            match.addWordToList(tw, 3);   //agrego a la lista de palabras extra que dijo
+      for (String transcriptWord : match.getTranscriptWordsValue()) {
+         if (!match.getExpectedWords().contains(transcriptWord)) {
+            match.addWordToList(transcriptWord, 3);   //agrego a la lista de palabras extra que dijo
          }
       }
    }

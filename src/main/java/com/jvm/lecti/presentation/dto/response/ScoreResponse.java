@@ -14,4 +14,7 @@ public class ScoreResponse {
 
    private Integer score;
 
+   //AVISAR
+   private String errorMessage;
+
 }

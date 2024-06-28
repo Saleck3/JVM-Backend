@@ -43,7 +43,7 @@ public class AppleControllerTest {
       List<AppleResultValue> mockAppleResultValues = new ArrayList<>();
       mockAppleResultValues.add(appleResultValue);
 
-      when(errorResponseUtil.checkPermissionForUser(request, playerId)).thenReturn(null);
+      when(errorResponseUtil.checkPermissionForPlayer(request, playerId)).thenReturn(null);
       when(appleService.getAppleResultWithPlayerCrowns(moduleId, playerId)).thenReturn(mockAppleResultValues);
 
       ResponseEntity responseEntity = appleController.getApplesFromModule(request, moduleId, playerId);

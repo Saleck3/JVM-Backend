@@ -30,11 +30,11 @@ public class Match {
    private List<String> unmatchTranscriptWords;
 
    public Match(Transcript t, String expectedText) {
-      transcript = t;
+      this.transcript = t;
       this.expectedText = expectedText.toLowerCase();
-      matchWords = new ArrayList<>();
-      unmatchExpectedWords = new ArrayList<>();
-      unmatchTranscriptWords = new ArrayList<>();
+      this.matchWords = new ArrayList<>();
+      this.unmatchExpectedWords = new ArrayList<>();
+      this.unmatchTranscriptWords = new ArrayList<>();
    }
 
    public boolean textMatch() {

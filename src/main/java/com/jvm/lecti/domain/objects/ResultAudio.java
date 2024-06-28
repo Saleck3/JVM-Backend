@@ -28,38 +28,16 @@ public class ResultAudio {
 
    public ResultAudio(boolean isCorrect) {
       this.isCorrect = isCorrect;
-      correctionByWord = new HashMap<>();
-      correctionDesc = "";
+      this.correctionByWord = new HashMap<>();
+      this.correctionDesc = "";
       if (isCorrect) {
-         correctionText = correctAnswerText;
-      }
-   }
-
-   public void setCorrect() {
-      this.correctAnswerText = correctAnswerText;
-   }
-
-   public void addWordToCorrectionMessage(String word, boolean isCorrect) {
-      if (isCorrect) {
-         correctionText.concat("#" + word + "#" + "|");
-      } else {
-         correctionText.concat("*" + word + "*" + "|");
+         this.correctionText = correctAnswerText;
       }
    }
 
    public void processRetry(Match ma) {
-      isCorrect = false;
-      correctionText = getFeedback(ma);
-   }
-
-   private String getMessageRetry(Match ma) {
-      String msg = "Probemos devuelta!";
-      String msgRetryWords = "Repasando la palabra ";
-      for (String uew : ma.getUnmatchExpectedWords()) {
-         msgRetryWords += uew + " ";
-      }
-      msg += msgRetryWords;
-      return msg;
+      this.isCorrect = false;
+      this.correctionText = getFeedback(ma);
    }
 
    private String getFeedback(Match ma) {
