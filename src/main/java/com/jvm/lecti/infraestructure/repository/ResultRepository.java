@@ -18,4 +18,7 @@ public interface ResultRepository extends JpaRepository<Result, Integer> {
    @Query("SELECT SUM(r.score) FROM Result r WHERE r.player.id = :playerId AND r.apple.id IN (:appleIds)")
    Integer findTotalScoreByAppleIdAndPlayerId(List<Integer> appleIds, Integer playerId);
 
+   @Query("SELECT r FROM Result r JOIN r.player p WHERE p.id = :playerId")
+   List<Result>findAllByPlayerId(Integer playerId);
+
 }

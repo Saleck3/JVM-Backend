@@ -34,4 +34,9 @@ public class ResultDaoImpl implements ResultDAO {
         return resultRepository.findTotalScoreByAppleIdAndPlayerId(appleIds,playerId);
     }
 
+    @Override
+    public List<Result> findAllByPlayerId(Integer playerId) {
+        return resultRepository.findAllByPlayerId(playerId);
+    }
+
 }

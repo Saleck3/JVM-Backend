@@ -13,4 +13,6 @@ public interface ResultDAO {
 
    Integer findTotalScoreByAppleIdAndPlayerId(List<Integer> appleIds, Integer playerId);
 
+   List<Result> findAllByPlayerId(Integer playerId);
+
 }
