@@ -42,31 +42,41 @@ public class ResultAudio {
 
    private String getFeedback(Match ma) {
       StringBuilder feedback = new StringBuilder();
-
-      if (ma.expectedIsAWord()) {
-         if (ma.getUnmatchExpectedWords().isEmpty()) {
-            feedback.append("Buen trabajo! Dijiste la palabra correctamente.");
-         } else {
-            feedback.append("Casi lo tienes! Intentemos decir la palabra de nuevo: ");
-            feedback.append(String.join(", ", ma.getUnmatchExpectedWords()));
-            feedback.append(".");
-         }
-      } else {
-         feedback.append("Buen trabajo! Lo estás haciendo muy bien.");
-
-         if (!ma.getMatchWords().isEmpty()) {
-            feedback.append(" Dijiste correctamente estas palabras: ");
-            feedback.append(String.join(", ", ma.getMatchWords()));
-            feedback.append(".");
-         }
-
-         if (!ma.getUnmatchExpectedWords().isEmpty()) {
-            feedback.append(" Intentemos de nuevo con estas palabras: ");
-            feedback.append(String.join(", ", ma.getUnmatchExpectedWords()));
-            feedback.append(".");
-         }
-
+//      if (ma.expectedIsAWord()) {
+//         if (ma.getUnmatchExpectedWords().isEmpty()) {
+//            feedback.append("Buen trabajo! Dijiste la palabra correctamente.");
+//         } else {
+//            feedback.append("Casi lo tienes! Intentemos decir la palabra de nuevo: ");
+//            feedback.append(String.join(", ", ma.getUnmatchExpectedWords()));
+//            feedback.append(".");
+//         }
+//      } else {
+//         feedback.append("Buen trabajo! Lo estás haciendo muy bien.");
+//
+//         if (!ma.getMatchWords().isEmpty()) {
+//            feedback.append(" Dijiste correctamente estas palabras: ");
+//            feedback.append(String.join(", ", ma.getMatchWords()));
+//            feedback.append(".");
+//         }
+//
+//         if (!ma.getUnmatchExpectedWords().isEmpty()) {
+//            feedback.append(" Intentemos de nuevo con estas palabras: ");
+//            feedback.append(String.join(", ", ma.getUnmatchExpectedWords()));
+//            feedback.append(".");
+//         }
+//
+//      }
+      feedback.append("No entendí estas palabras: ");
+      for(String word : ma.getUnmatchExpectedWords()){
+         feedback.append(word+", ");
       }
+      feedback.delete(feedback.length() - 2, feedback.length());
+      feedback.append(".");
+      feedback.append("\n");
+      feedback.append("Intentalo de nuevo con:");
+      feedback.append("\n");
+      feedback.append(ma.getExpectedText());
+
 
       return escapeSpecialCharacters(feedback.toString());
    }
