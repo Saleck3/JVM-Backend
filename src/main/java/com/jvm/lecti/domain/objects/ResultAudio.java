@@ -73,7 +73,7 @@ public class ResultAudio {
       feedback.delete(feedback.length() - 2, feedback.length());
       feedback.append(".");
       feedback.append("\n");
-      feedback.append("Intentalo de nuevo con:");
+      feedback.append("Inténtalo de nuevo con:");
       feedback.append("\n");
       feedback.append(ma.getExpectedText());
 
