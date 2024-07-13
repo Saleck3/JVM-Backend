@@ -16,7 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ResultAudio {
 
-   private String correctAnswerText = "Muy Bien!";
+   private String correctAnswerText = "¡Muy Bien!";
 
    private String correctionText = "";
 
